@@ -109,6 +109,7 @@ const defaultState = {
     autoSpeak: false,
     voiceLang: "en-US",
     cardsPerSession: 30,
+    randomMode: true,
   },
 };
 
@@ -250,6 +251,7 @@ export default function App() {
   const [flipped, setFlipped] = useState(false);
   const [quizAnswer, setQuizAnswer] = useState("");
   const [showHintWord, setShowHintWord] = useState(false);
+  const [showHintSentence, setShowHintSentence] = useState(false);
   const fileRef = useRef(null);
   const typingRef = useRef(null);
 
@@ -288,24 +290,47 @@ export default function App() {
   }, [words, searchText, tagFilter, dayLibraryFilter]);
 
   const sessionWords = useMemo(() => {
-    let arr = words;
-    if (settings.source === "due") arr = dueWords;
-    if (settings.source === "difficult") arr = difficultWords;
-    if (settings.source === "day" && settings.dayFilter !== "all") arr = words.filter((w) => String(w.day) === settings.dayFilter);
-    if (settings.source !== "day" && settings.dayFilter !== "all") arr = arr.filter((w) => String(w.day) === settings.dayFilter);
-    return arr.slice(0, settings.cardsPerSession || 30);
-  }, [words, dueWords, difficultWords, settings.source, settings.dayFilter, settings.cardsPerSession]);
+  let arr = words;
 
+  if (settings.source === "due") arr = dueWords;
+  if (settings.source === "difficult") arr = difficultWords;
+  if (settings.source === "day" && settings.dayFilter !== "all") {
+    arr = words.filter((w) => String(w.day) === settings.dayFilter);
+  }
+  if (settings.source !== "day" && settings.dayFilter !== "all") {
+    arr = arr.filter((w) => String(w.day) === settings.dayFilter);
+  }
+
+  const limited = arr.slice(0, settings.cardsPerSession || 30);
+
+  if (!settings.randomMode) return limited;
+
+  const shuffled = [...limited];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}, [
+  words,
+  dueWords,
+  difficultWords,
+  settings.source,
+  settings.dayFilter,
+  settings.cardsPerSession,
+  settings.randomMode,
+]);
   const currentWord = sessionWords[currentIndex] || null;
 
   useEffect(() => {
-    setCurrentIndex(0);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-  }, [settings.mode, settings.source, settings.dayFilter]);
+  setCurrentIndex(0);
+  setTyped("");
+  setFeedback(null);
+  setFlipped(false);
+  setQuizAnswer("");
+  setShowHintWord(false);
+  setShowHintSentence(false);
+}, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
     if (settings.mode === "typing" && typingRef.current) typingRef.current.focus();
@@ -418,32 +443,48 @@ export default function App() {
   }
 
   function submitTyping() {
-    if (!currentWord) return;
-    const ok = normalize(typed) === normalize(currentWord.en);
-    setFeedback({ ok, answer: currentWord.en, vi: currentWord.vi });
-    reviewWord(currentWord, ok ? "good" : "again", "typing");
-    if (ok) setTyped("");
+  if (!currentWord) return;
+  const ok = normalize(typed) === normalize(currentWord.en);
+
+  if (ok) {
+    setFeedback({ ok: true, answer: currentWord.en, vi: currentWord.vi });
+    reviewWord(currentWord, "good", "typing");
+    setTyped("");
+    setShowHintWord(false);
+    setShowHintSentence(false);
+
+    setTimeout(() => {
+      nextCard();
+    }, 450);
+  } else {
+    setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
+    reviewWord(currentWord, "again", "typing");
+    setShowHintWord(false);
+    setShowHintSentence(false);
   }
+}
 
   function nextCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i + 1) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-  }
+  if (!sessionWords.length) return;
+  setCurrentIndex((i) => (i + 1) % sessionWords.length);
+  setTyped("");
+  setFeedback(null);
+  setFlipped(false);
+  setQuizAnswer("");
+  setShowHintWord(false);
+  setShowHintSentence(false);
+}
 
   function prevCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-  }
+  if (!sessionWords.length) return;
+  setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
+  setTyped("");
+  setFeedback(null);
+  setFlipped(false);
+  setQuizAnswer("");
+  setShowHintWord(false);
+  setShowHintSentence(false);
+}
 
   function exportJson() {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
@@ -660,6 +701,14 @@ export default function App() {
                 <SelectLike label="Nguồn học" value={settings.source} onChange={(v) => setSetting("source", v)} options={["due", "all", "difficult", "day"]} dark={settings.dark} />
                 <SelectLike label="Lọc theo ngày" value={settings.dayFilter} onChange={(v) => setSetting("dayFilter", v)} options={["all", ...allDays]} dark={settings.dark} />
                 <Field label="Số thẻ mỗi phiên" dark={settings.dark}>
+                  <label style={styles.checkboxRow}>
+                    <input
+                      type="checkbox"
+                      checked={!!settings.randomMode}
+                      onChange={(e) => setSetting("randomMode", e.target.checked)}
+                    />
+                    <span>Học ngẫu nhiên</span>
+                  </label>
                   <input type="number" min={5} max={100} value={settings.cardsPerSession} onChange={(e) => setSetting("cardsPerSession", Number(e.target.value || 30))} style={styles.input} />
                 </Field>
               </div>
@@ -683,98 +732,227 @@ export default function App() {
                     </div>
 
                     {settings.mode === "typing_word" && (
-                      <div style={styles.studyGrid}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Gợi ý nghĩa</div>
-                          <div style={styles.promptTitle}>{currentWord.vi}</div>
-                          <div style={styles.muted}>Gõ đúng từ tiếng Anh rồi nhấn Enter. </div>
-                          {currentWord.exampleVi && <div style={styles.exampleText}>Ví dụ tiếng Việt: {currentWord.exampleVi}</div>}
-                        </div>
-                        <div style={styles.stackGap}>
-                          <input
-                            ref={typingRef}
-                            value={typed}
-                            onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitTyping()}
-                            placeholder="Type the English word..."
-                            style={{ ...styles.input, height: 48, fontSize: 18 }}
-                          />
-                          <div style={styles.btnRow}>
-                            <button style={styles.primaryBtn} onClick={submitTyping}>Check</button>
-                            <button style={styles.secondaryBtn} onClick={() => speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)}><Volume2 size={16} /> Nghe câu</button>
-                          </div>
-                          {feedback && (
-                            <div style={{ ...styles.feedback, background: feedback.ok ? "#dcfce7" : "#fee2e2", color: feedback.ok ? "#166534" : "#991b1b" }}>
-                              {feedback.ok ? `Đúng. Từ chính xác là: ${feedback.answer}` : `Sai. Đáp án là: ${feedback.answer} — ${feedback.vi}`}
-                            </div>
-                          )}
-                          <ReviewRow onPick={(grade) => reviewWord(currentWord, grade, "typing-manual")} />
-                        </div>
-                      </div>
-                    )}
+  <div style={styles.studyGrid}>
+    <div style={styles.promptBox}>
+      <div style={styles.label}>Gợi ý nghĩa</div>
+      <div style={styles.promptTitle}>{currentWord.vi}</div>
+      <div style={styles.muted}>
+        Nhập đúng từ tiếng Anh rồi nhấn Enter. Nếu đúng, app tự chuyển sang từ tiếp theo.
+        Nếu sai, bạn phải nhập lại đến khi đúng.
+      </div>
+      {currentWord.exampleVi && (
+        <div style={styles.exampleText}>Ví dụ tiếng Việt: {currentWord.exampleVi}</div>
+      )}
+    </div>
+
+    <div style={styles.stackGap}>
+      <input
+        ref={typingRef}
+        value={typed}
+        onChange={(e) => setTyped(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && submitTyping()}
+        placeholder="Nhập từ tiếng Anh..."
+        style={{ ...styles.input, height: 48, fontSize: 18 }}
+      />
+
+      <div style={styles.btnRow}>
+        <button style={styles.primaryBtn} onClick={submitTyping}>
+          Kiểm tra
+        </button>
+        <button
+          style={styles.secondaryBtn}
+          onClick={() => speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)}
+        >
+          <Volume2 size={16} /> Nghe câu
+        </button>
+      </div>
+
+      {feedback && (
+        <div
+          style={{
+            ...styles.feedback,
+            background: feedback.ok ? "#dcfce7" : "#fee2e2",
+            color: feedback.ok ? "#166534" : "#991b1b",
+          }}
+        >
+          {feedback.ok
+            ? `Đúng. Từ chính xác là: ${feedback.answer}`
+            : `Sai. Hãy nhập lại cho đúng.`}
+        </div>
+      )}
+
+      {!feedback?.ok && feedback && (
+        <div style={styles.btnRowWrap}>
+          <button
+            style={styles.secondaryBtn}
+            onClick={() => setShowHintWord((prev) => !prev)}
+          >
+            {showHintWord ? "Ẩn từ" : "Hiện từ"}
+          </button>
+          <button
+            style={styles.secondaryBtn}
+            onClick={() => setShowHintSentence((prev) => !prev)}
+          >
+            {showHintSentence ? "Ẩn câu" : "Hiện câu"}
+          </button>
+        </div>
+      )}
+
+      {showHintWord && (
+        <div style={styles.exampleText}>
+          Từ đúng: <strong>{currentWord.en}</strong>
+        </div>
+      )}
+
+      {showHintSentence && (
+        <div style={styles.exampleText}>
+          Câu tiếng Anh: <strong>{currentWord.exampleEn || currentWord.en}</strong>
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
                     {settings.mode === "typing_sentence" && (
-                      <div style={styles.studyGrid}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Dịch câu sang tiếng Anh</div>
-                          <div style={styles.promptTitle}>{currentWord.exampleVi || currentWord.vi}</div>
-                          <div style={styles.muted}>Hãy nhập lại câu tiếng Anh tương ứng với câu dịch bên trái rồi nhấn Enter.</div>
-                          <div style={styles.stackGap}>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintWord((prev) => !prev)}
-                            >
-                              {showHintWord ? "Ẩn từ gợi ý" : "Hiện từ gợi ý"}
-                            </button>
+  <div style={styles.studyGrid}>
+    <div style={styles.promptBox}>
+      <div style={styles.label}>Dịch câu sang tiếng Anh</div>
+      <div style={styles.promptTitle}>{currentWord.exampleVi || currentWord.vi}</div>
+      <div style={styles.muted}>
+        Nhập đúng cả câu tiếng Anh rồi nhấn Enter. Đúng thì app tự chuyển câu khác.
+        Sai thì phải nhập lại đến khi đúng.
+      </div>
+    </div>
 
-                            {showHintWord && (
-                              <div style={styles.exampleText}>
-                                Từ mục tiêu: <strong>{currentWord.en}</strong>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <div style={styles.stackGap}>
-                          <input
-                            ref={typingRef}
-                            value={typed}
-                            onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                if (!currentWord) return;
-                                const ok = normalize(typed) === normalize(currentWord.exampleEn);
-                                setFeedback({ ok, answer: currentWord.exampleEn, vi: currentWord.exampleVi || currentWord.vi });
-                                reviewWord(currentWord, ok ? "good" : "again", "typing_sentence");
-                                if (ok) setTyped("");
-                              }
-                            }}
-                            placeholder="Nhập lại cả câu tiếng Anh..."
-                            style={{ ...styles.input, height: 48, fontSize: 18 }}
-                          />
-                          <div style={styles.btnRow}>
-                            <button
-                              style={styles.primaryBtn}
-                              onClick={() => {
-                                if (!currentWord) return;
-                                const ok = normalize(typed) === normalize(currentWord.exampleEn);
-                                setFeedback({ ok, answer: currentWord.exampleEn, vi: currentWord.exampleVi || currentWord.vi });
-                                reviewWord(currentWord, ok ? "good" : "again", "typing_sentence");
-                                if (ok) setTyped("");
-                              }}
-                            >
-                              Kiểm tra
-                            </button>
-                            <button style={styles.secondaryBtn} onClick={() => speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)}><Volume2 size={16} /> Nghe câu</button>
-                          </div>
-                          {feedback && (
-                            <div style={{ ...styles.feedback, background: feedback.ok ? "#dcfce7" : "#fee2e2", color: feedback.ok ? "#166534" : "#991b1b" }}>
-                              {feedback.ok ? `Đúng. Câu chuẩn là: ${feedback.answer}` : `Sai. Đáp án là: ${feedback.answer}`}
-                            </div>
-                          )}
-                          <ReviewRow onPick={(grade) => reviewWord(currentWord, grade, "typing_sentence_manual")} />
-                        </div>
-                      </div>
-                    )}
+    <div style={styles.stackGap}>
+      <input
+        ref={typingRef}
+        value={typed}
+        onChange={(e) => setTyped(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            if (!currentWord) return;
+            const ok = normalize(typed) === normalize(currentWord.exampleEn);
+
+            if (ok) {
+              setFeedback({
+                ok: true,
+                answer: currentWord.exampleEn,
+                vi: currentWord.exampleVi || currentWord.vi,
+              });
+              reviewWord(currentWord, "good", "typing_sentence");
+              setTyped("");
+              setShowHintWord(false);
+              setShowHintSentence(false);
+
+              setTimeout(() => {
+                nextCard();
+              }, 450);
+            } else {
+              setFeedback({
+                ok: false,
+                answer: currentWord.exampleEn,
+                vi: currentWord.exampleVi || currentWord.vi,
+              });
+              reviewWord(currentWord, "again", "typing_sentence");
+              setShowHintWord(false);
+              setShowHintSentence(false);
+            }
+          }
+        }}
+        placeholder="Nhập lại cả câu tiếng Anh..."
+        style={{ ...styles.input, height: 48, fontSize: 18 }}
+      />
+
+      <div style={styles.btnRow}>
+        <button
+          style={styles.primaryBtn}
+          onClick={() => {
+            if (!currentWord) return;
+            const ok = normalize(typed) === normalize(currentWord.exampleEn);
+
+            if (ok) {
+              setFeedback({
+                ok: true,
+                answer: currentWord.exampleEn,
+                vi: currentWord.exampleVi || currentWord.vi,
+              });
+              reviewWord(currentWord, "good", "typing_sentence");
+              setTyped("");
+              setShowHintWord(false);
+              setShowHintSentence(false);
+
+              setTimeout(() => {
+                nextCard();
+              }, 450);
+            } else {
+              setFeedback({
+                ok: false,
+                answer: currentWord.exampleEn,
+                vi: currentWord.exampleVi || currentWord.vi,
+              });
+              reviewWord(currentWord, "again", "typing_sentence");
+              setShowHintWord(false);
+              setShowHintSentence(false);
+            }
+          }}
+        >
+          Kiểm tra
+        </button>
+
+        <button
+          style={styles.secondaryBtn}
+          onClick={() => speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)}
+        >
+          <Volume2 size={16} /> Nghe câu
+        </button>
+      </div>
+
+      {feedback && (
+        <div
+          style={{
+            ...styles.feedback,
+            background: feedback.ok ? "#dcfce7" : "#fee2e2",
+            color: feedback.ok ? "#166534" : "#991b1b",
+          }}
+        >
+          {feedback.ok
+            ? `Đúng. Câu chuẩn là: ${feedback.answer}`
+            : `Sai. Hãy nhập lại cho đúng.`}
+        </div>
+      )}
+
+      {!feedback?.ok && feedback && (
+        <div style={styles.btnRowWrap}>
+          <button
+            style={styles.secondaryBtn}
+            onClick={() => setShowHintWord((prev) => !prev)}
+          >
+            {showHintWord ? "Ẩn từ" : "Hiện từ"}
+          </button>
+          <button
+            style={styles.secondaryBtn}
+            onClick={() => setShowHintSentence((prev) => !prev)}
+          >
+            {showHintSentence ? "Ẩn câu" : "Hiện câu"}
+          </button>
+        </div>
+      )}
+
+      {showHintWord && (
+        <div style={styles.exampleText}>
+          Từ mục tiêu: <strong>{currentWord.en}</strong>
+        </div>
+      )}
+
+      {showHintSentence && (
+        <div style={styles.exampleText}>
+          Câu đúng: <strong>{currentWord.exampleEn || currentWord.en}</strong>
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
                     {settings.mode === "flashcard" && (
                       <div style={styles.stackGapLg}>
@@ -849,7 +1027,17 @@ export default function App() {
                             style={styles.primaryBtn}
                             onClick={() => {
                               if (!quizAnswer) return;
-                              reviewWord(currentWord, quizAnswer === currentWord.vi ? "good" : "again", "quiz");
+                              const ok = quizAnswer === currentWord.vi;
+setFeedback({ ok, answer: currentWord.vi, vi: currentWord.vi });
+
+if (ok) {
+  reviewWord(currentWord, "good", "quiz");
+  setTimeout(() => {
+    nextCard();
+  }, 450);
+} else {
+  reviewWord(currentWord, "again", "quiz");
+}
                             }}
                           >
                             Submit quiz
@@ -986,6 +1174,23 @@ export default function App() {
                 <SelectLike label="Voice" value={settings.voiceLang} onChange={(v) => setSetting("voiceLang", v)} options={["en-US", "en-GB"]} dark={settings.dark} />
                 <label style={styles.checkboxRow}>
                   <input type="checkbox" checked={settings.autoSpeak} onChange={(e) => setSetting("autoSpeak", e.target.checked)} />
+                  <label style={styles.checkboxRow}>
+  <input
+    type="checkbox"
+    checked={settings.autoSpeak}
+    onChange={(e) => setSetting("autoSpeak", e.target.checked)}
+  />
+  <span>Tự phát âm khi sang card mới ở Flashcard / Listening</span>
+</label>
+
+<label style={styles.checkboxRow}>
+  <input
+    type="checkbox"
+    checked={!!settings.randomMode}
+    onChange={(e) => setSetting("randomMode", e.target.checked)}
+  />
+  <span>Học ngẫu nhiên mặc định</span>
+</label>
                   <span>Tự phát âm khi sang card mới ở Flashcard / Listening</span>
                 </label>
                 <button style={styles.secondaryBtn} onClick={exportJson}><Download size={16} /> Export JSON</button>
