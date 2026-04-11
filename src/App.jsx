@@ -331,15 +331,17 @@ export default function App() {
   }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
-    if (
-      (settings.mode === "typing_word" ||
-        settings.mode === "typing_sentence" ||
-        settings.mode === "listening") &&
-      typingRef.current
-    ) {
+  if (
+    (settings.mode === "typing_word" ||
+      settings.mode === "typing_sentence" ||
+      settings.mode === "listening") &&
+    typingRef.current
+  ) {
+    setTimeout(() => {
       typingRef.current.focus();
-    }
-  }, [currentIndex, settings.mode]);
+    }, 50);
+  }
+}, [currentIndex, settings.mode]);
 
   useEffect(() => {
     if (
@@ -454,26 +456,23 @@ export default function App() {
   }
 
   function nextCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i + 1) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-  }
+  if (!sessionWords.length) return;
 
-  function prevCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-  }
+  setCurrentIndex((i) => (i + 1) % sessionWords.length);
+  setTyped("");
+  setFeedback(null);
+  setFlipped(false);
+  setQuizAnswer("");
+  setShowHintWord(false);
+  setShowHintSentence(false);
+
+  // 👇 THÊM DÒNG NÀY
+  setTimeout(() => {
+    typingRef.current?.focus();
+  }, 50);
+}
+
+  prevCard()
 
   function submitTypingWord() {
     if (!currentWord) return;
