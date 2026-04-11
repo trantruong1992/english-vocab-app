@@ -226,8 +226,14 @@ export default function App() {
   const [quizAnswer, setQuizAnswer] = useState("");
   const [showHintWord, setShowHintWord] = useState(false);
   const [showHintSentence, setShowHintSentence] = useState(false);
+
   const fileRef = useRef(null);
   const typingRef = useRef(null);
+  const focusTimerRef = useRef(null);
+
+  const words = state.words;
+  const settings = state.settings;
+  const logs = state.logs;
 
   function isTypingMode(mode) {
     return (
@@ -237,24 +243,43 @@ export default function App() {
     );
   }
 
-  function focusTypingInput() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = typingRef.current;
-        if (!el || !isTypingMode(settings.mode)) return;
+  function isMobileDevice() {
+    if (typeof navigator === "undefined") return false;
+    return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  }
 
+  function focusTypingInput(delay = 0) {
+    if (focusTimerRef.current) {
+      clearTimeout(focusTimerRef.current);
+    }
+
+    focusTimerRef.current = setTimeout(() => {
+      const el = typingRef.current;
+      if (!el || !isTypingMode(settings.mode)) return;
+
+      const tryFocus = () => {
         try {
           el.focus({ preventScroll: true });
         } catch {
-          el.focus();
+          try {
+            el.focus();
+          } catch {}
         }
 
-        const len = el.value?.length ?? 0;
         try {
+          const len = el.value?.length ?? 0;
           el.setSelectionRange(len, len);
         } catch {}
-      });
-    });
+      };
+
+      tryFocus();
+
+      if (!isMobileDevice()) {
+        requestAnimationFrame(() => {
+          tryFocus();
+        });
+      }
+    }, delay);
   }
 
   useEffect(() => {
@@ -262,9 +287,13 @@ export default function App() {
     document.body.style.background = state.settings.dark ? "#0f172a" : "#f8fafc";
   }, [state]);
 
-  const words = state.words;
-  const settings = state.settings;
-  const logs = state.logs;
+  useEffect(() => {
+    return () => {
+      if (focusTimerRef.current) {
+        clearTimeout(focusTimerRef.current);
+      }
+    };
+  }, []);
 
   const allDays = useMemo(() => {
     const set = new Set(words.map((w) => String(w.day)));
@@ -360,8 +389,8 @@ export default function App() {
   }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
-    if (isTypingMode(settings.mode)) {
-      focusTypingInput();
+    if (isTypingMode(settings.mode) && currentWord) {
+      focusTypingInput(isMobileDevice() ? 60 : 140);
     }
   }, [currentIndex, settings.mode, currentWord?.id]);
 
@@ -491,7 +520,6 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
-    focusTypingInput();
   }
 
   function prevCard() {
@@ -503,7 +531,6 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
-    focusTypingInput();
   }
 
   function submitTypingWord() {
@@ -522,7 +549,7 @@ export default function App() {
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "typing_word");
-      focusTypingInput();
+      focusTypingInput(30);
     }
   }
 
@@ -550,7 +577,7 @@ export default function App() {
         vi: currentWord.exampleVi || currentWord.vi,
       });
       reviewWord(currentWord, "again", "typing_sentence");
-      focusTypingInput();
+      focusTypingInput(30);
     }
   }
 
@@ -569,7 +596,7 @@ export default function App() {
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "listening");
-      focusTypingInput();
+      focusTypingInput(30);
     }
   }
 
@@ -917,6 +944,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.18 }}
                 >
                   <Card
                     title={`Chế độ học: ${modeText(settings.mode)}`}
@@ -955,6 +983,7 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
+                            key={`typing_word_${currentWord.id}`}
                             ref={typingRef}
                             autoFocus
                             inputMode="text"
@@ -966,13 +995,6 @@ export default function App() {
                             onChange={(e) => setTyped(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") submitTypingWord();
-                            }}
-                            onBlur={() => {
-                              if (isTypingMode(settings.mode)) {
-                                setTimeout(() => {
-                                  focusTypingInput();
-                                }, 0);
-                              }
                             }}
                             placeholder="Nhập từ tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
@@ -1054,6 +1076,7 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
+                            key={`typing_sentence_${currentWord.id}`}
                             ref={typingRef}
                             autoFocus
                             inputMode="text"
@@ -1065,13 +1088,6 @@ export default function App() {
                             onChange={(e) => setTyped(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") submitTypingSentence();
-                            }}
-                            onBlur={() => {
-                              if (isTypingMode(settings.mode)) {
-                                setTimeout(() => {
-                                  focusTypingInput();
-                                }, 0);
-                              }
                             }}
                             placeholder="Nhập lại cả câu tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
@@ -1202,6 +1218,7 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
+                            key={`listening_${currentWord.id}`}
                             ref={typingRef}
                             autoFocus
                             inputMode="text"
@@ -1213,13 +1230,6 @@ export default function App() {
                             onChange={(e) => setTyped(e.target.value)}
                             onKeyDown={(e) => {
                               if (e.key === "Enter") submitListening();
-                            }}
-                            onBlur={() => {
-                              if (isTypingMode(settings.mode)) {
-                                setTimeout(() => {
-                                  focusTypingInput();
-                                }, 0);
-                              }
                             }}
                             placeholder="Type what you heard..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
