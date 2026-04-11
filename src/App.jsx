@@ -229,6 +229,34 @@ export default function App() {
   const fileRef = useRef(null);
   const typingRef = useRef(null);
 
+  function isTypingMode(mode) {
+    return (
+      mode === "typing_word" ||
+      mode === "typing_sentence" ||
+      mode === "listening"
+    );
+  }
+
+  function focusTypingInput() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = typingRef.current;
+        if (!el || !isTypingMode(settings.mode)) return;
+
+        try {
+          el.focus({ preventScroll: true });
+        } catch {
+          el.focus();
+        }
+
+        const len = el.value?.length ?? 0;
+        try {
+          el.setSelectionRange(len, len);
+        } catch {}
+      });
+    });
+  }
+
   useEffect(() => {
     saveState(state);
     document.body.style.background = state.settings.dark ? "#0f172a" : "#f8fafc";
@@ -289,6 +317,7 @@ export default function App() {
 
   const sessionWords = useMemo(() => {
     let arr = words;
+
     if (settings.source === "due") arr = dueWords;
     if (settings.source === "difficult") arr = difficultWords;
     if (settings.source === "day" && settings.dayFilter !== "all") {
@@ -331,17 +360,10 @@ export default function App() {
   }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
-    if (
-      (settings.mode === "typing_word" ||
-        settings.mode === "typing_sentence" ||
-        settings.mode === "listening") &&
-      typingRef.current
-    ) {
-      setTimeout(() => {
-        typingRef.current?.focus();
-      }, 50);
+    if (isTypingMode(settings.mode)) {
+      focusTypingInput();
     }
-  }, [currentIndex, settings.mode]);
+  }, [currentIndex, settings.mode, currentWord?.id]);
 
   useEffect(() => {
     if (
@@ -432,7 +454,12 @@ export default function App() {
                   0,
                   Math.min(100, (w.learning?.mastery || 0) + update.masteryDelta)
                 ),
-                status: grade === "again" ? "learning" : grade === "easy" ? "mastering" : "review",
+                status:
+                  grade === "again"
+                    ? "learning"
+                    : grade === "easy"
+                    ? "mastering"
+                    : "review",
                 interval: update.interval,
                 nextReview: update.nextReview,
                 lastReview: today(),
@@ -464,9 +491,7 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
-    setTimeout(() => {
-      typingRef.current?.focus();
-    }, 50);
+    focusTypingInput();
   }
 
   function prevCard() {
@@ -478,9 +503,7 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
-    setTimeout(() => {
-      typingRef.current?.focus();
-    }, 50);
+    focusTypingInput();
   }
 
   function submitTypingWord() {
@@ -499,6 +522,7 @@ export default function App() {
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "typing_word");
+      focusTypingInput();
     }
   }
 
@@ -526,6 +550,7 @@ export default function App() {
         vi: currentWord.exampleVi || currentWord.vi,
       });
       reviewWord(currentWord, "again", "typing_sentence");
+      focusTypingInput();
     }
   }
 
@@ -537,12 +562,14 @@ export default function App() {
       setFeedback({ ok: true, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "good", "listening");
       setTyped("");
+      setShowHintWord(false);
       setTimeout(() => {
         nextCard();
       }, 450);
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "listening");
+      focusTypingInput();
     }
   }
 
@@ -671,6 +698,7 @@ export default function App() {
       .filter((w) => w.id !== word.id)
       .slice(0, 10)
       .map((w) => w.vi);
+
     return [...new Set([word.vi, ...others])]
       .slice(0, 4)
       .sort(() => Math.random() - 0.5);
@@ -928,9 +956,24 @@ export default function App() {
                         <div style={styles.stackGap}>
                           <input
                             ref={typingRef}
+                            autoFocus
+                            inputMode="text"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            spellCheck={false}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitTypingWord()}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") submitTypingWord();
+                            }}
+                            onBlur={() => {
+                              if (isTypingMode(settings.mode)) {
+                                setTimeout(() => {
+                                  focusTypingInput();
+                                }, 0);
+                              }
+                            }}
                             placeholder="Nhập từ tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
@@ -988,7 +1031,8 @@ export default function App() {
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu tiếng Anh: <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu tiếng Anh:{" "}
+                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1011,9 +1055,24 @@ export default function App() {
                         <div style={styles.stackGap}>
                           <input
                             ref={typingRef}
+                            autoFocus
+                            inputMode="text"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            spellCheck={false}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitTypingSentence()}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") submitTypingSentence();
+                            }}
+                            onBlur={() => {
+                              if (isTypingMode(settings.mode)) {
+                                setTimeout(() => {
+                                  focusTypingInput();
+                                }, 0);
+                              }
+                            }}
                             placeholder="Nhập lại cả câu tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
@@ -1074,7 +1133,8 @@ export default function App() {
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu đúng: <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu đúng:{" "}
+                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1143,9 +1203,24 @@ export default function App() {
                         <div style={styles.stackGap}>
                           <input
                             ref={typingRef}
+                            autoFocus
+                            inputMode="text"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            spellCheck={false}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitListening()}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") submitListening();
+                            }}
+                            onBlur={() => {
+                              if (isTypingMode(settings.mode)) {
+                                setTimeout(() => {
+                                  focusTypingInput();
+                                }, 0);
+                              }
+                            }}
                             placeholder="Type what you heard..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
