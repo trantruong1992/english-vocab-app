@@ -331,17 +331,17 @@ export default function App() {
   }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
-  if (
-    (settings.mode === "typing_word" ||
-      settings.mode === "typing_sentence" ||
-      settings.mode === "listening") &&
-    typingRef.current
-  ) {
-    setTimeout(() => {
-      typingRef.current.focus();
-    }, 50);
-  }
-}, [currentIndex, settings.mode]);
+    if (
+      (settings.mode === "typing_word" ||
+        settings.mode === "typing_sentence" ||
+        settings.mode === "listening") &&
+      typingRef.current
+    ) {
+      setTimeout(() => {
+        typingRef.current?.focus();
+      }, 50);
+    }
+  }, [currentIndex, settings.mode]);
 
   useEffect(() => {
     if (
@@ -456,23 +456,32 @@ export default function App() {
   }
 
   function nextCard() {
-  if (!sessionWords.length) return;
+    if (!sessionWords.length) return;
+    setCurrentIndex((i) => (i + 1) % sessionWords.length);
+    setTyped("");
+    setFeedback(null);
+    setFlipped(false);
+    setQuizAnswer("");
+    setShowHintWord(false);
+    setShowHintSentence(false);
+    setTimeout(() => {
+      typingRef.current?.focus();
+    }, 50);
+  }
 
-  setCurrentIndex((i) => (i + 1) % sessionWords.length);
-  setTyped("");
-  setFeedback(null);
-  setFlipped(false);
-  setQuizAnswer("");
-  setShowHintWord(false);
-  setShowHintSentence(false);
-
-  // 👇 THÊM DÒNG NÀY
-  setTimeout(() => {
-    typingRef.current?.focus();
-  }, 50);
-}
-
-  prevCard()
+  function prevCard() {
+    if (!sessionWords.length) return;
+    setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
+    setTyped("");
+    setFeedback(null);
+    setFlipped(false);
+    setQuizAnswer("");
+    setShowHintWord(false);
+    setShowHintSentence(false);
+    setTimeout(() => {
+      typingRef.current?.focus();
+    }, 50);
+  }
 
   function submitTypingWord() {
     if (!currentWord) return;
@@ -691,8 +700,8 @@ export default function App() {
                 <div style={styles.title}>Phòng học từ vựng tiếng Anh cá nhân</div>
                 <div style={styles.subtitle}>
                   Ứng dụng học từ vựng cá nhân: học theo ngày, nhập từ, nhập lại câu,
-                  nghe, flashcard, quiz, ôn lặp lại ngắt quãng, từ khó, thống kê,
-                  xuất và nhập JSON.
+                  nghe, flashcard, quiz, ôn lặp lại ngắt quãng, từ khó,
+                  thống kê, xuất và nhập JSON.
                 </div>
               </div>
             </div>
@@ -979,8 +988,7 @@ export default function App() {
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu tiếng Anh:{" "}
-                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu tiếng Anh: <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1066,8 +1074,7 @@ export default function App() {
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu đúng:{" "}
-                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu đúng: <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1308,27 +1315,21 @@ export default function App() {
                     min={1}
                     max={5}
                     value={form.difficulty}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, difficulty: e.target.value }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, difficulty: e.target.value }))}
                     style={styles.input}
                   />
                 </Field>
                 <Field label="Example EN" dark={settings.dark}>
                   <textarea
                     value={form.exampleEn}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, exampleEn: e.target.value }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, exampleEn: e.target.value }))}
                     style={styles.textarea}
                   />
                 </Field>
                 <Field label="Example VI" dark={settings.dark}>
                   <textarea
                     value={form.exampleVi}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, exampleVi: e.target.value }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, exampleVi: e.target.value }))}
                     style={styles.textarea}
                   />
                 </Field>
@@ -1345,9 +1346,7 @@ export default function App() {
                 >
                   <input
                     value={form.collocations}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, collocations: e.target.value }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, collocations: e.target.value }))}
                     style={styles.input}
                   />
                 </Field>
@@ -1665,7 +1664,10 @@ function ReviewRow({ onPick }) {
   };
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <button style={{ ...btn, borderColor: "#ef4444", color: "#ef4444" }} onClick={() => onPick("again")}>
+      <button
+        style={{ ...btn, borderColor: "#ef4444", color: "#ef4444" }}
+        onClick={() => onPick("again")}
+      >
         Again
       </button>
       <button style={btn} onClick={() => onPick("hard")}>
