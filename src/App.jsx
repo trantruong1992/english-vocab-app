@@ -21,7 +21,7 @@ import {
   Star,
 } from "lucide-react";
 
-const STORAGE_KEY = "english_vocab_lab_v2";
+const STORAGE_KEY = "english_vocab_lab_v4";
 const today = () => new Date().toISOString().slice(0, 10);
 
 const defaultLearning = () => ({
@@ -87,7 +87,7 @@ const defaultState = {
   settings: {
     dark: false,
     mode: "typing_word",
-    source: "due",
+    source: "unmastered",
     dayFilter: "all",
     autoSpeak: false,
     voiceLang: "en-US",
@@ -197,6 +197,10 @@ function speak(text, lang) {
   window.speechSynthesis.speak(u);
 }
 
+function isMasteredWord(word) {
+  return (word.learning?.mastery || 0) >= 80 || word.learning?.status === "mastered";
+}
+
 const emptyForm = {
   id: null,
   day: 1,
@@ -226,60 +230,19 @@ export default function App() {
   const [quizAnswer, setQuizAnswer] = useState("");
   const [showHintWord, setShowHintWord] = useState(false);
   const [showHintSentence, setShowHintSentence] = useState(false);
-
   const fileRef = useRef(null);
   const typingRef = useRef(null);
-  const focusTimerRef = useRef(null);
 
-  const words = state.words;
-  const settings = state.settings;
-  const logs = state.logs;
-
-  function isTypingMode(mode) {
-    return (
-      mode === "typing_word" ||
-      mode === "typing_sentence" ||
-      mode === "listening"
-    );
-  }
-
-  function isMobileDevice() {
-    if (typeof navigator === "undefined") return false;
-    return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  }
-
-  function focusTypingInput(delay = 0) {
-    if (focusTimerRef.current) {
-      clearTimeout(focusTimerRef.current);
-    }
-
-    focusTimerRef.current = setTimeout(() => {
-      const el = typingRef.current;
-      if (!el || !isTypingMode(settings.mode)) return;
-
-      const tryFocus = () => {
-        try {
-          el.focus({ preventScroll: true });
-        } catch {
-          try {
-            el.focus();
-          } catch {}
-        }
-
-        try {
-          const len = el.value?.length ?? 0;
-          el.setSelectionRange(len, len);
-        } catch {}
-      };
-
-      tryFocus();
-
-      if (!isMobileDevice()) {
-        requestAnimationFrame(() => {
-          tryFocus();
-        });
+  function focusTypingInput() {
+    const run = () => {
+      if (typingRef.current) {
+        typingRef.current.focus();
+        typingRef.current.select?.();
       }
-    }, delay);
+    };
+    setTimeout(run, 0);
+    setTimeout(run, 80);
+    setTimeout(run, 180);
   }
 
   useEffect(() => {
@@ -287,13 +250,9 @@ export default function App() {
     document.body.style.background = state.settings.dark ? "#0f172a" : "#f8fafc";
   }, [state]);
 
-  useEffect(() => {
-    return () => {
-      if (focusTimerRef.current) {
-        clearTimeout(focusTimerRef.current);
-      }
-    };
-  }, []);
+  const words = state.words;
+  const settings = state.settings;
+  const logs = state.logs;
 
   const allDays = useMemo(() => {
     const set = new Set(words.map((w) => String(w.day)));
@@ -311,6 +270,9 @@ export default function App() {
     [words]
   );
 
+  const masteredWords = useMemo(() => words.filter((w) => isMasteredWord(w)), [words]);
+  const unmasteredWords = useMemo(() => words.filter((w) => !isMasteredWord(w)), [words]);
+
   const difficultWords = useMemo(
     () =>
       [...words]
@@ -319,10 +281,7 @@ export default function App() {
     [words]
   );
 
-  const masteredCount = useMemo(
-    () => words.filter((w) => (w.learning?.mastery || 0) >= 80).length,
-    [words]
-  );
+  const masteredCount = useMemo(() => words.filter((w) => isMasteredWord(w)).length, [words]);
 
   const libraryWords = useMemo(() => {
     return words.filter((w) => {
@@ -349,9 +308,14 @@ export default function App() {
 
     if (settings.source === "due") arr = dueWords;
     if (settings.source === "difficult") arr = difficultWords;
+    if (settings.source === "unmastered") arr = unmasteredWords;
+    if (settings.source === "mastered") arr = masteredWords;
+    if (settings.source === "all") arr = words;
+
     if (settings.source === "day" && settings.dayFilter !== "all") {
-      arr = words.filter((w) => String(w.day) === settings.dayFilter);
+      arr = unmasteredWords.filter((w) => String(w.day) === settings.dayFilter);
     }
+
     if (settings.source !== "day" && settings.dayFilter !== "all") {
       arr = arr.filter((w) => String(w.day) === settings.dayFilter);
     }
@@ -370,6 +334,8 @@ export default function App() {
     words,
     dueWords,
     difficultWords,
+    unmasteredWords,
+    masteredWords,
     settings.source,
     settings.dayFilter,
     settings.cardsPerSession,
@@ -389,10 +355,14 @@ export default function App() {
   }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
-    if (isTypingMode(settings.mode) && currentWord) {
-      focusTypingInput(isMobileDevice() ? 60 : 140);
+    if (
+      settings.mode === "typing_word" ||
+      settings.mode === "typing_sentence" ||
+      settings.mode === "listening"
+    ) {
+      focusTypingInput();
     }
-  }, [currentIndex, settings.mode, currentWord?.id]);
+  }, [currentIndex, settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
 
   useEffect(() => {
     if (
@@ -470,32 +440,36 @@ export default function App() {
     const update = calcNextReview(word, grade);
     setState((prev) => ({
       ...prev,
-      words: prev.words.map((w) =>
-        w.id === word.id
-          ? {
-              ...w,
-              learning: {
-                ...w.learning,
-                correct: (w.learning?.correct || 0) + update.correctDelta,
-                wrong: (w.learning?.wrong || 0) + update.wrongDelta,
-                streak: update.streak,
-                mastery: Math.max(
-                  0,
-                  Math.min(100, (w.learning?.mastery || 0) + update.masteryDelta)
-                ),
-                status:
-                  grade === "again"
-                    ? "learning"
-                    : grade === "easy"
-                    ? "mastering"
-                    : "review",
-                interval: update.interval,
-                nextReview: update.nextReview,
-                lastReview: today(),
-              },
-            }
-          : w
-      ),
+      words: prev.words.map((w) => {
+        if (w.id !== word.id) return w;
+
+        const nextMastery = Math.max(
+          0,
+          Math.min(100, (w.learning?.mastery || 0) + update.masteryDelta)
+        );
+
+        return {
+          ...w,
+          learning: {
+            ...w.learning,
+            correct: (w.learning?.correct || 0) + update.correctDelta,
+            wrong: (w.learning?.wrong || 0) + update.wrongDelta,
+            streak: update.streak,
+            mastery: nextMastery,
+            status:
+              grade === "again"
+                ? "learning"
+                : nextMastery >= 80
+                ? "mastered"
+                : grade === "easy"
+                ? "mastering"
+                : "review",
+            interval: update.interval,
+            nextReview: update.nextReview,
+            lastReview: today(),
+          },
+        };
+      }),
       logs: [
         {
           id: crypto.randomUUID(),
@@ -511,6 +485,93 @@ export default function App() {
     }));
   }
 
+  function markCurrentWordAsMastered() {
+    if (!currentWord) return;
+
+    setState((prev) => ({
+      ...prev,
+      words: prev.words.map((w) =>
+        w.id === currentWord.id
+          ? {
+              ...w,
+              learning: {
+                ...w.learning,
+                correct: Math.max((w.learning?.correct || 0) + 1, 1),
+                streak: Math.max((w.learning?.streak || 0) + 1, 1),
+                mastery: 100,
+                status: "mastered",
+                interval: Math.max(30, w.learning?.interval || 0),
+                nextReview: addDays(today(), 30),
+                lastReview: today(),
+              },
+            }
+          : w
+      ),
+      logs: [
+        {
+          id: crypto.randomUUID(),
+          wordId: currentWord.id,
+          en: currentWord.en,
+          date: today(),
+          mode: "mark_mastered",
+          correct: true,
+          detail: "mastered",
+        },
+        ...prev.logs,
+      ].slice(0, 3000),
+    }));
+
+    setFeedback({
+      ok: true,
+      answer: currentWord.en,
+      vi: currentWord.vi,
+      message: "Đã đánh dấu thuộc",
+    });
+    setTyped("");
+    setShowHintWord(false);
+    setShowHintSentence(false);
+
+    setTimeout(() => {
+      focusTypingInput();
+    }, 120);
+  }
+
+  function resetLearning() {
+    setState((prev) => ({
+      ...prev,
+      logs: [],
+      words: prev.words.map((w) => ({
+        ...w,
+        learning: defaultLearning(),
+      })),
+    }));
+  }
+
+  function resetUnmasteredWords() {
+    setState((prev) => ({
+      ...prev,
+      words: prev.words.map((w) =>
+        isMasteredWord(w)
+          ? w
+          : {
+              ...w,
+              learning: defaultLearning(),
+            }
+      ),
+    }));
+  }
+
+  function resetUnmasteredByDay(day) {
+    setState((prev) => ({
+      ...prev,
+      words: prev.words.map((w) =>
+        String(w.day) === String(day) && !isMasteredWord(w)
+          ? { ...w, learning: defaultLearning() }
+          : w
+      ),
+    }));
+  }
+
   function nextCard() {
     if (!sessionWords.length) return;
     setCurrentIndex((i) => (i + 1) % sessionWords.length);
@@ -520,6 +581,7 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
+    focusTypingInput();
   }
 
   function prevCard() {
@@ -531,6 +593,7 @@ export default function App() {
     setQuizAnswer("");
     setShowHintWord(false);
     setShowHintSentence(false);
+    focusTypingInput();
   }
 
   function submitTypingWord() {
@@ -549,7 +612,6 @@ export default function App() {
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "typing_word");
-      focusTypingInput(30);
     }
   }
 
@@ -577,7 +639,6 @@ export default function App() {
         vi: currentWord.exampleVi || currentWord.vi,
       });
       reviewWord(currentWord, "again", "typing_sentence");
-      focusTypingInput(30);
     }
   }
 
@@ -589,14 +650,12 @@ export default function App() {
       setFeedback({ ok: true, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "good", "listening");
       setTyped("");
-      setShowHintWord(false);
       setTimeout(() => {
         nextCard();
       }, 450);
     } else {
       setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
       reviewWord(currentWord, "again", "listening");
-      focusTypingInput(30);
     }
   }
 
@@ -709,23 +768,11 @@ export default function App() {
     setState((prev) => ({ ...prev, words: [...samples, ...prev.words] }));
   }
 
-  function resetLearning() {
-    setState((prev) => ({
-      ...prev,
-      logs: [],
-      words: prev.words.map((w) => ({
-        ...w,
-        learning: defaultLearning(),
-      })),
-    }));
-  }
-
   function quizOptions(word) {
     const others = words
       .filter((w) => w.id !== word.id)
       .slice(0, 10)
       .map((w) => w.vi);
-
     return [...new Set([word.vi, ...others])]
       .slice(0, 4)
       .sort(() => Math.random() - 0.5);
@@ -765,7 +812,7 @@ export default function App() {
           <div style={styles.headerStats}>
             <MiniStat label="Due" value={dueWords.length} dark={settings.dark} />
             <MiniStat label="Total" value={words.length} dark={settings.dark} />
-            <MiniStat label="Mastered" value={masteredCount} dark={settings.dark} />
+            <MiniStat label="Đã thuộc" value={masteredCount} dark={settings.dark} />
             <button
               style={styles.smallBtn}
               onClick={() => setSetting("dark", !settings.dark)}
@@ -799,11 +846,21 @@ export default function App() {
               <div style={styles.actionGrid}>
                 <ActionCard
                   dark={settings.dark}
-                  title="Ôn từ đến hạn"
-                  value={`${dueWords.length} từ`}
-                  desc="Ôn đúng lúc sắp quên."
+                  title="Học từ chưa thuộc"
+                  value={`${unmasteredWords.length} từ`}
+                  desc="Chỉ học các từ chưa thuộc."
                   onClick={() => {
-                    setSetting("source", "due");
+                    setSetting("source", "unmastered");
+                    setTab("study");
+                  }}
+                />
+                <ActionCard
+                  dark={settings.dark}
+                  title="Học tất cả"
+                  value={`${words.length} từ`}
+                  desc="Ôn lại toàn bộ từ khi cần."
+                  onClick={() => {
+                    setSetting("source", "all");
                     setTab("study");
                   }}
                 />
@@ -817,16 +874,6 @@ export default function App() {
                     setTab("study");
                   }}
                 />
-                <ActionCard
-                  dark={settings.dark}
-                  title="Học theo ngày"
-                  value={`${allDays.length} day`}
-                  desc="Chọn Day 1, Day 2..."
-                  onClick={() => {
-                    setSetting("source", "day");
-                    setTab("study");
-                  }}
-                />
               </div>
             </Card>
 
@@ -834,7 +881,7 @@ export default function App() {
               <Metric label="Lượt làm bài" value={todayLogs.length} dark={settings.dark} />
               <Metric label="Độ chính xác" value={`${todayAccuracy}%`} dark={settings.dark} />
               <Metric label="Đã thuộc" value={masteredCount} dark={settings.dark} />
-              <Metric label="Due còn lại" value={dueWords.length} dark={settings.dark} />
+              <Metric label="Chưa thuộc" value={unmasteredWords.length} dark={settings.dark} />
             </Card>
 
             <Card title="Quick actions" dark={settings.dark}>
@@ -898,7 +945,7 @@ export default function App() {
                   label="Nguồn học"
                   value={settings.source}
                   onChange={(v) => setSetting("source", v)}
-                  options={["due", "all", "difficult", "day"]}
+                  options={["unmastered", "all", "due", "difficult", "day"]}
                   dark={settings.dark}
                 />
                 <SelectLike
@@ -944,7 +991,6 @@ export default function App() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.18 }}
                 >
                   <Card
                     title={`Chế độ học: ${modeText(settings.mode)}`}
@@ -972,7 +1018,7 @@ export default function App() {
                           <div style={styles.promptTitle}>{currentWord.vi}</div>
                           <div style={styles.muted}>
                             Nhập đúng từ tiếng Anh rồi nhấn Enter. Nếu đúng, app tự
-                            chuyển sang từ tiếp theo. Nếu sai, bạn phải nhập lại đến khi đúng.
+                            chuyển sang từ tiếp theo. Nếu quên, bạn có thể bấm hiện từ tiếng Anh.
                           </div>
                           {currentWord.exampleVi && (
                             <div style={styles.exampleText}>
@@ -983,19 +1029,11 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
-                            key={`typing_word_${currentWord.id}`}
-                            ref={typingRef}
                             autoFocus
-                            inputMode="text"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="off"
-                            spellCheck={false}
+                            ref={typingRef}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") submitTypingWord();
-                            }}
+                            onKeyDown={(e) => e.key === "Enter" && submitTypingWord()}
                             placeholder="Nhập từ tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
@@ -1004,13 +1042,20 @@ export default function App() {
                             <button style={styles.primaryBtn} onClick={submitTypingWord}>
                               Kiểm tra
                             </button>
+                            <button style={styles.secondaryBtn} onClick={markCurrentWordAsMastered}>
+                              Đã thuộc
+                            </button>
                             <button
                               style={styles.secondaryBtn}
-                              onClick={() =>
-                                speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)
-                              }
+                              onClick={() => setShowHintWord((prev) => !prev)}
                             >
-                              <Volume2 size={16} /> Nghe câu
+                              {showHintWord ? "Ẩn từ tiếng Anh" : "Hiện từ tiếng Anh"}
+                            </button>
+                            <button
+                              style={styles.secondaryBtn}
+                              onClick={() => setShowHintSentence((prev) => !prev)}
+                            >
+                              {showHintSentence ? "Ẩn câu" : "Hiện câu"}
                             </button>
                           </div>
 
@@ -1022,39 +1067,23 @@ export default function App() {
                                 color: feedback.ok ? "#166534" : "#991b1b",
                               }}
                             >
-                              {feedback.ok
+                              {feedback.message
+                                ? feedback.message
+                                : feedback.ok
                                 ? `Đúng. Từ chính xác là: ${feedback.answer}`
                                 : `Sai. Hãy nhập lại cho đúng.`}
                             </div>
                           )}
 
-                          {!feedback?.ok && feedback && (
-                            <div style={styles.btnRowWrap}>
-                              <button
-                                style={styles.secondaryBtn}
-                                onClick={() => setShowHintWord((prev) => !prev)}
-                              >
-                                {showHintWord ? "Ẩn từ" : "Hiện từ"}
-                              </button>
-                              <button
-                                style={styles.secondaryBtn}
-                                onClick={() => setShowHintSentence((prev) => !prev)}
-                              >
-                                {showHintSentence ? "Ẩn câu" : "Hiện câu"}
-                              </button>
-                            </div>
-                          )}
-
                           {showHintWord && (
                             <div style={styles.exampleText}>
-                              Từ đúng: <strong>{currentWord.en}</strong>
+                              Từ tiếng Anh: <strong>{currentWord.en}</strong>
                             </div>
                           )}
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu tiếng Anh:{" "}
-                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu tiếng Anh: <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1076,19 +1105,11 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
-                            key={`typing_sentence_${currentWord.id}`}
-                            ref={typingRef}
                             autoFocus
-                            inputMode="text"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="off"
-                            spellCheck={false}
+                            ref={typingRef}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") submitTypingSentence();
-                            }}
+                            onKeyDown={(e) => e.key === "Enter" && submitTypingSentence()}
                             placeholder="Nhập lại cả câu tiếng Anh..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
@@ -1099,6 +1120,18 @@ export default function App() {
                               onClick={submitTypingSentence}
                             >
                               Kiểm tra
+                            </button>
+                            <button
+                              style={styles.secondaryBtn}
+                              onClick={() => setShowHintWord((prev) => !prev)}
+                            >
+                              {showHintWord ? "Ẩn từ" : "Hiện từ"}
+                            </button>
+                            <button
+                              style={styles.secondaryBtn}
+                              onClick={() => setShowHintSentence((prev) => !prev)}
+                            >
+                              {showHintSentence ? "Ẩn câu" : "Hiện câu"}
                             </button>
                             <button
                               style={styles.secondaryBtn}
@@ -1124,23 +1157,6 @@ export default function App() {
                             </div>
                           )}
 
-                          {!feedback?.ok && feedback && (
-                            <div style={styles.btnRowWrap}>
-                              <button
-                                style={styles.secondaryBtn}
-                                onClick={() => setShowHintWord((prev) => !prev)}
-                              >
-                                {showHintWord ? "Ẩn từ" : "Hiện từ"}
-                              </button>
-                              <button
-                                style={styles.secondaryBtn}
-                                onClick={() => setShowHintSentence((prev) => !prev)}
-                              >
-                                {showHintSentence ? "Ẩn câu" : "Hiện câu"}
-                              </button>
-                            </div>
-                          )}
-
                           {showHintWord && (
                             <div style={styles.exampleText}>
                               Từ mục tiêu: <strong>{currentWord.en}</strong>
@@ -1149,8 +1165,7 @@ export default function App() {
 
                           {showHintSentence && (
                             <div style={styles.exampleText}>
-                              Câu đúng:{" "}
-                              <strong>{currentWord.exampleEn || currentWord.en}</strong>
+                              Câu đúng: <strong>{currentWord.exampleEn || currentWord.en}</strong>
                             </div>
                           )}
                         </div>
@@ -1218,26 +1233,26 @@ export default function App() {
 
                         <div style={styles.stackGap}>
                           <input
-                            key={`listening_${currentWord.id}`}
-                            ref={typingRef}
                             autoFocus
-                            inputMode="text"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            autoCapitalize="off"
-                            spellCheck={false}
+                            ref={typingRef}
                             value={typed}
                             onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") submitListening();
-                            }}
+                            onKeyDown={(e) => e.key === "Enter" && submitListening()}
                             placeholder="Type what you heard..."
                             style={{ ...styles.input, height: 48, fontSize: 18 }}
                           />
 
-                          <button style={styles.primaryBtn} onClick={submitListening}>
-                            Check
-                          </button>
+                          <div style={styles.btnRow}>
+                            <button style={styles.primaryBtn} onClick={submitListening}>
+                              Check
+                            </button>
+                            <button
+                              style={styles.secondaryBtn}
+                              onClick={() => setShowHintWord((prev) => !prev)}
+                            >
+                              {showHintWord ? "Ẩn từ" : "Hiện từ"}
+                            </button>
+                          </div>
 
                           {feedback && (
                             <div
@@ -1250,17 +1265,6 @@ export default function App() {
                               {feedback.ok
                                 ? `Đúng. ${feedback.answer}`
                                 : `Sai. Hãy nhập lại cho đúng.`}
-                            </div>
-                          )}
-
-                          {!feedback?.ok && feedback && (
-                            <div style={styles.btnRowWrap}>
-                              <button
-                                style={styles.secondaryBtn}
-                                onClick={() => setShowHintWord((prev) => !prev)}
-                              >
-                                {showHintWord ? "Ẩn từ" : "Hiện từ"}
-                              </button>
                             </div>
                           )}
 
@@ -1569,7 +1573,7 @@ export default function App() {
             <Card title="Tổng quan" dark={settings.dark}>
               <Metric label="Today attempts" value={todayLogs.length} dark={settings.dark} />
               <Metric label="Today accuracy" value={`${todayAccuracy}%`} dark={settings.dark} />
-              <Metric label="Due" value={dueWords.length} dark={settings.dark} />
+              <Metric label="Chưa thuộc" value={unmasteredWords.length} dark={settings.dark} />
               <Metric
                 label="Difficult words"
                 value={difficultWords.length}
@@ -1624,21 +1628,45 @@ export default function App() {
                   />
                   <span>Học ngẫu nhiên mặc định</span>
                 </label>
+
                 <button style={styles.secondaryBtn} onClick={exportJson}>
                   <Download size={16} /> Export JSON
                 </button>
+
                 <button
                   style={styles.secondaryBtn}
                   onClick={() => fileRef.current?.click()}
                 >
                   <Upload size={16} /> Import JSON
                 </button>
+
                 <button
                   style={{ ...styles.secondaryBtn, borderColor: "#ef4444", color: "#ef4444" }}
                   onClick={resetLearning}
                 >
                   <XCircle size={16} /> Reset learning progress
                 </button>
+
+                <button
+                  style={styles.secondaryBtn}
+                  onClick={resetUnmasteredWords}
+                >
+                  🔄 Reset từ chưa thuộc
+                </button>
+
+                <button
+                  style={styles.secondaryBtn}
+                  onClick={() => {
+                    if (settings.dayFilter === "all") {
+                      alert("Hãy chọn Day ở phần Study trước");
+                      return;
+                    }
+                    resetUnmasteredByDay(settings.dayFilter);
+                  }}
+                >
+                  🔄 Reset từ chưa thuộc của Day đang chọn
+                </button>
+
                 <div style={styles.helpBox}>
                   Nếu sau này bạn muốn dùng trên nhiều thiết bị và tự đồng bộ dữ liệu,
                   bước tiếp theo là nối app này với Supabase hoặc Firebase.
@@ -1717,9 +1745,11 @@ function SelectLike({ label, value, onChange, options, dark }) {
     listening: "Nghe và nhập",
     quiz: "Trắc nghiệm",
     due: "Từ đến hạn",
-    all: "Tất cả từ",
+    all: "Học tất cả",
     difficult: "Từ khó",
     day: "Theo ngày",
+    unmastered: "Từ chưa thuộc",
+    mastered: "Từ đã thuộc",
   };
 
   return (
