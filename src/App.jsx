@@ -1579,3 +1579,4 @@ function getStyles(dark) {
     },
   };
 }
+ 
