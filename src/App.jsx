@@ -1,98 +1,97 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen,
   Brain,
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  Headphones,
-  Plus,
-  Search,
-  Settings,
-  BarChart3,
-  Trash2,
-  Pencil,
+  BookOpen,
   Upload,
-  Volume2,
-  RotateCcw,
+  Download,
   CheckCircle2,
-  XCircle,
+  RotateCcw,
+  ChevronRight,
+  ChevronLeft,
+  Volume2,
+  Search,
+  BarChart3,
+  Settings,
   Star,
 } from "lucide-react";
 
-const STORAGE_KEY = "english_vocab_lab_v4";
+const STORAGE_KEY = "english_vocab_day_study_v1";
 const today = () => new Date().toISOString().slice(0, 10);
 
 const defaultLearning = () => ({
-  correct: 0,
-  wrong: 0,
-  streak: 0,
-  mastery: 0,
-  status: "new",
-  interval: 0,
-  nextReview: today(),
-  lastReview: null,
+  mastered: false,
+  masteredAt: null,
+  reviewCount: 0,
+  lastReviewedAt: null,
 });
 
+const defaultItem = {
+  id: "",
+  day: 1,
+  kind: "word", // word | sentence
+  en: "",
+  vi: "",
+  note: "",
+  learning: defaultLearning(),
+};
+
 const defaultState = {
-  words: [
+  items: [
     {
       id: crypto.randomUUID(),
       day: 1,
+      kind: "word",
       en: "issue",
       vi: "vấn đề",
-      phonetic: "/ˈɪʃuː/",
-      type: "noun",
-      exampleEn: "There is an issue with the app.",
-      exampleVi: "Có một vấn đề với ứng dụng.",
-      tags: ["work", "IT"],
-      collocations: ["technical issue", "serious issue"],
-      notes: "Hay dùng khi nói về lỗi hoặc vấn đề trong công việc.",
-      difficulty: 2,
+      note: "",
       learning: defaultLearning(),
     },
     {
       id: crypto.randomUUID(),
       day: 1,
+      kind: "word",
       en: "schedule",
       vi: "lịch trình; lên lịch",
-      phonetic: "/ˈskedʒuːl/",
-      type: "noun / verb",
-      exampleEn: "I need to schedule a meeting for tomorrow.",
-      exampleVi: "Tôi cần lên lịch một cuộc họp cho ngày mai.",
-      tags: ["work", "meeting"],
-      collocations: ["tight schedule", "schedule a meeting"],
-      notes: "Vừa là danh từ vừa là động từ.",
-      difficulty: 2,
+      note: "",
+      learning: defaultLearning(),
+    },
+    {
+      id: crypto.randomUUID(),
+      day: 1,
+      kind: "sentence",
+      en: "There is an issue with the app.",
+      vi: "Có một vấn đề với ứng dụng.",
+      note: "",
       learning: defaultLearning(),
     },
     {
       id: crypto.randomUUID(),
       day: 2,
+      kind: "word",
       en: "reliable",
       vi: "đáng tin cậy",
-      phonetic: "/rɪˈlaɪəbl/",
-      type: "adjective",
-      exampleEn: "She is a reliable colleague.",
-      exampleVi: "Cô ấy là một đồng nghiệp đáng tin cậy.",
-      tags: ["daily", "work"],
-      collocations: ["reliable source", "reliable colleague"],
-      notes: "Dùng cho người, dữ liệu, nguồn thông tin.",
-      difficulty: 1,
+      note: "",
+      learning: defaultLearning(),
+    },
+    {
+      id: crypto.randomUUID(),
+      day: 2,
+      kind: "sentence",
+      en: "She is a reliable colleague.",
+      vi: "Cô ấy là một đồng nghiệp đáng tin cậy.",
+      note: "",
       learning: defaultLearning(),
     },
   ],
-  logs: [],
   settings: {
     dark: false,
-    mode: "typing_word",
-    source: "unmastered",
-    dayFilter: "all",
+    studyKind: "word", // word | sentence
+    source: "unmastered", // all | unmastered
+    day: "1",
+    randomMode: false,
     autoSpeak: false,
     voiceLang: "en-US",
-    cardsPerSession: 30,
-    randomMode: true,
   },
 };
 
@@ -104,9 +103,20 @@ function loadState() {
     return {
       ...defaultState,
       ...parsed,
-      settings: { ...defaultState.settings, ...(parsed.settings || {}) },
-      words: Array.isArray(parsed.words) ? parsed.words : defaultState.words,
-      logs: Array.isArray(parsed.logs) ? parsed.logs : [],
+      items: Array.isArray(parsed.items)
+        ? parsed.items.map((item, index) => ({
+            ...defaultItem,
+            ...item,
+            id: item.id || `item_${Date.now()}_${index}`,
+            kind: item.kind === "sentence" ? "sentence" : "word",
+            day: Number(item.day || 1),
+            learning: { ...defaultLearning(), ...(item.learning || {}) },
+          }))
+        : defaultState.items,
+      settings: {
+        ...defaultState.settings,
+        ...(parsed.settings || {}),
+      },
     };
   } catch {
     return defaultState;
@@ -117,262 +127,146 @@ function saveState(state) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-function normalize(str) {
-  return (str || "")
+function normalizeText(text) {
+  return (text || "")
     .trim()
     .toLowerCase()
     .replace(/[.,!?;:]/g, "")
     .replace(/\s+/g, " ");
 }
 
-function addDays(dateString, days) {
-  const d = new Date(dateString || today());
-  d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
-}
-
-function calcNextReview(word, grade) {
-  const rawInterval = Number(word.learning?.interval || 0);
-  const current = Number.isFinite(rawInterval) ? rawInterval : 0;
-  const safeCurrent = Math.max(0, Math.min(current, 365));
-
-  if (grade === "again") {
-    return {
-      interval: 0,
-      nextReview: today(),
-      masteryDelta: -8,
-      correctDelta: 0,
-      wrongDelta: 1,
-      streak: 0,
-    };
-  }
-
-  if (grade === "hard") {
-    return {
-      interval: Math.max(1, Math.min(safeCurrent || 1, 365)),
-      nextReview: addDays(today(), 1),
-      masteryDelta: 3,
-      correctDelta: 1,
-      wrongDelta: 0,
-      streak: (word.learning?.streak || 0) + 1,
-    };
-  }
-
-  if (grade === "good") {
-    const interval = Math.min(
-      365,
-      Math.max(3, safeCurrent ? Math.round(safeCurrent * 1.8) : 3)
-    );
-    return {
-      interval,
-      nextReview: addDays(today(), interval),
-      masteryDelta: 8,
-      correctDelta: 1,
-      wrongDelta: 0,
-      streak: (word.learning?.streak || 0) + 1,
-    };
-  }
-
-  const interval = Math.min(
-    365,
-    Math.max(7, safeCurrent ? Math.round(safeCurrent * 2.2) : 7)
-  );
-
-  return {
-    interval,
-    nextReview: addDays(today(), interval),
-    masteryDelta: 14,
-    correctDelta: 1,
-    wrongDelta: 0,
-    streak: (word.learning?.streak || 0) + 1,
-  };
-}
-
-function speak(text, lang) {
+function speak(text, lang = "en-US") {
   if (!window.speechSynthesis || !text) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = lang || "en-US";
+  u.lang = lang;
   u.rate = 0.95;
   window.speechSynthesis.speak(u);
 }
 
-function isMasteredWord(word) {
-  return (word.learning?.mastery || 0) >= 80 || word.learning?.status === "mastered";
+function sortDays(items) {
+  return [...new Set(items.map((x) => String(x.day)))].sort((a, b) => Number(a) - Number(b));
 }
 
-const emptyForm = {
-  id: null,
-  day: 1,
-  en: "",
-  vi: "",
-  phonetic: "",
-  type: "",
-  exampleEn: "",
-  exampleVi: "",
-  tags: "",
-  collocations: "",
-  notes: "",
-  difficulty: 2,
-};
+function getNextDay(days, currentDay) {
+  const currentIndex = days.findIndex((d) => String(d) === String(currentDay));
+  if (currentIndex === -1) return null;
+  return days[currentIndex + 1] || null;
+}
 
 export default function App() {
   const [state, setState] = useState(loadState);
   const [tab, setTab] = useState("dashboard");
-  const [form, setForm] = useState(emptyForm);
   const [searchText, setSearchText] = useState("");
-  const [tagFilter, setTagFilter] = useState("all");
-  const [dayLibraryFilter, setDayLibraryFilter] = useState("all");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [form, setForm] = useState({
+    id: null,
+    day: 1,
+    kind: "word",
+    en: "",
+    vi: "",
+    note: "",
+  });
+  const [sessionIndex, setSessionIndex] = useState(0);
   const [typed, setTyped] = useState("");
-  const [feedback, setFeedback] = useState(null);
-  const [flipped, setFlipped] = useState(false);
-  const [quizAnswer, setQuizAnswer] = useState("");
-  const [showHintWord, setShowHintWord] = useState(false);
-  const [showHintSentence, setShowHintSentence] = useState(false);
-  const fileRef = useRef(null);
-  const typingRef = useRef(null);
+  const [answerState, setAnswerState] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [sessionFinished, setSessionFinished] = useState(false);
+  const [completedIds, setCompletedIds] = useState([]);
+  const [lastSessionConfig, setLastSessionConfig] = useState(null);
 
-  function focusTypingInput() {
-    const run = () => {
-      if (typingRef.current) {
-        typingRef.current.focus();
-        typingRef.current.select?.();
-      }
-    };
-    setTimeout(run, 0);
-    setTimeout(run, 80);
-    setTimeout(run, 180);
-  }
+  const inputRef = useRef(null);
+  const fileRef = useRef(null);
+
+  const items = state.items;
+  const settings = state.settings;
+
+  const allDays = useMemo(() => sortDays(items), [items]);
 
   useEffect(() => {
     saveState(state);
-    document.body.style.background = state.settings.dark ? "#0f172a" : "#f8fafc";
-  }, [state]);
+    document.body.style.background = settings.dark ? "#0f172a" : "#f8fafc";
+  }, [state, settings.dark]);
 
-  const words = state.words;
-  const settings = state.settings;
-  const logs = state.logs;
+  function focusInput() {
+    const run = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+        inputRef.current.select?.();
+      }
+    };
+    setTimeout(run, 0);
+    setTimeout(run, 100);
+    setTimeout(run, 220);
+  }
 
-  const allDays = useMemo(() => {
-    const set = new Set(words.map((w) => String(w.day)));
-    return [...set].sort((a, b) => Number(a) - Number(b));
-  }, [words]);
+  useEffect(() => {
+    if (tab === "study" && !sessionFinished) {
+      focusInput();
+    }
+  }, [tab, sessionIndex, settings.studyKind, settings.day, settings.source, sessionFinished]);
 
-  const allTags = useMemo(() => {
-    const set = new Set();
-    words.forEach((w) => (w.tags || []).forEach((t) => set.add(t)));
-    return [...set].sort();
-  }, [words]);
-
-  const dueWords = useMemo(
-    () => words.filter((w) => !w.learning?.nextReview || w.learning.nextReview <= today()),
-    [words]
-  );
-
-  const masteredWords = useMemo(() => words.filter((w) => isMasteredWord(w)), [words]);
-  const unmasteredWords = useMemo(() => words.filter((w) => !isMasteredWord(w)), [words]);
-
-  const difficultWords = useMemo(
-    () =>
-      [...words]
-        .filter((w) => (w.learning?.wrong || 0) > 0)
-        .sort((a, b) => (b.learning?.wrong || 0) - (a.learning?.wrong || 0)),
-    [words]
-  );
-
-  const masteredCount = useMemo(() => words.filter((w) => isMasteredWord(w)).length, [words]);
-
-  const libraryWords = useMemo(() => {
-    return words.filter((w) => {
-      const hay = [
-        w.en,
-        w.vi,
-        w.exampleEn,
-        w.exampleVi,
-        (w.tags || []).join(" "),
-        (w.collocations || []).join(" "),
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      const s = !searchText || hay.includes(searchText.toLowerCase());
-      const t = tagFilter === "all" || (w.tags || []).includes(tagFilter);
-      const d = dayLibraryFilter === "all" || String(w.day) === dayLibraryFilter;
-      return s && t && d;
+  const filteredLibrary = useMemo(() => {
+    return items.filter((item) => {
+      const hay = `${item.en} ${item.vi} ${item.note}`.toLowerCase();
+      return !searchText || hay.includes(searchText.toLowerCase());
     });
-  }, [words, searchText, tagFilter, dayLibraryFilter]);
+  }, [items, searchText]);
 
-  const sessionWords = useMemo(() => {
-    let arr = words;
+  const currentSessionItems = useMemo(() => {
+    let arr = items.filter(
+      (item) =>
+        item.kind === settings.studyKind && String(item.day) === String(settings.day)
+    );
 
-    if (settings.source === "due") arr = dueWords;
-    if (settings.source === "difficult") arr = difficultWords;
-    if (settings.source === "unmastered") arr = unmasteredWords;
-    if (settings.source === "mastered") arr = masteredWords;
-    if (settings.source === "all") arr = words;
-
-    if (settings.source === "day" && settings.dayFilter !== "all") {
-      arr = unmasteredWords.filter((w) => String(w.day) === settings.dayFilter);
+    if (settings.source === "unmastered") {
+      arr = arr.filter((item) => !item.learning?.mastered);
     }
 
-    if (settings.source !== "day" && settings.dayFilter !== "all") {
-      arr = arr.filter((w) => String(w.day) === settings.dayFilter);
+    if (settings.randomMode) {
+      const shuffled = [...arr];
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
     }
 
-    const limited = arr.slice(0, settings.cardsPerSession || 30);
+    return arr;
+  }, [items, settings.studyKind, settings.day, settings.source, settings.randomMode]);
 
-    if (!settings.randomMode) return limited;
+  const currentItem = currentSessionItems[sessionIndex] || null;
 
-    const shuffled = [...limited];
-    for (let i = shuffled.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  }, [
-    words,
-    dueWords,
-    difficultWords,
-    unmasteredWords,
-    masteredWords,
-    settings.source,
-    settings.dayFilter,
-    settings.cardsPerSession,
-    settings.randomMode,
-  ]);
+  const sessionStats = useMemo(() => {
+    const total = currentSessionItems.length;
+    const mastered = currentSessionItems.filter((item) => item.learning?.mastered).length;
+    const unmastered = total - mastered;
+    return { total, mastered, unmastered };
+  }, [currentSessionItems]);
 
-  const currentWord = sessionWords[currentIndex] || null;
+  const currentDayStats = useMemo(() => {
+    const dayItems = items.filter(
+      (item) => item.kind === settings.studyKind && String(item.day) === String(settings.day)
+    );
+    const total = dayItems.length;
+    const mastered = dayItems.filter((item) => item.learning?.mastered).length;
+    const unmastered = total - mastered;
+    return { total, mastered, unmastered };
+  }, [items, settings.studyKind, settings.day]);
 
   useEffect(() => {
-    setCurrentIndex(0);
+    setSessionIndex(0);
     setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-  }, [settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
+    setAnswerState(null);
+    setShowAnswer(false);
+    setSessionFinished(false);
+    setCompletedIds([]);
+  }, [settings.studyKind, settings.day, settings.source, settings.randomMode]);
 
   useEffect(() => {
-    if (
-      settings.mode === "typing_word" ||
-      settings.mode === "typing_sentence" ||
-      settings.mode === "listening"
-    ) {
-      focusTypingInput();
+    if (currentItem && settings.autoSpeak) {
+      speak(currentItem.en, settings.voiceLang);
     }
-  }, [currentIndex, settings.mode, settings.source, settings.dayFilter, settings.randomMode]);
-
-  useEffect(() => {
-    if (
-      currentWord &&
-      settings.autoSpeak &&
-      (settings.mode === "flashcard" || settings.mode === "listening")
-    ) {
-      speak(currentWord.en, settings.voiceLang);
-    }
-  }, [currentWord, settings.autoSpeak, settings.voiceLang, settings.mode]);
+  }, [currentItem, settings.autoSpeak, settings.voiceLang]);
 
   function setSetting(key, value) {
     setState((prev) => ({
@@ -381,442 +275,356 @@ export default function App() {
     }));
   }
 
-  async function saveWord() {
+  function updateItemLearning(itemId, patch) {
+    setState((prev) => ({
+      ...prev,
+      items: prev.items.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              learning: {
+                ...defaultLearning(),
+                ...(item.learning || {}),
+                ...patch,
+              },
+            }
+          : item
+      ),
+    }));
+  }
+
+  function goNextCard(afterMarkMastered = false) {
+    const newCompleted = completedIds.includes(currentItem.id)
+      ? completedIds
+      : [...completedIds, currentItem.id];
+    setCompletedIds(newCompleted);
+
+    const nextIndex = sessionIndex + 1;
+    if (nextIndex >= currentSessionItems.length) {
+      setSessionFinished(true);
+      setLastSessionConfig({
+        studyKind: settings.studyKind,
+        day: settings.day,
+        source: settings.source,
+        randomMode: settings.randomMode,
+        endedAt: today(),
+      });
+      return;
+    }
+
+    setSessionIndex(nextIndex);
+    setTyped("");
+    setAnswerState(afterMarkMastered ? { ok: true, text: "Đã đánh dấu thuộc." } : null);
+    setShowAnswer(false);
+    setTimeout(() => {
+      setAnswerState(null);
+      focusInput();
+    }, 150);
+  }
+
+  function submitAnswer() {
+    if (!currentItem) return;
+    const isCorrect = normalizeText(typed) === normalizeText(currentItem.en);
+
+    updateItemLearning(currentItem.id, {
+      reviewCount: Number(currentItem.learning?.reviewCount || 0) + 1,
+      lastReviewedAt: today(),
+    });
+
+    if (isCorrect) {
+      setAnswerState({ ok: true, text: "Đúng rồi" });
+      setTyped("");
+      setShowAnswer(false);
+      setTimeout(() => {
+        goNextCard(false);
+      }, 350);
+    } else {
+      setAnswerState({ ok: false, text: "Sai rồi, hãy xem đáp án và nhập lại." });
+      focusInput();
+    }
+  }
+
+  function markMastered() {
+    if (!currentItem) return;
+
+    updateItemLearning(currentItem.id, {
+      mastered: true,
+      masteredAt: today(),
+      reviewCount: Number(currentItem.learning?.reviewCount || 0) + 1,
+      lastReviewedAt: today(),
+    });
+
+    setTyped("");
+    setShowAnswer(false);
+    setAnswerState({ ok: true, text: "Đã đánh dấu thuộc." });
+
+    setTimeout(() => {
+      goNextCard(true);
+    }, 300);
+  }
+
+  function replayCurrentMode(source) {
+    setSetting("source", source);
+    setSessionIndex(0);
+    setTyped("");
+    setAnswerState(null);
+    setShowAnswer(false);
+    setSessionFinished(false);
+    setCompletedIds([]);
+    setTab("study");
+  }
+
+  function studyNextDay() {
+    const nextDay = getNextDay(allDays, settings.day);
+    if (!nextDay) return;
+    setState((prev) => ({
+      ...prev,
+      settings: { ...prev.settings, day: String(nextDay) },
+    }));
+    setSessionIndex(0);
+    setTyped("");
+    setAnswerState(null);
+    setShowAnswer(false);
+    setSessionFinished(false);
+    setCompletedIds([]);
+    setTab("study");
+  }
+
+  function saveFormItem() {
     if (!form.en.trim() || !form.vi.trim()) return;
 
     const payload = {
       id: form.id || crypto.randomUUID(),
       day: Number(form.day || 1),
+      kind: form.kind,
       en: form.en.trim(),
       vi: form.vi.trim(),
-      phonetic: form.phonetic.trim(),
-      type: form.type.trim(),
-      exampleEn: form.exampleEn.trim(),
-      exampleVi: form.exampleVi.trim(),
-      tags: form.tags.split(",").map((x) => x.trim()).filter(Boolean),
-      collocations: form.collocations.split(",").map((x) => x.trim()).filter(Boolean),
-      notes: form.notes.trim(),
-      difficulty: Number(form.difficulty || 2),
+      note: form.note.trim(),
       learning: form.id
-        ? words.find((w) => w.id === form.id)?.learning || defaultLearning()
+        ? items.find((item) => item.id === form.id)?.learning || defaultLearning()
         : defaultLearning(),
     };
 
     setState((prev) => ({
       ...prev,
-      words: prev.words.some((w) => w.id === payload.id)
-        ? prev.words.map((w) => (w.id === payload.id ? payload : w))
-        : [payload, ...prev.words],
+      items: prev.items.some((item) => item.id === payload.id)
+        ? prev.items.map((item) => (item.id === payload.id ? payload : item))
+        : [payload, ...prev.items],
     }));
-    setForm(emptyForm);
+
+    setForm({
+      id: null,
+      day: Number(settings.day || 1),
+      kind: settings.studyKind,
+      en: "",
+      vi: "",
+      note: "",
+    });
   }
 
-  function editWord(word) {
+  function editItem(item) {
     setForm({
-      id: word.id,
-      day: word.day,
-      en: word.en,
-      vi: word.vi,
-      phonetic: word.phonetic || "",
-      type: word.type || "",
-      exampleEn: word.exampleEn || "",
-      exampleVi: word.exampleVi || "",
-      tags: (word.tags || []).join(", "),
-      collocations: (word.collocations || []).join(", "),
-      notes: word.notes || "",
-      difficulty: word.difficulty || 2,
+      id: item.id,
+      day: item.day,
+      kind: item.kind,
+      en: item.en,
+      vi: item.vi,
+      note: item.note || "",
     });
     setTab("library");
   }
 
-  function deleteWord(id) {
+  function deleteItem(id) {
     setState((prev) => ({
       ...prev,
-      words: prev.words.filter((w) => w.id !== id),
+      items: prev.items.filter((item) => item.id !== id),
     }));
-  }
-
-  function reviewWord(word, grade, mode) {
-    const update = calcNextReview(word, grade);
-    setState((prev) => ({
-      ...prev,
-      words: prev.words.map((w) => {
-        if (w.id !== word.id) return w;
-
-        const nextMastery = Math.max(
-          0,
-          Math.min(100, (w.learning?.mastery || 0) + update.masteryDelta)
-        );
-
-        return {
-          ...w,
-          learning: {
-            ...w.learning,
-            correct: (w.learning?.correct || 0) + update.correctDelta,
-            wrong: (w.learning?.wrong || 0) + update.wrongDelta,
-            streak: update.streak,
-            mastery: nextMastery,
-            status:
-              grade === "again"
-                ? "learning"
-                : nextMastery >= 80
-                ? "mastered"
-                : grade === "easy"
-                ? "mastering"
-                : "review",
-            interval: update.interval,
-            nextReview: update.nextReview,
-            lastReview: today(),
-          },
-        };
-      }),
-      logs: [
-        {
-          id: crypto.randomUUID(),
-          wordId: word.id,
-          en: word.en,
-          date: today(),
-          mode,
-          correct: grade !== "again",
-          detail: grade,
-        },
-        ...prev.logs,
-      ].slice(0, 3000),
-    }));
-  }
-
-  function markCurrentWordAsMastered() {
-    if (!currentWord) return;
-
-    setState((prev) => ({
-      ...prev,
-      words: prev.words.map((w) =>
-        w.id === currentWord.id
-          ? {
-              ...w,
-              learning: {
-                ...w.learning,
-                correct: Math.max((w.learning?.correct || 0) + 1, 1),
-                streak: Math.max((w.learning?.streak || 0) + 1, 1),
-                mastery: 100,
-                status: "mastered",
-                interval: Math.max(30, w.learning?.interval || 0),
-                nextReview: addDays(today(), 30),
-                lastReview: today(),
-              },
-            }
-          : w
-      ),
-      logs: [
-        {
-          id: crypto.randomUUID(),
-          wordId: currentWord.id,
-          en: currentWord.en,
-          date: today(),
-          mode: "mark_mastered",
-          correct: true,
-          detail: "mastered",
-        },
-        ...prev.logs,
-      ].slice(0, 3000),
-    }));
-
-    setFeedback({
-      ok: true,
-      answer: currentWord.en,
-      vi: currentWord.vi,
-      message: "Đã đánh dấu thuộc",
-    });
-    setTyped("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-
-    setTimeout(() => {
-      focusTypingInput();
-    }, 120);
-  }
-
-  function resetLearning() {
-    setState((prev) => ({
-      ...prev,
-      logs: [],
-      words: prev.words.map((w) => ({
-        ...w,
-        learning: defaultLearning(),
-      })),
-    }));
-  }
-
-  function resetUnmasteredWords() {
-    setState((prev) => ({
-      ...prev,
-      words: prev.words.map((w) =>
-        isMasteredWord(w)
-          ? w
-          : {
-              ...w,
-              learning: defaultLearning(),
-            }
-      ),
-    }));
-  }
-
-  function resetUnmasteredByDay(day) {
-    setState((prev) => ({
-      ...prev,
-      words: prev.words.map((w) =>
-        String(w.day) === String(day) && !isMasteredWord(w)
-          ? { ...w, learning: defaultLearning() }
-          : w
-      ),
-    }));
-  }
-
-  function nextCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i + 1) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-    focusTypingInput();
-  }
-
-  function prevCard() {
-    if (!sessionWords.length) return;
-    setCurrentIndex((i) => (i - 1 + sessionWords.length) % sessionWords.length);
-    setTyped("");
-    setFeedback(null);
-    setFlipped(false);
-    setQuizAnswer("");
-    setShowHintWord(false);
-    setShowHintSentence(false);
-    focusTypingInput();
-  }
-
-  function submitTypingWord() {
-    if (!currentWord) return;
-    const ok = normalize(typed) === normalize(currentWord.en);
-
-    if (ok) {
-      setFeedback({ ok: true, answer: currentWord.en, vi: currentWord.vi });
-      reviewWord(currentWord, "good", "typing_word");
-      setTyped("");
-      setShowHintWord(false);
-      setShowHintSentence(false);
-      setTimeout(() => {
-        nextCard();
-      }, 450);
-    } else {
-      setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
-      reviewWord(currentWord, "again", "typing_word");
-    }
-  }
-
-  function submitTypingSentence() {
-    if (!currentWord) return;
-    const ok = normalize(typed) === normalize(currentWord.exampleEn);
-
-    if (ok) {
-      setFeedback({
-        ok: true,
-        answer: currentWord.exampleEn,
-        vi: currentWord.exampleVi || currentWord.vi,
-      });
-      reviewWord(currentWord, "good", "typing_sentence");
-      setTyped("");
-      setShowHintWord(false);
-      setShowHintSentence(false);
-      setTimeout(() => {
-        nextCard();
-      }, 450);
-    } else {
-      setFeedback({
-        ok: false,
-        answer: currentWord.exampleEn,
-        vi: currentWord.exampleVi || currentWord.vi,
-      });
-      reviewWord(currentWord, "again", "typing_sentence");
-    }
-  }
-
-  function submitListening() {
-    if (!currentWord) return;
-    const ok = normalize(typed) === normalize(currentWord.en);
-
-    if (ok) {
-      setFeedback({ ok: true, answer: currentWord.en, vi: currentWord.vi });
-      reviewWord(currentWord, "good", "listening");
-      setTyped("");
-      setTimeout(() => {
-        nextCard();
-      }, 450);
-    } else {
-      setFeedback({ ok: false, answer: currentWord.en, vi: currentWord.vi });
-      reviewWord(currentWord, "again", "listening");
-    }
   }
 
   function exportJson() {
-    const blob = new Blob([JSON.stringify(state, null, 2)], {
-      type: "application/json",
-    });
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `english-vocab-backup-${today()}.json`;
+    a.download = `vocab-day-study-${today()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }
 
   function importJson(file) {
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const parsed = JSON.parse(e.target.result);
+        let raw = String(e.target?.result || "");
 
-        const normalizeWord = (item, index) => ({
-          id: item.id || `word_${Date.now()}_${index}`,
-          day: Number(item.day || 1),
-          en: item.en || "",
-          vi: item.vi || "",
-          phonetic: item.phonetic || "",
-          type: item.type || "",
-          exampleEn: item.exampleEn || "",
-          exampleVi: item.exampleVi || "",
-          tags: Array.isArray(item.tags)
-            ? item.tags
-            : typeof item.tags === "string"
-            ? item.tags.split(",").map((x) => x.trim()).filter(Boolean)
-            : [],
-          collocations: Array.isArray(item.collocations)
-            ? item.collocations
-            : typeof item.collocations === "string"
-            ? item.collocations.split(",").map((x) => x.trim()).filter(Boolean)
-            : [],
-          notes: item.notes || "",
-          difficulty: Number(item.difficulty || 2),
-          learning: {
-            ...defaultLearning(),
-            ...(item.learning || {}),
-            interval: Math.max(
-              0,
-              Math.min(365, Number(item.learning?.interval || 0) || 0)
-            ),
-            nextReview:
-              item.learning?.nextReview &&
-              /^\d{4}-\d{2}-\d{2}$/.test(item.learning.nextReview)
-                ? item.learning.nextReview
-                : today(),
-          },
-        });
+        // bỏ BOM nếu có
+        raw = raw.replace(/^﻿/, "").trim();
 
-        if (Array.isArray(parsed)) {
-          setState((prev) => ({
-            ...prev,
-            words: parsed.map(normalizeWord),
-            logs: prev.logs || [],
-          }));
-          return;
+        let parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch {
+          // thử sửa một số dấu quote “ ” ‘ ’ nếu file bị copy từ nguồn khác
+          const normalizedRaw = raw
+            .replace(/[“”]/g, '"')
+            .replace(/[‘’]/g, "'");
+          parsed = JSON.parse(normalizedRaw);
         }
 
-        if (Array.isArray(parsed.words)) {
+        const toSafeLearning = (learning) => ({
+          ...defaultLearning(),
+          ...(learning || {}),
+          mastered: !!learning?.mastered,
+          masteredAt: learning?.masteredAt || null,
+          reviewCount: Number(learning?.reviewCount || 0),
+          lastReviewedAt: learning?.lastReviewedAt || null,
+        });
+
+        const mapWordRecordToItems = (word, index) => {
+          const baseId = word.id || `word_${Date.now()}_${index}`;
+          const day = Number(word.day || 1);
+          const note = word.note || word.notes || "";
+          const learning = toSafeLearning(word.learning);
+
+          const result = [];
+
+          if ((word.en || "").trim() || (word.vi || "").trim()) {
+            result.push({
+              id: `${baseId}_word`,
+              day,
+              kind: "word",
+              en: String(word.en || "").trim(),
+              vi: String(word.vi || "").trim(),
+              note,
+              learning,
+            });
+          }
+
+          if ((word.exampleEn || "").trim() || (word.exampleVi || "").trim()) {
+            result.push({
+              id: `${baseId}_sentence`,
+              day,
+              kind: "sentence",
+              en: String(word.exampleEn || "").trim(),
+              vi: String(word.exampleVi || word.vi || "").trim(),
+              note,
+              learning,
+            });
+          }
+
+          return result;
+        };
+
+        const normalizeImportedItem = (item, index) => ({
+          ...defaultItem,
+          ...item,
+          id: item.id || `item_${Date.now()}_${index}`,
+          day: Number(item.day || 1),
+          kind: item.kind === "sentence" ? "sentence" : "word",
+          en: String(item.en || "").trim(),
+          vi: String(item.vi || "").trim(),
+          note: String(item.note || item.notes || "").trim(),
+          learning: toSafeLearning(item.learning),
+        });
+
+        // 1) format mới đầy đủ của app
+        if (parsed && Array.isArray(parsed.items)) {
           setState({
             ...defaultState,
             ...parsed,
-            words: parsed.words.map(normalizeWord),
-            logs: Array.isArray(parsed.logs) ? parsed.logs : [],
+            items: parsed.items.map(normalizeImportedItem),
             settings: { ...defaultState.settings, ...(parsed.settings || {}) },
           });
           return;
         }
 
-        throw new Error();
-      } catch {
+        // 2) format cũ: { words: [...] }
+        if (parsed && Array.isArray(parsed.words)) {
+          const convertedItems = parsed.words.flatMap(mapWordRecordToItems);
+          setState((prev) => ({
+            ...prev,
+            items: convertedItems,
+          }));
+          return;
+        }
+
+        // 3) top-level array: có thể là items mới hoặc words cũ
+        if (Array.isArray(parsed)) {
+          const looksLikeOldWords = parsed.some(
+            (x) => x && (Object.prototype.hasOwnProperty.call(x, "exampleEn") || !Object.prototype.hasOwnProperty.call(x, "kind"))
+          );
+
+          const convertedItems = looksLikeOldWords
+            ? parsed.flatMap(mapWordRecordToItems)
+            : parsed.map(normalizeImportedItem);
+
+          setState((prev) => ({
+            ...prev,
+            items: convertedItems,
+          }));
+          return;
+        }
+
+        throw new Error("Unsupported JSON format");
+      } catch (err) {
+        console.error("Import JSON error:", err);
         alert(
-          "File JSON không đúng định dạng. Bạn có thể import 1 mảng từ vựng hoặc file backup đầy đủ của app."
+          "Không đọc được file JSON. Hãy kiểm tra file có đúng JSON không. App hiện hỗ trợ 3 kiểu: { items: [...] }, { words: [...] }, hoặc mảng dữ liệu trực tiếp."
         );
       }
     };
-    reader.readAsText(file);
+
+    reader.readAsText(file, "utf-8");
   }
 
-  function addSampleDay() {
-    const nextDay = allDays.length ? Number(allDays[allDays.length - 1]) + 1 : 1;
-    const samples = [
-      ["deadline", "hạn chót", "We must finish before the deadline."],
-      ["improve", "cải thiện", "I want to improve my English every day."],
-      ["confident", "tự tin", "She feels confident after practice."],
-    ].map(([en, vi, ex]) => ({
-      id: crypto.randomUUID(),
-      day: nextDay,
-      en,
-      vi,
-      phonetic: "",
-      type: "",
-      exampleEn: ex,
-      exampleVi: "",
-      tags: ["sample"],
-      collocations: [],
-      notes: "Auto sample day",
-      difficulty: 2,
-      learning: defaultLearning(),
-    }));
-    setState((prev) => ({ ...prev, words: [...samples, ...prev.words] }));
+  function resetAllMasteredOfCurrentFilter(toSource) {
+    const targetIds = items
+      .filter(
+        (item) =>
+          item.kind === settings.studyKind &&
+          String(item.day) === String(settings.day) &&
+          (toSource === "all" || !item.learning?.mastered)
+      )
+      .map((item) => item.id);
+
+    setCompletedIds([]);
+    setSessionIndex(0);
+    setTyped("");
+    setAnswerState(null);
+    setShowAnswer(false);
+    setSessionFinished(false);
+
+    if (toSource === "all") {
+      setSetting("source", "all");
+    } else {
+      setSetting("source", "unmastered");
+    }
   }
 
-  function quizOptions(word) {
-    const others = words
-      .filter((w) => w.id !== word.id)
-      .slice(0, 10)
-      .map((w) => w.vi);
-    return [...new Set([word.vi, ...others])]
-      .slice(0, 4)
-      .sort(() => Math.random() - 0.5);
-  }
-
-  const todayLogs = logs.filter((l) => l.date === today());
-  const todayAccuracy = todayLogs.length
-    ? Math.round((todayLogs.filter((l) => l.correct).length / todayLogs.length) * 100)
-    : 0;
-
-  const recentDays = Array.from({ length: 7 })
-    .map((_, i) => addDays(today(), -i))
-    .reverse();
-
+  const nextDay = getNextDay(allDays, settings.day);
   const styles = getStyles(settings.dark);
 
   return (
     <div style={styles.page}>
       <div style={styles.container}>
         <div style={styles.header}>
-          <div>
-            <div style={styles.brandRow}>
-              <div style={styles.brandIcon}>
-                <Brain size={20} />
-              </div>
-              <div>
-                <div style={styles.title}>Phòng học từ vựng tiếng Anh cá nhân</div>
-                <div style={styles.subtitle}>
-                  Ứng dụng học từ vựng cá nhân: học theo ngày, nhập từ, nhập lại câu,
-                  nghe, flashcard, quiz, ôn lặp lại ngắt quãng, từ khó,
-                  thống kê, xuất và nhập JSON.
-                </div>
+          <div style={styles.brandWrap}>
+            <div style={styles.brandIcon}><Brain size={20} /></div>
+            <div>
+              <div style={styles.title}>Ứng dụng học từ vựng theo ngày</div>
+              <div style={styles.subtitle}>
+                Giữ giao diện đẹp, giữ import/export, tập trung đúng các chức năng học từ và học câu theo ngày, chọn học tất cả hoặc chưa thuộc, đánh dấu đã thuộc, và học xong có thống kê để học tiếp hoặc học lại.
               </div>
             </div>
           </div>
 
-          <div style={styles.headerStats}>
-            <MiniStat label="Due" value={dueWords.length} dark={settings.dark} />
-            <MiniStat label="Total" value={words.length} dark={settings.dark} />
-            <MiniStat label="Đã thuộc" value={masteredCount} dark={settings.dark} />
-            <button
-              style={styles.smallBtn}
-              onClick={() => setSetting("dark", !settings.dark)}
-            >
+          <div style={styles.topStats}>
+            <MiniStat label="Tổng mục" value={items.length} dark={settings.dark} />
+            <MiniStat label="Ngày hiện tại" value={settings.day} dark={settings.dark} />
+            <MiniStat label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
+            <button style={styles.smallBtn} onClick={() => setSetting("dark", !settings.dark)}>
               <Settings size={16} /> {settings.dark ? "Light" : "Dark"}
             </button>
           </div>
@@ -825,10 +633,9 @@ export default function App() {
         <div style={styles.tabRow}>
           {[
             ["dashboard", <BookOpen size={16} />, "Dashboard"],
-            ["study", <Brain size={16} />, "Study"],
-            ["library", <Search size={16} />, "Library"],
-            ["stats", <BarChart3 size={16} />, "Stats"],
-            ["settings", <Settings size={16} />, "Settings"],
+            ["study", <Brain size={16} />, "Học"],
+            ["library", <Search size={16} />, "Thư viện"],
+            ["stats", <BarChart3 size={16} />, "Thống kê"],
           ].map(([key, icon, label]) => (
             <button
               key={key}
@@ -840,137 +647,106 @@ export default function App() {
           ))}
         </div>
 
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json"
+          style={{ display: "none" }}
+          onChange={(e) => importJson(e.target.files?.[0])}
+        />
+
         {tab === "dashboard" && (
-          <div style={styles.sectionGrid}>
-            <Card title="Hôm nay nên học gì" dark={settings.dark}>
+          <div style={styles.grid}>
+            <Card title="Bắt đầu nhanh" dark={settings.dark}>
               <div style={styles.actionGrid}>
                 <ActionCard
                   dark={settings.dark}
                   title="Học từ chưa thuộc"
-                  value={`${unmasteredWords.length} từ`}
-                  desc="Chỉ học các từ chưa thuộc."
+                  value={`${items.filter((x) => x.kind === "word" && !x.learning?.mastered).length} mục`}
+                  desc="Chỉ học từ chưa thuộc"
                   onClick={() => {
-                    setSetting("source", "unmastered");
+                    setState((prev) => ({
+                      ...prev,
+                      settings: { ...prev.settings, studyKind: "word", source: "unmastered" },
+                    }));
+                    setTab("study");
+                  }}
+                />
+                <ActionCard
+                  dark={settings.dark}
+                  title="Học câu chưa thuộc"
+                  value={`${items.filter((x) => x.kind === "sentence" && !x.learning?.mastered).length} mục`}
+                  desc="Chỉ học câu chưa thuộc"
+                  onClick={() => {
+                    setState((prev) => ({
+                      ...prev,
+                      settings: { ...prev.settings, studyKind: "sentence", source: "unmastered" },
+                    }));
                     setTab("study");
                   }}
                 />
                 <ActionCard
                   dark={settings.dark}
                   title="Học tất cả"
-                  value={`${words.length} từ`}
-                  desc="Ôn lại toàn bộ từ khi cần."
+                  value={`${items.length} mục`}
+                  desc="Ôn lại toàn bộ khi cần"
                   onClick={() => {
                     setSetting("source", "all");
                     setTab("study");
                   }}
                 />
-                <ActionCard
-                  dark={settings.dark}
-                  title="Từ khó"
-                  value={`${difficultWords.length} từ`}
-                  desc="Tập trung vào từ hay sai."
-                  onClick={() => {
-                    setSetting("source", "difficult");
-                    setTab("study");
-                  }}
-                />
               </div>
             </Card>
 
-            <Card title="Tiến độ hôm nay" dark={settings.dark}>
-              <Metric label="Lượt làm bài" value={todayLogs.length} dark={settings.dark} />
-              <Metric label="Độ chính xác" value={`${todayAccuracy}%`} dark={settings.dark} />
-              <Metric label="Đã thuộc" value={masteredCount} dark={settings.dark} />
-              <Metric label="Chưa thuộc" value={unmasteredWords.length} dark={settings.dark} />
+            <Card title="Ngày đang chọn" dark={settings.dark}>
+              <Metric label="Loại học" value={settings.studyKind === "word" ? "Từ" : "Câu"} dark={settings.dark} />
+              <Metric label="Ngày" value={settings.day} dark={settings.dark} />
+              <Metric label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
+              <Metric label="Chưa thuộc" value={currentDayStats.unmastered} dark={settings.dark} />
             </Card>
 
-            <Card title="Quick actions" dark={settings.dark}>
-              <div style={styles.stackGap}>
-                <button style={styles.primaryBtn} onClick={() => setTab("library")}>
-                  <Plus size={16} /> Thêm từ mới
-                </button>
-                <button style={styles.secondaryBtn} onClick={addSampleDay}>
-                  <Star size={16} /> Tạo sample Day
+            <Card title="Dữ liệu" dark={settings.dark}>
+              <div style={styles.stack}>
+                <button style={styles.primaryBtn} onClick={() => fileRef.current?.click()}>
+                  <Upload size={16} /> Import JSON
                 </button>
                 <button style={styles.secondaryBtn} onClick={exportJson}>
                   <Download size={16} /> Export JSON
                 </button>
-                <button
-                  style={styles.secondaryBtn}
-                  onClick={() => fileRef.current?.click()}
-                >
-                  <Upload size={16} /> Import JSON
-                </button>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="application/json"
-                  style={{ display: "none" }}
-                  onChange={(e) => importJson(e.target.files?.[0])}
-                />
-              </div>
-            </Card>
-
-            <Card title="Từ khó nhất" dark={settings.dark}>
-              <div style={styles.stackGap}>
-                {difficultWords.length === 0 && (
-                  <div style={styles.muted}>Chưa có từ khó. Khi bạn sai, app sẽ tự gom vào đây.</div>
-                )}
-                {difficultWords.slice(0, 8).map((w) => (
-                  <div key={w.id} style={styles.listItem}>
-                    <div>
-                      <div style={styles.wordTitle}>{w.en}</div>
-                      <div style={styles.muted}>{w.vi}</div>
-                    </div>
-                    <div style={styles.rightMini}>Sai {w.learning?.wrong || 0} lần</div>
-                  </div>
-                ))}
               </div>
             </Card>
           </div>
         )}
 
         {tab === "study" && (
-          <div style={styles.stackGapLg}>
+          <div style={styles.stackLarge}>
             <Card title="Cấu hình phiên học" dark={settings.dark}>
               <div style={styles.filterGrid}>
                 <SelectLike
-                  label="Chế độ học"
-                  value={settings.mode}
-                  onChange={(v) => setSetting("mode", v)}
-                  options={["typing_word", "typing_sentence", "flashcard", "listening", "quiz"]}
+                  label="Loại học"
+                  value={settings.studyKind}
+                  onChange={(v) => setSetting("studyKind", v)}
+                  options={["word", "sentence"]}
+                  dark={settings.dark}
+                />
+                <SelectLike
+                  label="Ngày học"
+                  value={settings.day}
+                  onChange={(v) => setSetting("day", v)}
+                  options={allDays.length ? allDays : ["1"]}
                   dark={settings.dark}
                 />
                 <SelectLike
                   label="Nguồn học"
                   value={settings.source}
                   onChange={(v) => setSetting("source", v)}
-                  options={["unmastered", "all", "due", "difficult", "day"]}
+                  options={["all", "unmastered"]}
                   dark={settings.dark}
                 />
-                <SelectLike
-                  label="Lọc theo ngày"
-                  value={settings.dayFilter}
-                  onChange={(v) => setSetting("dayFilter", v)}
-                  options={["all", ...allDays]}
-                  dark={settings.dark}
-                />
-                <Field label="Số thẻ mỗi phiên" dark={settings.dark}>
-                  <input
-                    type="number"
-                    min={5}
-                    max={100}
-                    value={settings.cardsPerSession}
-                    onChange={(e) =>
-                      setSetting("cardsPerSession", Number(e.target.value || 30))
-                    }
-                    style={styles.input}
-                  />
-                </Field>
                 <label style={styles.checkboxRow}>
                   <input
                     type="checkbox"
-                    checked={!!settings.randomMode}
+                    checked={settings.randomMode}
                     onChange={(e) => setSetting("randomMode", e.target.checked)}
                   />
                   <span>Học ngẫu nhiên</span>
@@ -978,378 +754,153 @@ export default function App() {
               </div>
             </Card>
 
-            {!currentWord ? (
+            {currentSessionItems.length === 0 ? (
               <Card title="Phiên học" dark={settings.dark}>
-                <div style={styles.empty}>
-                  Không có từ trong phiên học này. Hãy đổi source hoặc thêm từ trong Library.
+                <div style={styles.empty}>Không có dữ liệu để học ở bộ lọc này.</div>
+              </Card>
+            ) : sessionFinished ? (
+              <Card title="Kết thúc lượt học" dark={settings.dark}>
+                <div style={styles.finishBox}>
+                  <div style={styles.finishTitle}>Hoàn thành lượt học</div>
+                  <div style={styles.finishStatsGrid}>
+                    <FinishStat label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
+                    <FinishStat label="Chưa thuộc" value={currentDayStats.unmastered} dark={settings.dark} />
+                    <FinishStat label="Tổng" value={currentDayStats.total} dark={settings.dark} />
+                  </div>
+
+                  <div style={styles.finishActions}>
+                    <button
+                      style={styles.primaryBtn}
+                      onClick={studyNextDay}
+                      disabled={!nextDay}
+                    >
+                      Học ngày tiếp theo
+                    </button>
+                    <button style={styles.secondaryBtn} onClick={() => replayCurrentMode("all")}>
+                      Học lại ngày hiện tại
+                    </button>
+                    <button style={styles.secondaryBtn} onClick={() => replayCurrentMode("all")}>
+                      Học lại tất cả
+                    </button>
+                    <button style={styles.secondaryBtn} onClick={() => replayCurrentMode("unmastered")}>
+                      Học lại chưa thuộc
+                    </button>
+                  </div>
+
+                  {!nextDay && (
+                    <div style={styles.helpText}>Hiện chưa có ngày tiếp theo trong dữ liệu.</div>
+                  )}
                 </div>
               </Card>
             ) : (
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={currentWord.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  key={currentItem.id}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
+                  exit={{ opacity: 0, y: -10 }}
                 >
-                  <Card
-                    title={`Chế độ học: ${modeText(settings.mode)}`}
-                    dark={settings.dark}
-                  >
+                  <Card title={settings.studyKind === "word" ? "Học từ theo ngày" : "Học câu theo ngày"} dark={settings.dark}>
                     <div style={styles.studyTop}>
-                      <div style={styles.badges}>
-                        <Badge dark={settings.dark}>Day {currentWord.day}</Badge>
-                        <Badge dark={settings.dark}>
-                          {currentWord.type || "Unknown type"}
-                        </Badge>
-                        <Badge dark={settings.dark}>
-                          Mastery {currentWord.learning?.mastery || 0}%
-                        </Badge>
+                      <div style={styles.badgeRow}>
+                        <Badge dark={settings.dark}>Ngày {currentItem.day}</Badge>
+                        <Badge dark={settings.dark}>{currentItem.kind === "word" ? "Từ" : "Câu"}</Badge>
+                        <Badge dark={settings.dark}>{currentItem.learning?.mastered ? "Đã thuộc" : "Chưa thuộc"}</Badge>
                       </div>
-                      <div style={styles.muted}>
-                        Thẻ {currentIndex + 1} / {sessionWords.length}
-                      </div>
+                      <div style={styles.muted}>Mục {sessionIndex + 1} / {currentSessionItems.length}</div>
                     </div>
 
-                    {settings.mode === "typing_word" && (
-                      <div style={styles.studyGrid}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Gợi ý nghĩa</div>
-                          <div style={styles.promptTitle}>{currentWord.vi}</div>
-                          <div style={styles.muted}>
-                            Nhập đúng từ tiếng Anh rồi nhấn Enter. Nếu đúng, app tự
-                            chuyển sang từ tiếp theo. Nếu quên, bạn có thể bấm hiện từ tiếng Anh.
-                          </div>
-                          {currentWord.exampleVi && (
-                            <div style={styles.exampleText}>
-                              Ví dụ tiếng Việt: {currentWord.exampleVi}
-                            </div>
-                          )}
-                        </div>
-
-                        <div style={styles.stackGap}>
-                          <input
-                            autoFocus
-                            ref={typingRef}
-                            value={typed}
-                            onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitTypingWord()}
-                            placeholder="Nhập từ tiếng Anh..."
-                            style={{ ...styles.input, height: 48, fontSize: 18 }}
-                          />
-
-                          <div style={styles.btnRow}>
-                            <button style={styles.primaryBtn} onClick={submitTypingWord}>
-                              Kiểm tra
-                            </button>
-                            <button style={styles.secondaryBtn} onClick={markCurrentWordAsMastered}>
-                              Đã thuộc
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintWord((prev) => !prev)}
-                            >
-                              {showHintWord ? "Ẩn từ tiếng Anh" : "Hiện từ tiếng Anh"}
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintSentence((prev) => !prev)}
-                            >
-                              {showHintSentence ? "Ẩn câu" : "Hiện câu"}
-                            </button>
-                          </div>
-
-                          {feedback && (
-                            <div
-                              style={{
-                                ...styles.feedback,
-                                background: feedback.ok ? "#dcfce7" : "#fee2e2",
-                                color: feedback.ok ? "#166534" : "#991b1b",
-                              }}
-                            >
-                              {feedback.message
-                                ? feedback.message
-                                : feedback.ok
-                                ? `Đúng. Từ chính xác là: ${feedback.answer}`
-                                : `Sai. Hãy nhập lại cho đúng.`}
-                            </div>
-                          )}
-
-                          {showHintWord && (
-                            <div style={styles.exampleText}>
-                              Từ tiếng Anh: <strong>{currentWord.en}</strong>
-                            </div>
-                          )}
-
-                          {showHintSentence && (
-                            <div style={styles.exampleText}>
-                              Câu tiếng Anh: <strong>{currentWord.exampleEn || currentWord.en}</strong>
-                            </div>
-                          )}
+                    <div style={styles.studyGrid}>
+                      <div style={styles.promptBox}>
+                        <div style={styles.promptLabel}>Nghĩa tiếng Việt</div>
+                        <div style={styles.promptText}>{currentItem.vi}</div>
+                        {currentItem.note ? <div style={styles.helpText}>{currentItem.note}</div> : null}
+                        <div style={styles.helpText}>
+                          Nhập đúng {settings.studyKind === "word" ? "từ tiếng Anh" : "câu tiếng Anh"}. Nếu quên, bấm hiện đáp án.
                         </div>
                       </div>
-                    )}
 
-                    {settings.mode === "typing_sentence" && (
-                      <div style={styles.studyGrid}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Dịch câu sang tiếng Anh</div>
-                          <div style={styles.promptTitle}>
-                            {currentWord.exampleVi || currentWord.vi}
-                          </div>
-                          <div style={styles.muted}>
-                            Nhập đúng cả câu tiếng Anh rồi nhấn Enter. Đúng thì app
-                            tự chuyển câu khác. Sai thì phải nhập lại đến khi đúng.
-                          </div>
-                        </div>
+                      <div style={styles.stack}>
+                        <input
+                          ref={inputRef}
+                          autoFocus
+                          value={typed}
+                          onChange={(e) => setTyped(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && submitAnswer()}
+                          placeholder={settings.studyKind === "word" ? "Nhập từ tiếng Anh..." : "Nhập câu tiếng Anh..."}
+                          style={{ ...styles.input, minHeight: 50, fontSize: 18 }}
+                        />
 
-                        <div style={styles.stackGap}>
-                          <input
-                            autoFocus
-                            ref={typingRef}
-                            value={typed}
-                            onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitTypingSentence()}
-                            placeholder="Nhập lại cả câu tiếng Anh..."
-                            style={{ ...styles.input, height: 48, fontSize: 18 }}
-                          />
-
-                          <div style={styles.btnRow}>
-                            <button
-                              style={styles.primaryBtn}
-                              onClick={submitTypingSentence}
-                            >
-                              Kiểm tra
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintWord((prev) => !prev)}
-                            >
-                              {showHintWord ? "Ẩn từ" : "Hiện từ"}
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintSentence((prev) => !prev)}
-                            >
-                              {showHintSentence ? "Ẩn câu" : "Hiện câu"}
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() =>
-                                speak(currentWord.exampleEn || currentWord.en, settings.voiceLang)
-                              }
-                            >
-                              <Volume2 size={16} /> Nghe câu
-                            </button>
-                          </div>
-
-                          {feedback && (
-                            <div
-                              style={{
-                                ...styles.feedback,
-                                background: feedback.ok ? "#dcfce7" : "#fee2e2",
-                                color: feedback.ok ? "#166534" : "#991b1b",
-                              }}
-                            >
-                              {feedback.ok
-                                ? `Đúng. Câu chuẩn là: ${feedback.answer}`
-                                : `Sai. Hãy nhập lại cho đúng.`}
-                            </div>
-                          )}
-
-                          {showHintWord && (
-                            <div style={styles.exampleText}>
-                              Từ mục tiêu: <strong>{currentWord.en}</strong>
-                            </div>
-                          )}
-
-                          {showHintSentence && (
-                            <div style={styles.exampleText}>
-                              Câu đúng: <strong>{currentWord.exampleEn || currentWord.en}</strong>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {settings.mode === "flashcard" && (
-                      <div style={styles.stackGapLg}>
-                        <button
-                          style={styles.flashcard}
-                          onClick={() => setFlipped(!flipped)}
-                        >
-                          {!flipped ? (
-                            <>
-                              <div style={styles.labelLight}>Tap to reveal</div>
-                              <div style={styles.flashWord}>{currentWord.en}</div>
-                              <div>{currentWord.phonetic}</div>
-                            </>
-                          ) : (
-                            <>
-                              <div style={styles.labelLight}>Meaning + usage</div>
-                              <div style={styles.flashMeaning}>{currentWord.vi}</div>
-                              <div>{currentWord.exampleEn}</div>
-                              <div style={{ opacity: 0.88 }}>{currentWord.exampleVi}</div>
-                            </>
-                          )}
-                        </button>
-
-                        <div style={styles.btnRowWrap}>
-                          <button
-                            style={styles.secondaryBtn}
-                            onClick={() => speak(currentWord.en, settings.voiceLang)}
-                          >
-                            <Headphones size={16} /> Hear word
+                        <div style={styles.buttonRow}>
+                          <button style={styles.primaryBtn} onClick={submitAnswer}>
+                            <CheckCircle2 size={16} /> Kiểm tra
                           </button>
-                          <ReviewRow
-                            onPick={(grade) => reviewWord(currentWord, grade, "flashcard")}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {settings.mode === "listening" && (
-                      <div style={styles.studyGrid}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Nghe và đoán</div>
-                          <div style={styles.exampleText}>
-                            Nhấn Play audio để nghe từ. Sau đó gõ lại và Enter để kiểm tra.
-                          </div>
-                          <div style={styles.btnRowWrap}>
-                            <button
-                              style={styles.primaryBtn}
-                              onClick={() => speak(currentWord.en, settings.voiceLang)}
-                            >
-                              <Volume2 size={16} /> Play audio
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => speak(currentWord.exampleEn, settings.voiceLang)}
-                            >
-                              <Headphones size={16} /> Hear sentence
-                            </button>
-                          </div>
-                        </div>
-
-                        <div style={styles.stackGap}>
-                          <input
-                            autoFocus
-                            ref={typingRef}
-                            value={typed}
-                            onChange={(e) => setTyped(e.target.value)}
-                            onKeyDown={(e) => e.key === "Enter" && submitListening()}
-                            placeholder="Type what you heard..."
-                            style={{ ...styles.input, height: 48, fontSize: 18 }}
-                          />
-
-                          <div style={styles.btnRow}>
-                            <button style={styles.primaryBtn} onClick={submitListening}>
-                              Check
-                            </button>
-                            <button
-                              style={styles.secondaryBtn}
-                              onClick={() => setShowHintWord((prev) => !prev)}
-                            >
-                              {showHintWord ? "Ẩn từ" : "Hiện từ"}
-                            </button>
-                          </div>
-
-                          {feedback && (
-                            <div
-                              style={{
-                                ...styles.feedback,
-                                background: feedback.ok ? "#dcfce7" : "#fee2e2",
-                                color: feedback.ok ? "#166534" : "#991b1b",
-                              }}
-                            >
-                              {feedback.ok
-                                ? `Đúng. ${feedback.answer}`
-                                : `Sai. Hãy nhập lại cho đúng.`}
-                            </div>
-                          )}
-
-                          {showHintWord && (
-                            <div style={styles.exampleText}>
-                              Từ đúng: <strong>{currentWord.en}</strong>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {settings.mode === "quiz" && (
-                      <div style={styles.stackGapLg}>
-                        <div style={styles.promptBox}>
-                          <div style={styles.label}>Choose the correct meaning</div>
-                          <div style={styles.flashWordDark}>{currentWord.en}</div>
-                          <div style={styles.exampleText}>{currentWord.phonetic}</div>
-                        </div>
-
-                        <div style={styles.quizGrid}>
-                          {quizOptions(currentWord).map((option) => (
-                            <button
-                              key={option}
-                              onClick={() => setQuizAnswer(option)}
-                              style={{
-                                ...styles.quizOption,
-                                ...(quizAnswer === option ? styles.quizOptionActive : {}),
-                              }}
-                            >
-                              {option}
-                            </button>
-                          ))}
-                        </div>
-
-                        <div style={styles.btnRowWrap}>
-                          <button
-                            style={styles.primaryBtn}
-                            onClick={() => {
-                              if (!quizAnswer) return;
-                              const ok = quizAnswer === currentWord.vi;
-                              setFeedback({ ok, answer: currentWord.vi, vi: currentWord.vi });
-
-                              if (ok) {
-                                reviewWord(currentWord, "good", "quiz");
-                                setTimeout(() => {
-                                  nextCard();
-                                }, 450);
-                              } else {
-                                reviewWord(currentWord, "again", "quiz");
-                              }
-                            }}
-                          >
-                            Submit quiz
+                          <button style={styles.secondaryBtn} onClick={markMastered}>
+                            <Star size={16} /> Đánh dấu đã thuộc
+                          </button>
+                          <button style={styles.secondaryBtn} onClick={() => setShowAnswer((prev) => !prev)}>
+                            {showAnswer ? "Ẩn đáp án" : "Hiện đáp án"}
+                          </button>
+                          <button style={styles.secondaryBtn} onClick={() => speak(currentItem.en, settings.voiceLang)}>
+                            <Volume2 size={16} /> Nghe
                           </button>
                         </div>
 
-                        {feedback && (
+                        {answerState && (
                           <div
                             style={{
                               ...styles.feedback,
-                              background: feedback.ok ? "#dcfce7" : "#fee2e2",
-                              color: feedback.ok ? "#166534" : "#991b1b",
+                              background: answerState.ok ? "#dcfce7" : "#fee2e2",
+                              color: answerState.ok ? "#166534" : "#991b1b",
                             }}
                           >
-                            {feedback.ok
-                              ? `Đúng. Nghĩa chính xác là: ${feedback.answer}`
-                              : `Sai. Hãy chọn lại cho đúng.`}
+                            {answerState.text}
+                          </div>
+                        )}
+
+                        {showAnswer && (
+                          <div style={styles.answerBox}>
+                            <div style={styles.answerLabel}>Đáp án</div>
+                            <div style={styles.answerText}>{currentItem.en}</div>
                           </div>
                         )}
                       </div>
-                    )}
+                    </div>
 
                     <div style={styles.studyFooter}>
-                      <div style={styles.btnRowWrap}>
-                        <button style={styles.secondaryBtn} onClick={prevCard}>
-                          <ChevronLeft size={16} /> Prev
-                        </button>
-                        <button style={styles.secondaryBtn} onClick={nextCard}>
-                          Next <ChevronRight size={16} />
-                        </button>
+                      <button
+                        style={styles.secondaryBtn}
+                        onClick={() => {
+                          if (sessionIndex === 0) return;
+                          setSessionIndex((prev) => prev - 1);
+                          setTyped("");
+                          setAnswerState(null);
+                          setShowAnswer(false);
+                        }}
+                      >
+                        <ChevronLeft size={16} /> Trước
+                      </button>
+
+                      <div style={styles.footerStats}>
+                        <span>Đã thuộc: {currentDayStats.mastered}</span>
+                        <span>Chưa thuộc: {currentDayStats.unmastered}</span>
                       </div>
-                      <div style={styles.muted}>
-                        Lần ôn tiếp theo: {currentWord.learning?.nextReview || today()}
-                      </div>
+
+                      <button
+                        style={styles.secondaryBtn}
+                        onClick={() => {
+                          if (sessionIndex >= currentSessionItems.length - 1) {
+                            setSessionFinished(true);
+                            return;
+                          }
+                          setSessionIndex((prev) => prev + 1);
+                          setTyped("");
+                          setAnswerState(null);
+                          setShowAnswer(false);
+                        }}
+                      >
+                        Sau <ChevronRight size={16} />
+                      </button>
                     </div>
                   </Card>
                 </motion.div>
@@ -1360,318 +911,160 @@ export default function App() {
 
         {tab === "library" && (
           <div style={styles.libraryGrid}>
-            <Card title="Add / Edit word" dark={settings.dark}>
+            <Card title="Thêm / sửa dữ liệu" dark={settings.dark}>
               <div style={styles.formGrid}>
-                <Field label="Day" dark={settings.dark}>
+                <Field label="Ngày" dark={settings.dark}>
                   <input
                     type="number"
                     value={form.day}
-                    onChange={(e) => setForm((p) => ({ ...p, day: e.target.value }))}
+                    onChange={(e) => setForm((prev) => ({ ...prev, day: e.target.value }))}
                     style={styles.input}
                   />
                 </Field>
-                <Field label="English word" dark={settings.dark}>
-                  <input
-                    value={form.en}
-                    onChange={(e) => setForm((p) => ({ ...p, en: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field label="Meaning VI" dark={settings.dark}>
-                  <input
-                    value={form.vi}
-                    onChange={(e) => setForm((p) => ({ ...p, vi: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field label="Phonetic" dark={settings.dark}>
-                  <input
-                    value={form.phonetic}
-                    onChange={(e) => setForm((p) => ({ ...p, phonetic: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field label="Type" dark={settings.dark}>
-                  <input
-                    value={form.type}
-                    onChange={(e) => setForm((p) => ({ ...p, type: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field label="Difficulty (1-5)" dark={settings.dark}>
-                  <input
-                    type="number"
-                    min={1}
-                    max={5}
-                    value={form.difficulty}
-                    onChange={(e) => setForm((p) => ({ ...p, difficulty: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field label="Example EN" dark={settings.dark}>
-                  <textarea
-                    value={form.exampleEn}
-                    onChange={(e) => setForm((p) => ({ ...p, exampleEn: e.target.value }))}
-                    style={styles.textarea}
-                  />
-                </Field>
-                <Field label="Example VI" dark={settings.dark}>
-                  <textarea
-                    value={form.exampleVi}
-                    onChange={(e) => setForm((p) => ({ ...p, exampleVi: e.target.value }))}
-                    style={styles.textarea}
-                  />
-                </Field>
-                <Field label="Tags (phân tách bằng dấu phẩy)" dark={settings.dark}>
-                  <input
-                    value={form.tags}
-                    onChange={(e) => setForm((p) => ({ ...p, tags: e.target.value }))}
-                    style={styles.input}
-                  />
-                </Field>
-                <Field
-                  label="Collocations (phân tách bằng dấu phẩy)"
+
+                <SelectLike
+                  label="Loại dữ liệu"
+                  value={form.kind}
+                  onChange={(v) => setForm((prev) => ({ ...prev, kind: v }))}
+                  options={["word", "sentence"]}
                   dark={settings.dark}
-                >
-                  <input
-                    value={form.collocations}
-                    onChange={(e) => setForm((p) => ({ ...p, collocations: e.target.value }))}
-                    style={styles.input}
+                />
+
+                <Field label={form.kind === "word" ? "Từ / câu tiếng Anh" : "Câu tiếng Anh"} dark={settings.dark}>
+                  <textarea
+                    value={form.en}
+                    onChange={(e) => setForm((prev) => ({ ...prev, en: e.target.value }))}
+                    style={styles.textarea}
                   />
                 </Field>
-                <Field label="Notes" dark={settings.dark}>
+
+                <Field label="Nghĩa / bản dịch tiếng Việt" dark={settings.dark}>
                   <textarea
-                    value={form.notes}
-                    onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))}
+                    value={form.vi}
+                    onChange={(e) => setForm((prev) => ({ ...prev, vi: e.target.value }))}
+                    style={styles.textarea}
+                  />
+                </Field>
+
+                <Field label="Ghi chú" dark={settings.dark}>
+                  <textarea
+                    value={form.note}
+                    onChange={(e) => setForm((prev) => ({ ...prev, note: e.target.value }))}
                     style={styles.textarea}
                   />
                 </Field>
               </div>
 
-              <div style={styles.btnRowWrap}>
-                <button style={styles.primaryBtn} onClick={saveWord}>
-                  <CheckCircle2 size={16} /> {form.id ? "Update word" : "Add word"}
+              <div style={styles.buttonRow}>
+                <button style={styles.primaryBtn} onClick={saveFormItem}>
+                  {form.id ? "Cập nhật" : "Thêm mới"}
                 </button>
                 <button
                   style={styles.secondaryBtn}
-                  onClick={() => setForm(emptyForm)}
+                  onClick={() =>
+                    setForm({
+                      id: null,
+                      day: Number(settings.day || 1),
+                      kind: settings.studyKind,
+                      en: "",
+                      vi: "",
+                      note: "",
+                    })
+                  }
                 >
-                  <RotateCcw size={16} /> Clear form
+                  <RotateCcw size={16} /> Làm mới form
                 </button>
               </div>
             </Card>
 
-            <Card title="Word library" dark={settings.dark}>
-              <div style={styles.filterGrid}>
-                <Field label="Search" dark={settings.dark}>
-                  <input
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="word, meaning, example..."
-                    style={styles.input}
-                  />
-                </Field>
-                <SelectLike
-                  label="Tag"
-                  value={tagFilter}
-                  onChange={setTagFilter}
-                  options={["all", ...allTags]}
-                  dark={settings.dark}
+            <Card title="Thư viện dữ liệu" dark={settings.dark}>
+              <Field label="Tìm kiếm" dark={settings.dark}>
+                <input
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  placeholder="Tìm theo tiếng Anh, tiếng Việt, ghi chú..."
+                  style={styles.input}
                 />
-                <SelectLike
-                  label="Day"
-                  value={dayLibraryFilter}
-                  onChange={setDayLibraryFilter}
-                  options={["all", ...allDays]}
-                  dark={settings.dark}
-                />
-              </div>
+              </Field>
 
-              <div style={styles.stackGap}>
-                {libraryWords.length === 0 && (
-                  <div style={styles.empty}>Không có từ phù hợp với bộ lọc.</div>
+              <div style={styles.stack}>
+                {filteredLibrary.length === 0 ? (
+                  <div style={styles.empty}>Không có dữ liệu phù hợp.</div>
+                ) : (
+                  filteredLibrary.map((item) => (
+                    <div key={item.id} style={styles.itemCard}>
+                      <div style={styles.itemHead}>
+                        <div>
+                          <div style={styles.itemTitle}>{item.en}</div>
+                          <div style={styles.muted}>{item.vi}</div>
+                        </div>
+                        <div style={styles.buttonRow}>
+                          <button style={styles.iconBtn} onClick={() => speak(item.en, settings.voiceLang)}>
+                            <Volume2 size={16} />
+                          </button>
+                          <button style={styles.secondaryBtn} onClick={() => editItem(item)}>Sửa</button>
+                          <button style={styles.secondaryBtn} onClick={() => deleteItem(item.id)}>Xóa</button>
+                        </div>
+                      </div>
+
+                      <div style={styles.badgeRow}>
+                        <Badge dark={settings.dark}>Ngày {item.day}</Badge>
+                        <Badge dark={settings.dark}>{item.kind === "word" ? "Từ" : "Câu"}</Badge>
+                        <Badge dark={settings.dark}>{item.learning?.mastered ? "Đã thuộc" : "Chưa thuộc"}</Badge>
+                      </div>
+
+                      {item.note ? <div style={styles.noteBox}>{item.note}</div> : null}
+                    </div>
+                  ))
                 )}
-
-                {libraryWords.map((w) => (
-                  <div key={w.id} style={styles.wordCard}>
-                    <div style={styles.wordHead}>
-                      <div>
-                        <div style={styles.wordTitle}>{w.en}</div>
-                        <div style={styles.muted}>{w.vi}</div>
-                      </div>
-
-                      <div style={styles.btnRowWrap}>
-                        <button
-                          style={styles.iconBtn}
-                          onClick={() => speak(w.en, settings.voiceLang)}
-                        >
-                          <Volume2 size={16} />
-                        </button>
-                        <button style={styles.iconBtn} onClick={() => editWord(w)}>
-                          <Pencil size={16} />
-                        </button>
-                        <button style={styles.iconBtn} onClick={() => deleteWord(w.id)}>
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div style={styles.badges}>
-                      <Badge dark={settings.dark}>Day {w.day}</Badge>
-                      <Badge dark={settings.dark}>{w.type || "Unknown"}</Badge>
-                      <Badge dark={settings.dark}>
-                        Mastery {w.learning?.mastery || 0}%
-                      </Badge>
-                    </div>
-
-                    {w.exampleEn && (
-                      <div style={styles.exampleBox}>
-                        {w.exampleEn}
-                        {w.exampleVi ? ` — ${w.exampleVi}` : ""}
-                      </div>
-                    )}
-
-                    <div style={styles.metaGrid}>
-                      <div>Correct: {w.learning?.correct || 0}</div>
-                      <div>Wrong: {w.learning?.wrong || 0}</div>
-                      <div>Next review: {w.learning?.nextReview || today()}</div>
-                      <div>Tags: {(w.tags || []).join(", ") || "-"}</div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </Card>
           </div>
         )}
 
         {tab === "stats" && (
-          <div style={styles.sectionGrid}>
-            <Card title="Accuracy 7 ngày gần nhất" dark={settings.dark}>
-              <div style={styles.stackGap}>
-                {recentDays.map((d) => {
-                  const dayLogs = logs.filter((x) => x.date === d);
-                  const total = dayLogs.length;
-                  const correct = dayLogs.filter((x) => x.correct).length;
-                  const pct = total ? Math.round((correct / total) * 100) : 0;
-                  return (
-                    <div key={d}>
-                      <div style={styles.lineHead}>
-                        <span>{d}</span>
-                        <span>
-                          {correct}/{total} · {pct}%
-                        </span>
-                      </div>
-                      <div style={styles.progressOuter}>
-                        <div style={{ ...styles.progressInner, width: `${pct}%` }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Card>
-
-            <Card title="Tổng quan" dark={settings.dark}>
-              <Metric label="Today attempts" value={todayLogs.length} dark={settings.dark} />
-              <Metric label="Today accuracy" value={`${todayAccuracy}%`} dark={settings.dark} />
-              <Metric label="Chưa thuộc" value={unmasteredWords.length} dark={settings.dark} />
+          <div style={styles.grid}>
+            <Card title="Thống kê từ" dark={settings.dark}>
               <Metric
-                label="Difficult words"
-                value={difficultWords.length}
+                label="Tổng từ"
+                value={items.filter((item) => item.kind === "word").length}
                 dark={settings.dark}
               />
-              <Metric label="Days available" value={allDays.length} dark={settings.dark} />
+              <Metric
+                label="Từ đã thuộc"
+                value={items.filter((item) => item.kind === "word" && item.learning?.mastered).length}
+                dark={settings.dark}
+              />
+              <Metric
+                label="Từ chưa thuộc"
+                value={items.filter((item) => item.kind === "word" && !item.learning?.mastered).length}
+                dark={settings.dark}
+              />
             </Card>
 
-            <Card title="Frequently missed words" dark={settings.dark}>
-              <div style={styles.stackGap}>
-                {difficultWords.length === 0 && (
-                  <div style={styles.empty}>Chưa có từ khó.</div>
-                )}
-                {difficultWords.slice(0, 12).map((w) => (
-                  <div key={w.id} style={styles.listItem}>
-                    <div>
-                      <div style={styles.wordTitle}>{w.en}</div>
-                      <div style={styles.muted}>{w.vi}</div>
-                    </div>
-                    <div style={styles.rightMini}>Wrong: {w.learning?.wrong || 0}</div>
-                  </div>
-                ))}
-              </div>
+            <Card title="Thống kê câu" dark={settings.dark}>
+              <Metric
+                label="Tổng câu"
+                value={items.filter((item) => item.kind === "sentence").length}
+                dark={settings.dark}
+              />
+              <Metric
+                label="Câu đã thuộc"
+                value={items.filter((item) => item.kind === "sentence" && item.learning?.mastered).length}
+                dark={settings.dark}
+              />
+              <Metric
+                label="Câu chưa thuộc"
+                value={items.filter((item) => item.kind === "sentence" && !item.learning?.mastered).length}
+                dark={settings.dark}
+              />
             </Card>
-          </div>
-        )}
 
-        {tab === "settings" && (
-          <div style={styles.sectionGrid}>
-            <Card title="Cài đặt" dark={settings.dark}>
-              <div style={styles.stackGap}>
-                <SelectLike
-                  label="Voice"
-                  value={settings.voiceLang}
-                  onChange={(v) => setSetting("voiceLang", v)}
-                  options={["en-US", "en-GB"]}
-                  dark={settings.dark}
-                />
-                <label style={styles.checkboxRow}>
-                  <input
-                    type="checkbox"
-                    checked={settings.autoSpeak}
-                    onChange={(e) => setSetting("autoSpeak", e.target.checked)}
-                  />
-                  <span>Tự phát âm khi sang card mới ở Flashcard / Listening</span>
-                </label>
-                <label style={styles.checkboxRow}>
-                  <input
-                    type="checkbox"
-                    checked={!!settings.randomMode}
-                    onChange={(e) => setSetting("randomMode", e.target.checked)}
-                  />
-                  <span>Học ngẫu nhiên mặc định</span>
-                </label>
-
-                <button style={styles.secondaryBtn} onClick={exportJson}>
-                  <Download size={16} /> Export JSON
-                </button>
-
-                <button
-                  style={styles.secondaryBtn}
-                  onClick={() => fileRef.current?.click()}
-                >
-                  <Upload size={16} /> Import JSON
-                </button>
-
-                <button
-                  style={{ ...styles.secondaryBtn, borderColor: "#ef4444", color: "#ef4444" }}
-                  onClick={resetLearning}
-                >
-                  <XCircle size={16} /> Reset learning progress
-                </button>
-
-                <button
-                  style={styles.secondaryBtn}
-                  onClick={resetUnmasteredWords}
-                >
-                  🔄 Reset từ chưa thuộc
-                </button>
-
-                <button
-                  style={styles.secondaryBtn}
-                  onClick={() => {
-                    if (settings.dayFilter === "all") {
-                      alert("Hãy chọn Day ở phần Study trước");
-                      return;
-                    }
-                    resetUnmasteredByDay(settings.dayFilter);
-                  }}
-                >
-                  🔄 Reset từ chưa thuộc của Day đang chọn
-                </button>
-
-                <div style={styles.helpBox}>
-                  Nếu sau này bạn muốn dùng trên nhiều thiết bị và tự đồng bộ dữ liệu,
-                  bước tiếp theo là nối app này với Supabase hoặc Firebase.
-                </div>
-              </div>
+            <Card title="Theo ngày hiện tại" dark={settings.dark}>
+              <Metric label="Ngày" value={settings.day} dark={settings.dark} />
+              <Metric label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
+              <Metric label="Chưa thuộc" value={currentDayStats.unmastered} dark={settings.dark} />
+              <Metric label="Tổng" value={currentDayStats.total} dark={settings.dark} />
             </Card>
           </div>
         )}
@@ -1685,7 +1078,7 @@ function Card({ title, children, dark }) {
   return (
     <div style={styles.card}>
       <div style={styles.cardTitle}>{title}</div>
-      <div style={styles.stackGap}>{children}</div>
+      <div style={styles.stack}>{children}</div>
     </div>
   );
 }
@@ -1720,6 +1113,16 @@ function MiniStat({ label, value, dark }) {
   );
 }
 
+function FinishStat({ label, value, dark }) {
+  const styles = getStyles(dark);
+  return (
+    <div style={styles.finishStat}>
+      <div style={styles.muted}>{label}</div>
+      <div style={styles.finishValue}>{value}</div>
+    </div>
+  );
+}
+
 function Badge({ children, dark }) {
   const styles = getStyles(dark);
   return <span style={styles.badge}>{children}</span>;
@@ -1739,74 +1142,24 @@ function ActionCard({ title, value, desc, onClick, dark }) {
 function SelectLike({ label, value, onChange, options, dark }) {
   const styles = getStyles(dark);
   const labelMap = {
-    typing_word: "Nhập từ theo nghĩa",
-    typing_sentence: "Nhập lại câu tiếng Anh",
-    flashcard: "Flashcard",
-    listening: "Nghe và nhập",
-    quiz: "Trắc nghiệm",
-    due: "Từ đến hạn",
+    word: "Học từ",
+    sentence: "Học câu",
     all: "Học tất cả",
-    difficult: "Từ khó",
-    day: "Theo ngày",
-    unmastered: "Từ chưa thuộc",
-    mastered: "Từ đã thuộc",
+    unmastered: "Học chưa thuộc",
   };
 
   return (
     <div style={styles.field}>
       <div style={styles.fieldLabel}>{label}</div>
       <select value={value} onChange={(e) => onChange(e.target.value)} style={styles.input}>
-        {options.map((op) => (
-          <option key={op} value={op}>
-            {labelMap[op] || op}
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {labelMap[option] || option}
           </option>
         ))}
       </select>
     </div>
   );
-}
-
-function ReviewRow({ onPick }) {
-  const btn = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 6,
-    padding: "8px 12px",
-    borderRadius: 12,
-    border: "1px solid #cbd5e1",
-    background: "white",
-    cursor: "pointer",
-  };
-  return (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <button
-        style={{ ...btn, borderColor: "#ef4444", color: "#ef4444" }}
-        onClick={() => onPick("again")}
-      >
-        Again
-      </button>
-      <button style={btn} onClick={() => onPick("hard")}>
-        Hard
-      </button>
-      <button style={btn} onClick={() => onPick("good")}>
-        Good
-      </button>
-      <button style={btn} onClick={() => onPick("easy")}>
-        Easy
-      </button>
-    </div>
-  );
-}
-
-function modeText(mode) {
-  const map = {
-    typing_word: "Nhập từ theo nghĩa",
-    typing_sentence: "Nhập lại câu tiếng Anh",
-    flashcard: "Flashcard",
-    listening: "Nghe và nhập",
-    quiz: "Trắc nghiệm",
-  };
-  return map[mode] || mode;
 }
 
 function getStyles(dark) {
@@ -1837,29 +1190,33 @@ function getStyles(dark) {
       gap: 16,
       flexWrap: "wrap",
     },
-    brandRow: {
+    brandWrap: {
       display: "flex",
-      alignItems: "flex-start",
       gap: 14,
+      alignItems: "flex-start",
     },
     brandIcon: {
-      width: 44,
-      height: 44,
+      width: 46,
+      height: 46,
       borderRadius: 14,
       background: "#2563eb",
       color: "white",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      flexShrink: 0,
     },
-    title: { fontSize: 28, fontWeight: 700 },
+    title: {
+      fontSize: 28,
+      fontWeight: 800,
+    },
     subtitle: {
       marginTop: 6,
       color: muted,
-      maxWidth: 800,
       lineHeight: 1.5,
+      maxWidth: 820,
     },
-    headerStats: {
+    topStats: {
       display: "flex",
       gap: 10,
       flexWrap: "wrap",
@@ -1870,10 +1227,16 @@ function getStyles(dark) {
       background: card,
       borderRadius: 16,
       padding: "10px 14px",
-      minWidth: 90,
+      minWidth: 100,
     },
-    mutedSmall: { fontSize: 12, color: muted },
-    miniValue: { fontSize: 22, fontWeight: 700 },
+    mutedSmall: {
+      fontSize: 12,
+      color: muted,
+    },
+    miniValue: {
+      fontSize: 22,
+      fontWeight: 800,
+    },
     smallBtn: {
       border: `1px solid ${border}`,
       background: card,
@@ -1906,7 +1269,7 @@ function getStyles(dark) {
       color: "white",
       borderColor: "#2563eb",
     },
-    sectionGrid: {
+    grid: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
       gap: 20,
@@ -1925,47 +1288,18 @@ function getStyles(dark) {
     },
     cardTitle: {
       fontSize: 20,
-      fontWeight: 700,
+      fontWeight: 800,
       marginBottom: 16,
     },
-    stackGap: {
+    stack: {
       display: "flex",
       flexDirection: "column",
       gap: 12,
     },
-    stackGapLg: {
+    stackLarge: {
       display: "flex",
       flexDirection: "column",
       gap: 20,
-    },
-    actionGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-      gap: 12,
-    },
-    actionCard: {
-      border: `1px solid ${border}`,
-      background: dark ? "#0f172a" : "#f8fafc",
-      color: text,
-      borderRadius: 20,
-      padding: 18,
-      cursor: "pointer",
-      textAlign: "left",
-    },
-    actionValue: {
-      fontSize: 24,
-      fontWeight: 700,
-      color: "#2563eb",
-    },
-    actionTitle: {
-      fontSize: 16,
-      fontWeight: 700,
-      marginTop: 4,
-      marginBottom: 6,
-    },
-    muted: {
-      color: muted,
-      lineHeight: 1.45,
     },
     field: {
       display: "flex",
@@ -1973,8 +1307,8 @@ function getStyles(dark) {
       gap: 6,
     },
     fieldLabel: {
-      fontWeight: 600,
       fontSize: 14,
+      fontWeight: 700,
     },
     input: {
       width: "100%",
@@ -1988,7 +1322,7 @@ function getStyles(dark) {
     },
     textarea: {
       width: "100%",
-      minHeight: 92,
+      minHeight: 90,
       border: `1px solid ${border}`,
       borderRadius: 14,
       background: card,
@@ -1997,11 +1331,6 @@ function getStyles(dark) {
       outline: "none",
       resize: "vertical",
       boxSizing: "border-box",
-    },
-    formGrid: {
-      display: "grid",
-      gridTemplateColumns: "1fr",
-      gap: 12,
     },
     primaryBtn: {
       display: "inline-flex",
@@ -2031,76 +1360,41 @@ function getStyles(dark) {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      width: 36,
-      height: 36,
+      width: 38,
+      height: 38,
       border: `1px solid ${border}`,
       background: card,
       color: text,
       borderRadius: 12,
       cursor: "pointer",
     },
-    btnRow: {
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap",
-    },
-    btnRowWrap: {
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap",
-      alignItems: "center",
-    },
-    listItem: {
-      border: `1px solid ${border}`,
-      borderRadius: 16,
-      padding: 14,
-      display: "flex",
-      justifyContent: "space-between",
-      gap: 10,
-      alignItems: "center",
-    },
-    wordCard: {
-      border: `1px solid ${border}`,
-      borderRadius: 20,
-      padding: 16,
-      display: "flex",
-      flexDirection: "column",
+    actionGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
       gap: 12,
     },
-    wordHead: {
-      display: "flex",
-      justifyContent: "space-between",
-      gap: 12,
-      alignItems: "flex-start",
-    },
-    wordTitle: { fontSize: 20, fontWeight: 700 },
-    rightMini: { color: muted, whiteSpace: "nowrap" },
-    badges: { display: "flex", gap: 8, flexWrap: "wrap" },
-    badge: {
-      display: "inline-block",
-      padding: "6px 10px",
-      borderRadius: 999,
+    actionCard: {
       border: `1px solid ${border}`,
-      background: card,
-      fontSize: 12,
-    },
-    exampleBox: {
       background: dark ? "#0f172a" : "#f8fafc",
-      borderRadius: 14,
-      padding: 12,
-      lineHeight: 1.5,
+      color: text,
+      borderRadius: 20,
+      padding: 18,
+      cursor: "pointer",
+      textAlign: "left",
     },
-    metaGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
-      gap: 8,
+    actionValue: {
+      fontSize: 24,
+      fontWeight: 800,
+      color: "#2563eb",
+    },
+    actionTitle: {
+      fontWeight: 800,
+      marginTop: 4,
+      marginBottom: 6,
+    },
+    muted: {
       color: muted,
-      fontSize: 14,
-    },
-    filterGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-      gap: 12,
+      lineHeight: 1.45,
     },
     metric: {
       border: `1px solid ${border}`,
@@ -2110,19 +1404,42 @@ function getStyles(dark) {
       justifyContent: "space-between",
       alignItems: "center",
     },
+    filterGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+      gap: 12,
+    },
+    checkboxRow: {
+      display: "flex",
+      gap: 10,
+      alignItems: "center",
+      minHeight: 46,
+    },
     empty: {
       border: `1px dashed ${border}`,
       borderRadius: 16,
-      padding: 24,
+      padding: 22,
       textAlign: "center",
       color: muted,
     },
     studyTop: {
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center",
       gap: 12,
       flexWrap: "wrap",
+      alignItems: "center",
+    },
+    badgeRow: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap",
+    },
+    badge: {
+      border: `1px solid ${border}`,
+      background: card,
+      borderRadius: 999,
+      padding: "6px 10px",
+      fontSize: 12,
     },
     studyGrid: {
       display: "grid",
@@ -2138,56 +1455,49 @@ function getStyles(dark) {
       flexDirection: "column",
       gap: 10,
     },
-    label: {
+    promptLabel: {
+      fontSize: 13,
+      color: muted,
+      fontWeight: 800,
+      textTransform: "uppercase",
+      letterSpacing: 0.5,
+    },
+    promptText: {
+      fontSize: 32,
+      fontWeight: 800,
+      lineHeight: 1.3,
+    },
+    helpText: {
+      color: muted,
+      lineHeight: 1.5,
+    },
+    buttonRow: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap",
+      alignItems: "center",
+    },
+    feedback: {
+      padding: 12,
+      borderRadius: 16,
+      fontWeight: 700,
+    },
+    answerBox: {
+      border: `1px dashed ${border}`,
+      borderRadius: 16,
+      padding: 14,
+      background: dark ? "#0f172a" : "#f8fafc",
+    },
+    answerLabel: {
       fontSize: 13,
       color: muted,
       fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: 0.5,
+      marginBottom: 6,
     },
-    labelLight: {
-      fontSize: 13,
-      color: "rgba(255,255,255,0.85)",
-      fontWeight: 700,
-      textTransform: "uppercase",
-      letterSpacing: 0.5,
-    },
-    promptTitle: { fontSize: 34, fontWeight: 700 },
-    exampleText: { color: muted, lineHeight: 1.5 },
-    feedback: { padding: 12, borderRadius: 16, fontWeight: 600 },
-    flashcard: {
-      border: 0,
-      borderRadius: 28,
-      padding: 28,
-      background: "linear-gradient(135deg,#2563eb,#4f46e5)",
-      color: "white",
-      textAlign: "left",
-      cursor: "pointer",
-      minHeight: 220,
-      display: "flex",
-      flexDirection: "column",
-      gap: 14,
-    },
-    flashWord: { fontSize: 44, fontWeight: 800 },
-    flashWordDark: { fontSize: 40, fontWeight: 800 },
-    flashMeaning: { fontSize: 34, fontWeight: 800 },
-    quizGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-      gap: 12,
-    },
-    quizOption: {
-      border: `1px solid ${border}`,
-      background: card,
-      color: text,
-      borderRadius: 18,
-      padding: 16,
-      cursor: "pointer",
-      textAlign: "left",
-    },
-    quizOptionActive: {
-      borderColor: "#2563eb",
-      background: dark ? "#172554" : "#dbeafe",
+    answerText: {
+      fontSize: 22,
+      fontWeight: 800,
+      wordBreak: "break-word",
     },
     studyFooter: {
       display: "flex",
@@ -2198,33 +1508,72 @@ function getStyles(dark) {
       paddingTop: 10,
       borderTop: `1px solid ${border}`,
     },
-    lineHead: {
+    footerStats: {
       display: "flex",
-      justifyContent: "space-between",
-      marginBottom: 6,
-      fontSize: 14,
+      gap: 16,
+      flexWrap: "wrap",
+      color: muted,
+      fontWeight: 600,
     },
-    progressOuter: {
-      width: "100%",
-      height: 10,
-      background: dark ? "#1e293b" : "#e2e8f0",
-      borderRadius: 999,
-      overflow: "hidden",
+    finishBox: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 16,
     },
-    progressInner: {
-      height: "100%",
-      background: "#2563eb",
-      borderRadius: 999,
+    finishTitle: {
+      fontSize: 28,
+      fontWeight: 800,
     },
-    checkboxRow: {
+    finishStatsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+      gap: 12,
+    },
+    finishStat: {
+      border: `1px solid ${border}`,
+      background: dark ? "#0f172a" : "#f8fafc",
+      borderRadius: 18,
+      padding: 16,
+    },
+    finishValue: {
+      fontSize: 28,
+      fontWeight: 800,
+      marginTop: 6,
+    },
+    finishActions: {
       display: "flex",
       gap: 10,
-      alignItems: "center",
+      flexWrap: "wrap",
     },
-    helpBox: {
-      border: `1px dashed ${border}`,
-      borderRadius: 16,
-      padding: 14,
+    formGrid: {
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 12,
+    },
+    itemCard: {
+      border: `1px solid ${border}`,
+      borderRadius: 20,
+      padding: 16,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
+    },
+    itemHead: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: 12,
+      alignItems: "flex-start",
+      flexWrap: "wrap",
+    },
+    itemTitle: {
+      fontSize: 20,
+      fontWeight: 800,
+      wordBreak: "break-word",
+    },
+    noteBox: {
+      borderRadius: 14,
+      padding: 12,
+      background: dark ? "#0f172a" : "#f8fafc",
       color: muted,
       lineHeight: 1.5,
     },
