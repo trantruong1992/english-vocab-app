@@ -1,0 +1,701 @@
+[
+  {
+    "day": 2,
+    "en": "family",
+    "vi": "gia đình",
+    "phonetic": "/ˈfæməli/ (đọc lái: Pham-mờ-li)",
+    "type": "noun",
+    "exampleEn": "I love my family.",
+    "exampleVi": "Tôi yêu gia đình mình.",
+    "tags": [
+      "family",
+      "basic",
+      "home"
+    ],
+    "collocations": [
+      "my family",
+      "family member"
+    ],
+    "notes": "Từ cơ bản để nói về gia đình.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "parent",
+    "vi": "bố hoặc mẹ / phụ huynh",
+    "phonetic": "/ˈperənt/ (đọc lái: Pe-rần-t)",
+    "type": "noun",
+    "exampleEn": "I live with my parents.",
+    "exampleVi": "Tôi sống với bố mẹ.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "my parents",
+      "single parent"
+    ],
+    "notes": "Số nhiều 'parents' thường dùng để chỉ bố mẹ.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "father / dad",
+    "vi": "bố",
+    "phonetic": "/ˈfɑːðər/ /dæd/ (đọc lái: Pha-đờ / Đét)",
+    "type": "noun",
+    "exampleEn": "My father is 50.",
+    "exampleVi": "Bố tôi 50 tuổi.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "my father",
+      "my dad"
+    ],
+    "notes": "'Dad' thân mật hơn 'father'.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "mother / mum",
+    "vi": "mẹ",
+    "phonetic": "/ˈmʌðər/ /mʌm/ (đọc lái: Ma-đờ / Mâm)",
+    "type": "noun",
+    "exampleEn": "My mother is a teacher.",
+    "exampleVi": "Mẹ tôi là giáo viên.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "my mother",
+      "my mum"
+    ],
+    "notes": "'Mum' thường dùng theo Anh-Anh, thân mật hơn.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "sibling",
+    "vi": "anh chị em",
+    "phonetic": "/ˈsɪblɪŋ/ (đọc lái: Shíp-ling)",
+    "type": "noun",
+    "exampleEn": "I have two siblings.",
+    "exampleVi": "Tôi có 2 anh chị em.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "older sibling",
+      "younger sibling"
+    ],
+    "notes": "Từ chung chỉ anh/chị/em trai/gái.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "brother",
+    "vi": "anh / em trai",
+    "phonetic": "/ˈbrʌðər/ (đọc lái: Bră-đờ)",
+    "type": "noun",
+    "exampleEn": "I have one brother.",
+    "exampleVi": "Tôi có một người em trai.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "older brother",
+      "younger brother"
+    ],
+    "notes": "Dùng chung cho anh trai và em trai.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "sister",
+    "vi": "chị / em gái",
+    "phonetic": "/ˈsɪstər/ (đọc lái: Shít-stờ)",
+    "type": "noun",
+    "exampleEn": "I have one sister.",
+    "exampleVi": "Tôi có một người chị gái.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "older sister",
+      "younger sister"
+    ],
+    "notes": "Dùng chung cho chị gái và em gái.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "grandparent",
+    "vi": "ông bà",
+    "phonetic": "/ˈɡrænperənt/ (đọc lái: Gran-pe-rần-t)",
+    "type": "noun",
+    "exampleEn": "I visit my grandparents.",
+    "exampleVi": "Tôi thăm ông bà.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "my grandparents",
+      "grandparent house"
+    ],
+    "notes": "Số nhiều 'grandparents' rất hay dùng.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "child / kid",
+    "vi": "con cái / đứa trẻ",
+    "phonetic": "/tʃaɪld/ /kɪd/ (đọc lái: Chai-ồ / Kịt)",
+    "type": "noun",
+    "exampleEn": "I have no kids.",
+    "exampleVi": "Tôi chưa có con.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "only child",
+      "young child"
+    ],
+    "notes": "'Kid' thân mật hơn 'child'.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "only child",
+    "vi": "con một",
+    "phonetic": "/ˈəʊnli tʃaɪld/ (đọc lái: Ôn-li chai-ồ)",
+    "type": "phrase",
+    "exampleEn": "I am an only child.",
+    "exampleVi": "Tôi là con một.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "be an only child"
+    ],
+    "notes": "Cụm từ rất hay gặp khi giới thiệu gia đình.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "relative",
+    "vi": "họ hàng",
+    "phonetic": "/ˈrelətɪv/ (đọc lái: Ré-lờ-tịch-v)",
+    "type": "noun",
+    "exampleEn": "I have many relatives.",
+    "exampleVi": "Tôi có nhiều họ hàng.",
+    "tags": [
+      "family",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "close relative",
+      "distant relative"
+    ],
+    "notes": "Chỉ người thân trong họ hàng.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "house",
+    "vi": "nhà",
+    "phonetic": "/haʊs/ (đọc lái: Hau-x)",
+    "type": "noun",
+    "exampleEn": "I live in a small house.",
+    "exampleVi": "Tôi sống trong một ngôi nhà nhỏ.",
+    "tags": [
+      "home",
+      "basic",
+      "place"
+    ],
+    "collocations": [
+      "small house",
+      "my house"
+    ],
+    "notes": "Thường chỉ nhà riêng, khác với apartment.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "apartment",
+    "vi": "căn hộ",
+    "phonetic": "/əˈpɑːrtmənt/ (đọc lái: Ờ-pạt-mần-t)",
+    "type": "noun",
+    "exampleEn": "I live in an apartment.",
+    "exampleVi": "Tôi sống ở căn hộ.",
+    "tags": [
+      "home",
+      "basic",
+      "place"
+    ],
+    "collocations": [
+      "rent an apartment",
+      "small apartment"
+    ],
+    "notes": "Hay dùng khi nói về nhà ở thành phố.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "room",
+    "vi": "phòng",
+    "phonetic": "/ruːm/ (đọc lái: Rum)",
+    "type": "noun",
+    "exampleEn": "My house has 4 rooms.",
+    "exampleVi": "Nhà tôi có 4 phòng.",
+    "tags": [
+      "home",
+      "basic",
+      "place"
+    ],
+    "collocations": [
+      "living room",
+      "bedroom"
+    ],
+    "notes": "Từ nền tảng để học các loại phòng khác.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "bedroom",
+    "vi": "phòng ngủ",
+    "phonetic": "/ˈbedruːm/ (đọc lái: Bét-rum)",
+    "type": "noun",
+    "exampleEn": "There is one bedroom.",
+    "exampleVi": "Có một phòng ngủ.",
+    "tags": [
+      "home",
+      "basic",
+      "room"
+    ],
+    "collocations": [
+      "master bedroom",
+      "small bedroom"
+    ],
+    "notes": "Rất hay dùng trong mô tả nhà cửa.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "living room",
+    "vi": "phòng khách",
+    "phonetic": "/ˈlɪvɪŋ ruːm/ (đọc lái: Lí-vinh rum)",
+    "type": "noun phrase",
+    "exampleEn": "We sit in the living room.",
+    "exampleVi": "Chúng tôi ngồi ở phòng khách.",
+    "tags": [
+      "home",
+      "basic",
+      "room"
+    ],
+    "collocations": [
+      "big living room",
+      "sit in the living room"
+    ],
+    "notes": "Là khu vực sinh hoạt chung trong nhà.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "kitchen",
+    "vi": "nhà bếp",
+    "phonetic": "/ˈkɪtʃɪn/ (đọc lái: Kít-chần)",
+    "type": "noun",
+    "exampleEn": "My mother is in the kitchen.",
+    "exampleVi": "Mẹ tôi đang ở trong bếp.",
+    "tags": [
+      "home",
+      "basic",
+      "room"
+    ],
+    "collocations": [
+      "in the kitchen",
+      "clean kitchen"
+    ],
+    "notes": "Một trong những từ cơ bản nhất về chủ đề nhà cửa.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "bathroom",
+    "vi": "nhà vệ sinh / phòng tắm",
+    "phonetic": "/ˈbæθruːm/ (đọc lái: Bát-th-rum)",
+    "type": "noun",
+    "exampleEn": "The bathroom is clean.",
+    "exampleVi": "Nhà vệ sinh thì sạch.",
+    "tags": [
+      "home",
+      "basic",
+      "room"
+    ],
+    "collocations": [
+      "clean bathroom",
+      "go to the bathroom"
+    ],
+    "notes": "Tùy ngữ cảnh có thể hiểu là phòng tắm hoặc WC.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "floor",
+    "vi": "tầng / sàn",
+    "phonetic": "/flɔːr/ (đọc lái: Phlo-ờ)",
+    "type": "noun",
+    "exampleEn": "I live on the 2nd floor.",
+    "exampleVi": "Tôi sống ở tầng 2.",
+    "tags": [
+      "home",
+      "basic",
+      "place"
+    ],
+    "collocations": [
+      "first floor",
+      "second floor"
+    ],
+    "notes": "Có thể nghĩa là tầng hoặc sàn tùy ngữ cảnh.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "garden",
+    "vi": "khu vườn",
+    "phonetic": "/ˈɡɑːrdn/ (đọc lái: Gạt-đần)",
+    "type": "noun",
+    "exampleEn": "There is a small garden.",
+    "exampleVi": "Có một khu vườn nhỏ.",
+    "tags": [
+      "home",
+      "basic",
+      "outside"
+    ],
+    "collocations": [
+      "small garden",
+      "beautiful garden"
+    ],
+    "notes": "Thường dùng khi mô tả nhà cửa, sân vườn.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "cozy",
+    "vi": "ấm cúng",
+    "phonetic": "/ˈkəʊzi/ (đọc lái: Cô-zi)",
+    "type": "adjective",
+    "exampleEn": "My room is cozy.",
+    "exampleVi": "Phòng của tôi ấm cúng.",
+    "tags": [
+      "home",
+      "description",
+      "feeling"
+    ],
+    "collocations": [
+      "cozy room",
+      "cozy house"
+    ],
+    "notes": "Hay dùng để khen không gian sống dễ chịu.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "modern",
+    "vi": "hiện đại",
+    "phonetic": "/ˈmɑːdərn/ (đọc lái: Mó-đờn)",
+    "type": "adjective",
+    "exampleEn": "It is a modern house.",
+    "exampleVi": "Đó là một ngôi nhà hiện đại.",
+    "tags": [
+      "home",
+      "description",
+      "basic"
+    ],
+    "collocations": [
+      "modern house",
+      "modern apartment"
+    ],
+    "notes": "Hay dùng để mô tả phong cách nhà ở hoặc đồ đạc.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "near",
+    "vi": "gần",
+    "phonetic": "/nɪr/ (đọc lái: Nia)",
+    "type": "preposition / adjective",
+    "exampleEn": "It is near my school.",
+    "exampleVi": "Nó gần trường tôi.",
+    "tags": [
+      "location",
+      "basic",
+      "home"
+    ],
+    "collocations": [
+      "near my house",
+      "near school"
+    ],
+    "notes": "Dùng để nói vị trí khoảng cách gần.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "far from",
+    "vi": "xa khỏi / xa",
+    "phonetic": "/fɑːr frəm/ (đọc lái: Pha phrôm)",
+    "type": "phrase",
+    "exampleEn": "It is far from here.",
+    "exampleVi": "Nó xa khỏi đây.",
+    "tags": [
+      "location",
+      "basic",
+      "home"
+    ],
+    "collocations": [
+      "far from home",
+      "far from here"
+    ],
+    "notes": "Hay đi cùng địa điểm phía sau.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "quiet",
+    "vi": "yên tĩnh",
+    "phonetic": "/ˈkwaɪət/ (đọc lái: Quai-ợt)",
+    "type": "adjective",
+    "exampleEn": "My house is very quiet.",
+    "exampleVi": "Nhà tôi rất yên tĩnh.",
+    "tags": [
+      "home",
+      "description",
+      "sound"
+    ],
+    "collocations": [
+      "very quiet",
+      "quiet neighborhood"
+    ],
+    "notes": "Hay dùng để mô tả nhà, phố, khu vực sống.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "noisy",
+    "vi": "ồn ào",
+    "phonetic": "/ˈnɔɪzi/ (đọc lái: Noi-zi)",
+    "type": "adjective",
+    "exampleEn": "My street is noisy.",
+    "exampleVi": "Đường phố tôi rất ồn.",
+    "tags": [
+      "home",
+      "description",
+      "sound"
+    ],
+    "collocations": [
+      "too noisy",
+      "noisy street"
+    ],
+    "notes": "Trái nghĩa với quiet.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "furniture",
+    "vi": "nội thất",
+    "phonetic": "/ˈfɜːrnɪtʃər/ (đọc lái: Phơ-ni-chờ)",
+    "type": "noun",
+    "exampleEn": "I buy new furniture.",
+    "exampleVi": "Tôi mua nội thất mới.",
+    "tags": [
+      "home",
+      "basic",
+      "object"
+    ],
+    "collocations": [
+      "new furniture",
+      "wooden furniture"
+    ],
+    "notes": "Danh từ không đếm được trong tiếng Anh.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "bed",
+    "vi": "cái giường",
+    "phonetic": "/bed/ (đọc lái: Bét)",
+    "type": "noun",
+    "exampleEn": "There is a big bed.",
+    "exampleVi": "Có một cái giường lớn.",
+    "tags": [
+      "home",
+      "basic",
+      "furniture"
+    ],
+    "collocations": [
+      "big bed",
+      "go to bed"
+    ],
+    "notes": "Từ rất thông dụng trong chủ đề nhà cửa.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "table",
+    "vi": "cái bàn",
+    "phonetic": "/ˈteɪbl/ (đọc lái: Têi-bồ)",
+    "type": "noun",
+    "exampleEn": "The table is in the kitchen.",
+    "exampleVi": "Cái bàn ở trong bếp.",
+    "tags": [
+      "home",
+      "basic",
+      "furniture"
+    ],
+    "collocations": [
+      "dining table",
+      "on the table"
+    ],
+    "notes": "Có thể là bàn ăn, bàn làm việc tùy ngữ cảnh.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "chair",
+    "vi": "cái ghế",
+    "phonetic": "/tʃer/ (đọc lái: Che-ờ)",
+    "type": "noun",
+    "exampleEn": "I have 4 chairs.",
+    "exampleVi": "Tôi có 4 cái ghế.",
+    "tags": [
+      "home",
+      "basic",
+      "furniture"
+    ],
+    "collocations": [
+      "wooden chair",
+      "sit on a chair"
+    ],
+    "notes": "Một từ rất cơ bản trong đồ nội thất.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "neighborhood",
+    "vi": "khu phố / khu dân cư",
+    "phonetic": "/ˈneɪbərhʊd/ (đọc lái: Nêi-bờ-hút)",
+    "type": "noun",
+    "exampleEn": "I love my neighborhood.",
+    "exampleVi": "Tôi yêu khu phố của mình.",
+    "tags": [
+      "home",
+      "location",
+      "community"
+    ],
+    "collocations": [
+      "quiet neighborhood",
+      "my neighborhood"
+    ],
+    "notes": "Dùng để nói khu vực xung quanh nơi ở.",
+    "difficulty": 2
+  },
+  {
+    "day": 2,
+    "en": "rent",
+    "vi": "thuê",
+    "phonetic": "/rent/ (đọc lái: Ren-t)",
+    "type": "verb / noun",
+    "exampleEn": "I rent this apartment.",
+    "exampleVi": "Tôi thuê căn hộ này.",
+    "tags": [
+      "home",
+      "money",
+      "daily life"
+    ],
+    "collocations": [
+      "pay rent",
+      "rent an apartment"
+    ],
+    "notes": "Có thể là động từ hoặc danh từ.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "stay",
+    "vi": "ở lại / ở",
+    "phonetic": "/steɪ/ (đọc lái: Stêi)",
+    "type": "verb",
+    "exampleEn": "I stay with my sister.",
+    "exampleVi": "Tôi ở cùng chị gái.",
+    "tags": [
+      "home",
+      "daily life",
+      "family"
+    ],
+    "collocations": [
+      "stay with",
+      "stay at home"
+    ],
+    "notes": "Hay dùng khi nói ở tạm hoặc ở cùng ai đó.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "large / big",
+    "vi": "lớn",
+    "phonetic": "/lɑːrdʒ/ /bɪɡ/ (đọc lái: La-j / Bích-g)",
+    "type": "adjective",
+    "exampleEn": "My family is large.",
+    "exampleVi": "Gia đình tôi thì lớn.",
+    "tags": [
+      "description",
+      "basic",
+      "size"
+    ],
+    "collocations": [
+      "large family",
+      "big house"
+    ],
+    "notes": "'Large' trang trọng hơn 'big'.",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "small",
+    "vi": "nhỏ",
+    "phonetic": "/smɔːl/ (đọc lái: Smo)",
+    "type": "adjective",
+    "exampleEn": "I have a small family.",
+    "exampleVi": "Tôi có một gia đình nhỏ.",
+    "tags": [
+      "description",
+      "basic",
+      "size"
+    ],
+    "collocations": [
+      "small family",
+      "small room"
+    ],
+    "notes": "Từ cơ bản đối nghĩa với big/large.",
+    "difficulty": 1
+  }
+]

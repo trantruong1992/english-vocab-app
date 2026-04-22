@@ -1,0 +1,700 @@
+[
+  {
+    "day": 1,
+    "en": "Hello / Hi",
+    "vi": "Xin chào",
+    "phonetic": "/həˈləʊ/ (đọc lái: Hé-lô / Hai)",
+    "type": "greeting / interjection",
+    "exampleEn": "Hello, my name is Nam.",
+    "exampleVi": "Xin chào, tên tôi là Nam.",
+    "tags": [
+      "basic",
+      "greeting",
+      "introduction"
+    ],
+    "collocations": [
+      "say hello",
+      "hi everyone"
+    ],
+    "notes": "Dùng để chào hỏi cơ bản. 'Hi' thân mật hơn 'Hello'.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "name",
+    "vi": "tên",
+    "phonetic": "/neɪm/ (đọc lái: Nêm)",
+    "type": "noun",
+    "exampleEn": "My name is John.",
+    "exampleVi": "Tên của tôi là John.",
+    "tags": [
+      "basic",
+      "introduction"
+    ],
+    "collocations": [
+      "my name",
+      "full name"
+    ],
+    "notes": "Từ rất cơ bản khi giới thiệu bản thân.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "age",
+    "vi": "tuổi",
+    "phonetic": "/eɪdʒ/ (đọc lái: Êi-j)",
+    "type": "noun",
+    "exampleEn": "My age is twenty.",
+    "exampleVi": "Tuổi của tôi là 20.",
+    "tags": [
+      "basic",
+      "introduction"
+    ],
+    "collocations": [
+      "my age",
+      "at the age of"
+    ],
+    "notes": "Thực tế giao tiếp thường nói 'I am 20 years old' tự nhiên hơn.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "year",
+    "vi": "năm / tuổi",
+    "phonetic": "/jɪər/ (đọc lái: Ia)",
+    "type": "noun",
+    "exampleEn": "I am 25 years old.",
+    "exampleVi": "Tôi 25 tuổi.",
+    "tags": [
+      "basic",
+      "time",
+      "age"
+    ],
+    "collocations": [
+      "years old",
+      "this year"
+    ],
+    "notes": "Khi nói tuổi thường dùng cụm 'years old'.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "live",
+    "vi": "sống",
+    "phonetic": "/lɪv/ (đọc lái: Lí-v)",
+    "type": "verb",
+    "exampleEn": "I live in Hanoi.",
+    "exampleVi": "Tôi sống ở Hà Nội.",
+    "tags": [
+      "basic",
+      "introduction",
+      "location"
+    ],
+    "collocations": [
+      "live in",
+      "live with"
+    ],
+    "notes": "Hay dùng để nói nơi ở.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "come from",
+    "vi": "đến từ",
+    "phonetic": "/kʌm frəm/ (đọc lái: Căm phrôm)",
+    "type": "verb phrase",
+    "exampleEn": "I come from Vietnam.",
+    "exampleVi": "Tôi đến từ Việt Nam.",
+    "tags": [
+      "basic",
+      "introduction",
+      "country"
+    ],
+    "collocations": [
+      "come from Vietnam",
+      "where do you come from"
+    ],
+    "notes": "Dùng để nói nguồn gốc hoặc quê quán.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "hometown",
+    "vi": "quê hương",
+    "phonetic": "/ˈhəʊmtaʊn/ (đọc lái: Hôm-taun)",
+    "type": "noun",
+    "exampleEn": "My hometown is Da Nang.",
+    "exampleVi": "Quê hương tôi là Đà Nẵng.",
+    "tags": [
+      "basic",
+      "introduction",
+      "location"
+    ],
+    "collocations": [
+      "my hometown",
+      "small hometown"
+    ],
+    "notes": "Chỉ quê quán, nơi mình lớn lên.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "job",
+    "vi": "công việc",
+    "phonetic": "/dʒɑːb/ (đọc lái: Jóp)",
+    "type": "noun",
+    "exampleEn": "My job is a teacher.",
+    "exampleVi": "Công việc của tôi là giáo viên.",
+    "tags": [
+      "basic",
+      "work",
+      "introduction"
+    ],
+    "collocations": [
+      "my job",
+      "good job"
+    ],
+    "notes": "Trong ví dụ tự nhiên hơn là 'I am a teacher.'",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "student",
+    "vi": "học sinh / sinh viên",
+    "phonetic": "/ˈstuːdnt/ (đọc lái: Stiu-đần-t)",
+    "type": "noun",
+    "exampleEn": "I am a student.",
+    "exampleVi": "Tôi là một học sinh.",
+    "tags": [
+      "basic",
+      "school",
+      "job"
+    ],
+    "collocations": [
+      "high school student",
+      "college student"
+    ],
+    "notes": "Có thể dùng cho học sinh hoặc sinh viên tùy ngữ cảnh.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "worker",
+    "vi": "công nhân",
+    "phonetic": "/ˈwɜːrkər/ (đọc lái: Uớc-kờ)",
+    "type": "noun",
+    "exampleEn": "I am a worker.",
+    "exampleVi": "Tôi là một công nhân.",
+    "tags": [
+      "basic",
+      "work",
+      "job"
+    ],
+    "collocations": [
+      "factory worker",
+      "office worker"
+    ],
+    "notes": "Hay gặp trong chủ đề nghề nghiệp.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "engineer",
+    "vi": "kỹ sư",
+    "phonetic": "/ˌendʒɪˈnɪr/ (đọc lái: En-ji-nia)",
+    "type": "noun",
+    "exampleEn": "I am an engineer.",
+    "exampleVi": "Tôi là một kỹ sư.",
+    "tags": [
+      "basic",
+      "work",
+      "job"
+    ],
+    "collocations": [
+      "software engineer",
+      "civil engineer"
+    ],
+    "notes": "Nhớ dùng mạo từ 'an' trước engineer.",
+    "difficulty": 2
+  },
+  {
+    "day": 1,
+    "en": "accountant",
+    "vi": "kế toán",
+    "phonetic": "/əˈkaʊntənt/ (đọc lái: Ờ-cao-tần-t)",
+    "type": "noun",
+    "exampleEn": "I am an accountant.",
+    "exampleVi": "Tôi là một kế toán.",
+    "tags": [
+      "basic",
+      "work",
+      "job"
+    ],
+    "collocations": [
+      "chief accountant",
+      "work as an accountant"
+    ],
+    "notes": "Nhớ dùng 'an accountant'.",
+    "difficulty": 2
+  },
+  {
+    "day": 1,
+    "en": "single",
+    "vi": "độc thân",
+    "phonetic": "/ˈsɪŋɡl/ (đọc lái: Sing-gồ)",
+    "type": "adjective",
+    "exampleEn": "I am single now.",
+    "exampleVi": "Bây giờ tôi độc thân.",
+    "tags": [
+      "basic",
+      "relationship",
+      "introduction"
+    ],
+    "collocations": [
+      "be single",
+      "still single"
+    ],
+    "notes": "Dùng để nói tình trạng hôn nhân.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "married",
+    "vi": "đã kết hôn",
+    "phonetic": "/ˈmærid/ (đọc lái: Me-rì-đ)",
+    "type": "adjective",
+    "exampleEn": "I am married.",
+    "exampleVi": "Tôi đã kết hôn.",
+    "tags": [
+      "basic",
+      "relationship",
+      "introduction"
+    ],
+    "collocations": [
+      "get married",
+      "be married"
+    ],
+    "notes": "Dùng với động từ 'be': I am married.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "Nice to meet you",
+    "vi": "Rất vui được gặp bạn",
+    "phonetic": "/naɪs tə miːt juː/ (đọc lái: Nai tu mít iu)",
+    "type": "phrase",
+    "exampleEn": "Nice to meet you, too.",
+    "exampleVi": "Tôi cũng rất vui được gặp bạn.",
+    "tags": [
+      "basic",
+      "greeting",
+      "conversation"
+    ],
+    "collocations": [
+      "nice to meet you too",
+      "very nice to meet you"
+    ],
+    "notes": "Câu lịch sự khi mới gặp ai đó.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "Good morning",
+    "vi": "Chào buổi sáng",
+    "phonetic": "/ɡʊd ˈmɔːrnɪŋ/ (đọc lái: Gút mo-ning)",
+    "type": "greeting / phrase",
+    "exampleEn": "Good morning, everyone.",
+    "exampleVi": "Chào buổi sáng mọi người.",
+    "tags": [
+      "basic",
+      "greeting",
+      "time"
+    ],
+    "collocations": [
+      "good morning everyone",
+      "say good morning"
+    ],
+    "notes": "Dùng vào buổi sáng.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "Good afternoon",
+    "vi": "Chào buổi chiều",
+    "phonetic": "/ɡʊd ˌæftərˈnuːn/ (đọc lái: Gút áp-tơ-nun)",
+    "type": "greeting / phrase",
+    "exampleEn": "Good afternoon, sir.",
+    "exampleVi": "Chào buổi chiều thưa ông.",
+    "tags": [
+      "basic",
+      "greeting",
+      "time"
+    ],
+    "collocations": [
+      "good afternoon sir",
+      "good afternoon everyone"
+    ],
+    "notes": "Dùng vào đầu đến giữa buổi chiều.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "Good evening",
+    "vi": "Chào buổi tối",
+    "phonetic": "/ɡʊd ˈiːvnɪŋ/ (đọc lái: Gút i-v-ning)",
+    "type": "greeting / phrase",
+    "exampleEn": "Good evening, my friend.",
+    "exampleVi": "Chào buổi tối bạn của tôi.",
+    "tags": [
+      "basic",
+      "greeting",
+      "time"
+    ],
+    "collocations": [
+      "good evening everyone",
+      "say good evening"
+    ],
+    "notes": "Dùng để chào vào buổi tối, không phải lúc đi ngủ.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "how",
+    "vi": "như thế nào",
+    "phonetic": "/haʊ/ (đọc lái: Hau)",
+    "type": "question word",
+    "exampleEn": "How are you today?",
+    "exampleVi": "Hôm nay bạn thế nào?",
+    "tags": [
+      "basic",
+      "question",
+      "conversation"
+    ],
+    "collocations": [
+      "how are you",
+      "how about"
+    ],
+    "notes": "Từ để hỏi cách thức hoặc tình trạng.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "fine",
+    "vi": "tốt / ổn",
+    "phonetic": "/faɪn/ (đọc lái: Phai-n)",
+    "type": "adjective",
+    "exampleEn": "I am fine, thank you.",
+    "exampleVi": "Tôi ổn, cảm ơn bạn.",
+    "tags": [
+      "basic",
+      "feeling",
+      "conversation"
+    ],
+    "collocations": [
+      "feel fine",
+      "be fine"
+    ],
+    "notes": "Câu trả lời phổ biến khi được hỏi thăm.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "great",
+    "vi": "tuyệt vời",
+    "phonetic": "/ɡreɪt/ (đọc lái: Grêit)",
+    "type": "adjective",
+    "exampleEn": "I feel great today.",
+    "exampleVi": "Hôm nay tôi thấy tuyệt.",
+    "tags": [
+      "basic",
+      "feeling",
+      "conversation"
+    ],
+    "collocations": [
+      "feel great",
+      "great job"
+    ],
+    "notes": "Mức độ tích cực hơn 'fine'.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "nationality",
+    "vi": "quốc tịch",
+    "phonetic": "/ˌnæʃəˈnæləti/ (đọc lái: Na-shơ-na-lờ-ti)",
+    "type": "noun",
+    "exampleEn": "My nationality is Vietnamese.",
+    "exampleVi": "Quốc tịch tôi là Việt Nam.",
+    "tags": [
+      "basic",
+      "country",
+      "introduction"
+    ],
+    "collocations": [
+      "my nationality",
+      "Vietnamese nationality"
+    ],
+    "notes": "Quốc tịch là tính từ chỉ quốc gia, ví dụ: Vietnamese, Japanese.",
+    "difficulty": 2
+  },
+  {
+    "day": 1,
+    "en": "language",
+    "vi": "ngôn ngữ",
+    "phonetic": "/ˈlæŋɡwɪdʒ/ (đọc lái: Lang-guịch-j)",
+    "type": "noun",
+    "exampleEn": "My language is Vietnamese.",
+    "exampleVi": "Ngôn ngữ của tôi là tiếng Việt.",
+    "tags": [
+      "basic",
+      "language",
+      "introduction"
+    ],
+    "collocations": [
+      "foreign language",
+      "native language"
+    ],
+    "notes": "Trong giao tiếp tự nhiên hơn có thể nói 'My native language is Vietnamese.'",
+    "difficulty": 2
+  },
+  {
+    "day": 1,
+    "en": "English",
+    "vi": "tiếng Anh",
+    "phonetic": "/ˈɪŋɡlɪʃ/ (đọc lái: In-glịt-sh)",
+    "type": "noun / adjective",
+    "exampleEn": "I learn English.",
+    "exampleVi": "Tôi học tiếng Anh.",
+    "tags": [
+      "basic",
+      "language",
+      "study"
+    ],
+    "collocations": [
+      "learn English",
+      "English teacher"
+    ],
+    "notes": "Vừa là tên ngôn ngữ vừa là tính từ.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "study",
+    "vi": "học tập",
+    "phonetic": "/ˈstʌdi/ (đọc lái: Stă-đi)",
+    "type": "verb / noun",
+    "exampleEn": "I study every day.",
+    "exampleVi": "Tôi học mỗi ngày.",
+    "tags": [
+      "basic",
+      "study",
+      "daily life"
+    ],
+    "collocations": [
+      "study English",
+      "study hard"
+    ],
+    "notes": "Thông dụng khi nói về việc học.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "work",
+    "vi": "làm việc",
+    "phonetic": "/wɜːrk/ (đọc lái: Uớc-k)",
+    "type": "verb / noun",
+    "exampleEn": "I work in a company.",
+    "exampleVi": "Tôi làm việc ở một công ty.",
+    "tags": [
+      "basic",
+      "work",
+      "daily life"
+    ],
+    "collocations": [
+      "go to work",
+      "work in"
+    ],
+    "notes": "Có thể là động từ hoặc danh từ.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "new",
+    "vi": "mới",
+    "phonetic": "/nuː/ (đọc lái: Niu)",
+    "type": "adjective",
+    "exampleEn": "I am a new staff.",
+    "exampleVi": "Tôi là nhân viên mới.",
+    "tags": [
+      "basic",
+      "work",
+      "description"
+    ],
+    "collocations": [
+      "new staff",
+      "new student"
+    ],
+    "notes": "Câu tự nhiên hơn là 'I am a new employee.'",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "friend",
+    "vi": "bạn bè / bạn",
+    "phonetic": "/frend/ (đọc lái: Phren-đ)",
+    "type": "noun",
+    "exampleEn": "He is my best friend.",
+    "exampleVi": "Anh ấy là bạn thân tôi.",
+    "tags": [
+      "basic",
+      "relationship",
+      "people"
+    ],
+    "collocations": [
+      "best friend",
+      "close friend"
+    ],
+    "notes": "Từ cơ bản để nói về mối quan hệ bạn bè.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "meeting",
+    "vi": "cuộc gặp gỡ / cuộc họp",
+    "phonetic": "/ˈmiːtɪŋ/ (đọc lái: Mít-tinh)",
+    "type": "noun",
+    "exampleEn": "I like this meeting.",
+    "exampleVi": "Tôi thích cuộc gặp này.",
+    "tags": [
+      "basic",
+      "work",
+      "conversation"
+    ],
+    "collocations": [
+      "have a meeting",
+      "team meeting"
+    ],
+    "notes": "Trong môi trường công việc thường mang nghĩa 'cuộc họp'.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "first",
+    "vi": "đầu tiên",
+    "phonetic": "/fɜːrst/ (đọc lái: Phớt-st)",
+    "type": "ordinal number / adjective",
+    "exampleEn": "It is my first time.",
+    "exampleVi": "Đây là lần đầu của tôi.",
+    "tags": [
+      "basic",
+      "order",
+      "conversation"
+    ],
+    "collocations": [
+      "first time",
+      "first day"
+    ],
+    "notes": "Hay dùng trong cụm 'first time'.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "today",
+    "vi": "hôm nay",
+    "phonetic": "/təˈdeɪ/ (đọc lái: Tờ-đêi)",
+    "type": "adverb / noun",
+    "exampleEn": "Today is Monday.",
+    "exampleVi": "Hôm nay là thứ Hai.",
+    "tags": [
+      "basic",
+      "time",
+      "daily life"
+    ],
+    "collocations": [
+      "today is",
+      "today's meeting"
+    ],
+    "notes": "Trong bảng gốc thiếu âm đầu /tə/ nên đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "please",
+    "vi": "làm ơn / vui lòng",
+    "phonetic": "/pliːz/ (đọc lái: Ph-li-z)",
+    "type": "adverb / polite expression",
+    "exampleEn": "Call me Nam, please.",
+    "exampleVi": "Vui lòng gọi tôi là Nam.",
+    "tags": [
+      "basic",
+      "politeness",
+      "conversation"
+    ],
+    "collocations": [
+      "please help",
+      "please call me"
+    ],
+    "notes": "Dùng để làm câu nói lịch sự hơn.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "about",
+    "vi": "về...",
+    "phonetic": "/əˈbaʊt/ (đọc lái: Ờ-bao-t)",
+    "type": "preposition / adverb",
+    "exampleEn": "Tell me about you.",
+    "exampleVi": "Hãy kể cho tôi về bạn.",
+    "tags": [
+      "basic",
+      "conversation",
+      "question"
+    ],
+    "collocations": [
+      "talk about",
+      "about you"
+    ],
+    "notes": "Hay dùng để nói chủ đề hoặc nội dung liên quan.",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "self",
+    "vi": "bản thân",
+    "phonetic": "/self/ (đọc lái: Sêu-ph)",
+    "type": "noun",
+    "exampleEn": "Introduce my self.",
+    "exampleVi": "Giới thiệu bản thân tôi.",
+    "tags": [
+      "basic",
+      "introduction",
+      "self"
+    ],
+    "collocations": [
+      "myself",
+      "self-introduction"
+    ],
+    "notes": "Câu tự nhiên hơn là 'Introduce myself.' hoặc 'Self-introduction.'",
+    "difficulty": 2
+  },
+  {
+    "day": 1,
+    "en": "everyone",
+    "vi": "mọi người",
+    "phonetic": "/ˈevriwʌn/ (đọc lái: É-v-ri-uấn)",
+    "type": "pronoun",
+    "exampleEn": "Hello everyone!",
+    "exampleVi": "Chào mọi người!",
+    "tags": [
+      "basic",
+      "group",
+      "greeting"
+    ],
+    "collocations": [
+      "hello everyone",
+      "thank you everyone"
+    ],
+    "notes": "Dùng để gọi chung tất cả mọi người.",
+    "difficulty": 1
+  }
+]

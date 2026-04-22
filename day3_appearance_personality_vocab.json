@@ -1,0 +1,702 @@
+[
+  {
+    "day": 3,
+    "en": "tall",
+    "vi": "cao",
+    "phonetic": "/tɔːl/ (đọc lái: To-ồ)",
+    "type": "adjective",
+    "exampleEn": "I am very tall.",
+    "exampleVi": "Tôi rất cao.",
+    "tags": [
+      "appearance",
+      "basic",
+      "description"
+    ],
+    "collocations": [
+      "very tall",
+      "tall person"
+    ],
+    "notes": "Dùng để mô tả chiều cao.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "short",
+    "vi": "thấp / lùn",
+    "phonetic": "/ʃɔːrt/ (đọc lái: Shọt-t)",
+    "type": "adjective",
+    "exampleEn": "He is a bit short.",
+    "exampleVi": "Anh ấy hơi thấp một chút.",
+    "tags": [
+      "appearance",
+      "basic",
+      "description"
+    ],
+    "collocations": [
+      "a bit short",
+      "short person"
+    ],
+    "notes": "Tùy ngữ cảnh có thể mang nghĩa thấp hoặc lùn.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "slim",
+    "vi": "mảnh khảnh",
+    "phonetic": "/slɪm/ (đọc lái: Slim)",
+    "type": "adjective",
+    "exampleEn": "She is slim and beautiful.",
+    "exampleVi": "Cô ấy mảnh khảnh và đẹp.",
+    "tags": [
+      "appearance",
+      "body",
+      "description"
+    ],
+    "collocations": [
+      "slim body",
+      "slim and beautiful"
+    ],
+    "notes": "Thường mang sắc thái tích cực hơn 'thin'.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "overweight",
+    "vi": "thừa cân",
+    "phonetic": "/ˌəʊvərˈweɪt/ (đọc lái: Ô-vờ-uêit)",
+    "type": "adjective",
+    "exampleEn": "I am a bit overweight.",
+    "exampleVi": "Tôi hơi thừa cân một chút.",
+    "tags": [
+      "appearance",
+      "body",
+      "health"
+    ],
+    "collocations": [
+      "a bit overweight",
+      "be overweight"
+    ],
+    "notes": "Dùng để mô tả cân nặng cao hơn mức bình thường.",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "beautiful",
+    "vi": "đẹp / xinh đẹp",
+    "phonetic": "/ˈbjuːtɪfl/ (đọc lái: Biu-ti-phun)",
+    "type": "adjective",
+    "exampleEn": "My mother is beautiful.",
+    "exampleVi": "Mẹ tôi rất xinh đẹp.",
+    "tags": [
+      "appearance",
+      "basic",
+      "compliment"
+    ],
+    "collocations": [
+      "very beautiful",
+      "beautiful woman"
+    ],
+    "notes": "Hay dùng để khen vẻ đẹp nói chung.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "handsome",
+    "vi": "đẹp trai",
+    "phonetic": "/ˈhænsəm/ (đọc lái: Han-sờm)",
+    "type": "adjective",
+    "exampleEn": "My brother is handsome.",
+    "exampleVi": "Em trai tôi đẹp trai.",
+    "tags": [
+      "appearance",
+      "basic",
+      "compliment"
+    ],
+    "collocations": [
+      "very handsome",
+      "handsome man"
+    ],
+    "notes": "Thường dùng để khen nam giới.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "long hair",
+    "vi": "tóc dài",
+    "phonetic": "/lɔːŋ her/ (đọc lái: Long he-ờ)",
+    "type": "noun phrase",
+    "exampleEn": "I have long black hair.",
+    "exampleVi": "Tôi có mái tóc đen dài.",
+    "tags": [
+      "appearance",
+      "hair",
+      "description"
+    ],
+    "collocations": [
+      "long black hair",
+      "beautiful long hair"
+    ],
+    "notes": "Cụm từ mô tả mái tóc dài.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "short hair",
+    "vi": "tóc ngắn",
+    "phonetic": "/ʃɔːrt her/ (đọc lái: Shọt he-ờ)",
+    "type": "noun phrase",
+    "exampleEn": "He has short hair.",
+    "exampleVi": "Anh ấy có tóc ngắn.",
+    "tags": [
+      "appearance",
+      "hair",
+      "description"
+    ],
+    "collocations": [
+      "have short hair",
+      "short brown hair"
+    ],
+    "notes": "Cụm từ rất thường gặp khi tả ngoại hình.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "straight hair",
+    "vi": "tóc thẳng",
+    "phonetic": "/streɪt her/ (đọc lái: Strêit he-ờ)",
+    "type": "noun phrase",
+    "exampleEn": "I have straight hair.",
+    "exampleVi": "Tôi có mái tóc thẳng.",
+    "tags": [
+      "appearance",
+      "hair",
+      "description"
+    ],
+    "collocations": [
+      "have straight hair",
+      "long straight hair"
+    ],
+    "notes": "Dùng để mô tả kiểu tóc thẳng.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "curly hair",
+    "vi": "tóc xoăn",
+    "phonetic": "/ˈkɜːrli her/ (đọc lái: Cơ-li he-ờ)",
+    "type": "noun phrase",
+    "exampleEn": "She has curly hair.",
+    "exampleVi": "Cô ấy có tóc xoăn.",
+    "tags": [
+      "appearance",
+      "hair",
+      "description"
+    ],
+    "collocations": [
+      "have curly hair",
+      "short curly hair"
+    ],
+    "notes": "Dùng để mô tả tóc uốn hoặc xoăn tự nhiên.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "eyes",
+    "vi": "đôi mắt",
+    "phonetic": "/aɪz/ (đọc lái: Ai-z)",
+    "type": "noun",
+    "exampleEn": "I have big brown eyes.",
+    "exampleVi": "Tôi có đôi mắt nâu to.",
+    "tags": [
+      "appearance",
+      "face",
+      "description"
+    ],
+    "collocations": [
+      "big eyes",
+      "brown eyes"
+    ],
+    "notes": "Thường dùng số nhiều khi tả mắt.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "skin",
+    "vi": "làn da",
+    "phonetic": "/skɪn/ (đọc lái: Skin)",
+    "type": "noun",
+    "exampleEn": "She has white skin.",
+    "exampleVi": "Cô ấy có làn da trắng.",
+    "tags": [
+      "appearance",
+      "body",
+      "description"
+    ],
+    "collocations": [
+      "smooth skin",
+      "white skin"
+    ],
+    "notes": "Dùng để mô tả màu da hoặc tình trạng da.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "kind",
+    "vi": "tốt bụng",
+    "phonetic": "/kaɪnd/ (đọc lái: Cain-đ)",
+    "type": "adjective",
+    "exampleEn": "My father is very kind.",
+    "exampleVi": "Bố tôi rất tốt bụng.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "very kind",
+      "kind person"
+    ],
+    "notes": "Từ phổ biến để khen tính cách.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "friendly",
+    "vi": "thân thiện",
+    "phonetic": "/ˈfrendli/ (đọc lái: Phren-li)",
+    "type": "adjective",
+    "exampleEn": "I am a friendly person.",
+    "exampleVi": "Tôi là một người thân thiện.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "friendly person",
+      "very friendly"
+    ],
+    "notes": "Hay dùng để mô tả người dễ gần.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "funny",
+    "vi": "vui tính / hài hước",
+    "phonetic": "/ˈfʌni/ (đọc lái: Phăn-ni)",
+    "type": "adjective",
+    "exampleEn": "He is a funny man.",
+    "exampleVi": "Anh ấy là người vui tính.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "funny guy",
+      "very funny"
+    ],
+    "notes": "Dùng để chỉ người hài hước, vui vẻ.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "smart",
+    "vi": "thông minh",
+    "phonetic": "/smɑːrt/ (đọc lái: Smạt)",
+    "type": "adjective",
+    "exampleEn": "My sister is very smart.",
+    "exampleVi": "Chị tôi rất thông minh.",
+    "tags": [
+      "personality",
+      "basic",
+      "ability"
+    ],
+    "collocations": [
+      "very smart",
+      "smart student"
+    ],
+    "notes": "Ngoài nghĩa thông minh, đôi khi còn có nghĩa lịch sự/gọn gàng trong Anh-Anh.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "hard-working",
+    "vi": "chăm chỉ",
+    "phonetic": "/ˌhɑːrd ˈwɜːrkɪŋ/ (đọc lái: Hạt-uớc-king)",
+    "type": "adjective",
+    "exampleEn": "I am a hard-working staff.",
+    "exampleVi": "Tôi là nhân viên chăm chỉ.",
+    "tags": [
+      "personality",
+      "work",
+      "positive"
+    ],
+    "collocations": [
+      "hard-working person",
+      "hard-working employee"
+    ],
+    "notes": "Câu tự nhiên hơn là 'I am a hard-working employee.'",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "lazy",
+    "vi": "lười biếng",
+    "phonetic": "/ˈleɪzi/ (đọc lái: Lêi-zi)",
+    "type": "adjective",
+    "exampleEn": "I am not lazy.",
+    "exampleVi": "Tôi không lười biếng.",
+    "tags": [
+      "personality",
+      "basic",
+      "negative"
+    ],
+    "collocations": [
+      "too lazy",
+      "lazy student"
+    ],
+    "notes": "Từ trái nghĩa gần với hard-working.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "shy",
+    "vi": "nhút nhát",
+    "phonetic": "/ʃaɪ/ (đọc lái: Shai)",
+    "type": "adjective",
+    "exampleEn": "She is a bit shy.",
+    "exampleVi": "Cô ấy hơi nhút nhát.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "a bit shy",
+      "shy person"
+    ],
+    "notes": "Dùng cho người ít nói, ngại giao tiếp.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "confident",
+    "vi": "tự tin",
+    "phonetic": "/ˈkɑːnfɪdənt/ (đọc lái: Cón-phi-đần-t)",
+    "type": "adjective",
+    "exampleEn": "I am very confident.",
+    "exampleVi": "Tôi rất tự tin.",
+    "tags": [
+      "personality",
+      "basic",
+      "positive"
+    ],
+    "collocations": [
+      "very confident",
+      "confident person"
+    ],
+    "notes": "Một từ rất quan trọng trong giao tiếp và phỏng vấn.",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "honest",
+    "vi": "thật thà / trung thực",
+    "phonetic": "/ˈɑːnɪst/ (đọc lái: Ó-nịt-st)",
+    "type": "adjective",
+    "exampleEn": "He is an honest boy.",
+    "exampleVi": "Cậu ấy là một đứa trẻ thật thà.",
+    "tags": [
+      "personality",
+      "basic",
+      "positive"
+    ],
+    "collocations": [
+      "honest person",
+      "be honest"
+    ],
+    "notes": "Từ chỉ tính cách tốt, hay dùng trong phỏng vấn.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "generous",
+    "vi": "hào phóng",
+    "phonetic": "/ˈdʒenərəs/ (đọc lái: Jén-nơ-rớt-s)",
+    "type": "adjective",
+    "exampleEn": "My boss is generous.",
+    "exampleVi": "Sếp tôi rất hào phóng.",
+    "tags": [
+      "personality",
+      "basic",
+      "positive"
+    ],
+    "collocations": [
+      "very generous",
+      "generous person"
+    ],
+    "notes": "Dùng để khen người rộng rãi, tốt bụng.",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "serious",
+    "vi": "nghiêm túc",
+    "phonetic": "/ˈsɪriəs/ (đọc lái: Shí-ri-ớt-s)",
+    "type": "adjective",
+    "exampleEn": "He is a serious manager.",
+    "exampleVi": "Ông ấy là một quản lý nghiêm túc.",
+    "tags": [
+      "personality",
+      "work",
+      "description"
+    ],
+    "collocations": [
+      "serious person",
+      "serious manager"
+    ],
+    "notes": "Có thể mang nghĩa tập trung, đứng đắn.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "patient",
+    "vi": "kiên nhẫn",
+    "phonetic": "/ˈpeɪʃnt/ (đọc lái: Pêi-shần-t)",
+    "type": "adjective",
+    "exampleEn": "I am a patient teacher.",
+    "exampleVi": "Tôi là một giáo viên kiên nhẫn.",
+    "tags": [
+      "personality",
+      "work",
+      "positive"
+    ],
+    "collocations": [
+      "very patient",
+      "patient teacher"
+    ],
+    "notes": "Không nhầm với 'patient' = bệnh nhân.",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "brave",
+    "vi": "dũng cảm",
+    "phonetic": "/breɪv/ (đọc lái: Brêi-v)",
+    "type": "adjective",
+    "exampleEn": "You are very brave.",
+    "exampleVi": "Bạn rất dũng cảm.",
+    "tags": [
+      "personality",
+      "basic",
+      "positive"
+    ],
+    "collocations": [
+      "very brave",
+      "brave person"
+    ],
+    "notes": "Dùng để khen sự can đảm.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "talkative",
+    "vi": "hay nói",
+    "phonetic": "/ˈtɔːkətɪv/ (đọc lái: Tó-cơ-tịch-v)",
+    "type": "adjective",
+    "exampleEn": "My friend is talkative.",
+    "exampleVi": "Bạn tôi rất hay nói.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "very talkative",
+      "talkative child"
+    ],
+    "notes": "Có thể tích cực hoặc trung tính tùy ngữ cảnh.",
+    "difficulty": 2
+  },
+  {
+    "day": 3,
+    "en": "quiet",
+    "vi": "trầm tính / ít nói",
+    "phonetic": "/ˈkwaɪət/ (đọc lái: Quai-ợt)",
+    "type": "adjective",
+    "exampleEn": "I am a quiet person.",
+    "exampleVi": "Tôi là người trầm tính.",
+    "tags": [
+      "personality",
+      "basic",
+      "people"
+    ],
+    "collocations": [
+      "quiet person",
+      "very quiet"
+    ],
+    "notes": "Trong ngày 2 từ này mang nghĩa 'yên tĩnh'; ở đây là tính cách.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "look like",
+    "vi": "trông giống",
+    "phonetic": "/lʊk laɪk/ (đọc lái: Lục laik)",
+    "type": "verb phrase",
+    "exampleEn": "I look like my father.",
+    "exampleVi": "Tôi trông giống bố tôi.",
+    "tags": [
+      "appearance",
+      "family",
+      "description"
+    ],
+    "collocations": [
+      "look like my mother",
+      "really look like"
+    ],
+    "notes": "Dùng để nói sự giống nhau về ngoại hình.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "young",
+    "vi": "trẻ / trẻ trung",
+    "phonetic": "/jʌŋ/ (đọc lái: Giăng)",
+    "type": "adjective",
+    "exampleEn": "She looks very young.",
+    "exampleVi": "Cô ấy trông rất trẻ.",
+    "tags": [
+      "appearance",
+      "age",
+      "description"
+    ],
+    "collocations": [
+      "very young",
+      "look young"
+    ],
+    "notes": "Có thể dùng cho tuổi thật hoặc vẻ ngoài trẻ trung.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "old",
+    "vi": "già / lớn tuổi",
+    "phonetic": "/əʊld/ (đọc lái: Ô-l-đ)",
+    "type": "adjective",
+    "exampleEn": "My grandfather is old.",
+    "exampleVi": "Ông tôi đã già rồi.",
+    "tags": [
+      "appearance",
+      "age",
+      "description"
+    ],
+    "collocations": [
+      "old man",
+      "years old"
+    ],
+    "notes": "Cần dùng cẩn thận trong giao tiếp vì có thể nhạy cảm.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "strong",
+    "vi": "khỏe mạnh / mạnh mẽ",
+    "phonetic": "/strɔːŋ/ (đọc lái: Strong)",
+    "type": "adjective",
+    "exampleEn": "He is very strong.",
+    "exampleVi": "Anh ấy rất khỏe mạnh.",
+    "tags": [
+      "body",
+      "health",
+      "description"
+    ],
+    "collocations": [
+      "very strong",
+      "strong body"
+    ],
+    "notes": "Có thể chỉ sức khỏe hoặc sức mạnh.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "weak",
+    "vi": "yếu ớt",
+    "phonetic": "/wiːk/ (đọc lái: Uých)",
+    "type": "adjective",
+    "exampleEn": "I feel weak today.",
+    "exampleVi": "Hôm nay tôi thấy yếu.",
+    "tags": [
+      "body",
+      "health",
+      "feeling"
+    ],
+    "collocations": [
+      "feel weak",
+      "too weak"
+    ],
+    "notes": "Trái nghĩa với strong.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "polite",
+    "vi": "lịch sự",
+    "phonetic": "/pəˈlaɪt/ (đọc lái: Pờ-lait)",
+    "type": "adjective",
+    "exampleEn": "He is always polite.",
+    "exampleVi": "Anh ấy luôn lịch sự.",
+    "tags": [
+      "personality",
+      "basic",
+      "social"
+    ],
+    "collocations": [
+      "very polite",
+      "polite person"
+    ],
+    "notes": "Một từ rất hữu ích trong giao tiếp hằng ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "rude",
+    "vi": "thô lỗ",
+    "phonetic": "/ruːd/ (đọc lái: Ru-đ)",
+    "type": "adjective",
+    "exampleEn": "I don't like rude people.",
+    "exampleVi": "Tôi không thích người thô lỗ.",
+    "tags": [
+      "personality",
+      "basic",
+      "negative"
+    ],
+    "collocations": [
+      "rude person",
+      "too rude"
+    ],
+    "notes": "Là từ trái nghĩa của polite.",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "creative",
+    "vi": "sáng tạo",
+    "phonetic": "/kriˈeɪtɪv/ (đọc lái: Cri-êi-tịch-v)",
+    "type": "adjective",
+    "exampleEn": "She is very creative.",
+    "exampleVi": "Cô ấy rất sáng tạo.",
+    "tags": [
+      "personality",
+      "work",
+      "positive"
+    ],
+    "collocations": [
+      "very creative",
+      "creative person"
+    ],
+    "notes": "Hay dùng để khen tư duy hoặc khả năng làm việc.",
+    "difficulty": 2
+  }
+]

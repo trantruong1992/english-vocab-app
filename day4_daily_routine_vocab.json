@@ -1,0 +1,702 @@
+[
+  {
+    "day": 4,
+    "en": "wake up",
+    "vi": "thức giấc",
+    "phonetic": "/weɪk ʌp/ (đọc lái: Uêik ắp)",
+    "type": "phrasal verb",
+    "exampleEn": "I wake up at 6 AM.",
+    "exampleVi": "Tôi thức giấc lúc 6 giờ sáng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "morning"
+    ],
+    "collocations": [
+      "wake up early",
+      "wake up at 6"
+    ],
+    "notes": "Dùng khi nói thời điểm tỉnh giấc.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "get up",
+    "vi": "rời khỏi giường / dậy",
+    "phonetic": "/ɡet ʌp/ (đọc lái: Ghét ắp)",
+    "type": "phrasal verb",
+    "exampleEn": "I get up at 6:15.",
+    "exampleVi": "Tôi dậy lúc 6 giờ 15.",
+    "tags": [
+      "daily life",
+      "routine",
+      "morning"
+    ],
+    "collocations": [
+      "get up early",
+      "get up late"
+    ],
+    "notes": "Khác với 'wake up': wake up là tỉnh giấc, get up là ra khỏi giường.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "brush teeth",
+    "vi": "đánh răng",
+    "phonetic": "/brʌʃ tiːθ/ (đọc lái: Brắt-sh ti-th)",
+    "type": "verb phrase",
+    "exampleEn": "I brush my teeth every day.",
+    "exampleVi": "Tôi đánh răng mỗi ngày.",
+    "tags": [
+      "daily life",
+      "routine",
+      "health"
+    ],
+    "collocations": [
+      "brush my teeth",
+      "brush teeth every day"
+    ],
+    "notes": "Cách tự nhiên hơn trong câu là 'brush my teeth'.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "wash face",
+    "vi": "rửa mặt",
+    "phonetic": "/wɒʃ feɪs/ (đọc lái: Uót-sh phêi-x)",
+    "type": "verb phrase",
+    "exampleEn": "I wash my face at 6:20.",
+    "exampleVi": "Tôi rửa mặt lúc 6 giờ 20.",
+    "tags": [
+      "daily life",
+      "routine",
+      "health"
+    ],
+    "collocations": [
+      "wash my face",
+      "wash face in the morning"
+    ],
+    "notes": "Cách dùng tự nhiên là 'wash my face'.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "take a shower",
+    "vi": "đi tắm",
+    "phonetic": "/teɪk ə ˈʃaʊər/ (đọc lái: Têik ờ sao-ờ)",
+    "type": "verb phrase",
+    "exampleEn": "I take a shower in the morning.",
+    "exampleVi": "Tôi đi tắm vào buổi sáng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "health"
+    ],
+    "collocations": [
+      "take a shower",
+      "take a quick shower"
+    ],
+    "notes": "Một cụm rất phổ biến trong sinh hoạt hằng ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "get dressed",
+    "vi": "mặc quần áo",
+    "phonetic": "/ɡet drest/ (đọc lái: Ghét đrét-st)",
+    "type": "verb phrase",
+    "exampleEn": "I get dressed at 6:45.",
+    "exampleVi": "Tôi mặc đồ lúc 6 giờ 45.",
+    "tags": [
+      "daily life",
+      "routine",
+      "morning"
+    ],
+    "collocations": [
+      "get dressed quickly",
+      "get dressed for work"
+    ],
+    "notes": "Chỉ hành động mặc đồ hoàn chỉnh.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "have breakfast",
+    "vi": "ăn sáng",
+    "phonetic": "/hæv ˈbrekfəst/ (đọc lái: Hav brếk-phớt-st)",
+    "type": "verb phrase",
+    "exampleEn": "I have breakfast with my family.",
+    "exampleVi": "Tôi ăn sáng với gia đình.",
+    "tags": [
+      "daily life",
+      "routine",
+      "food"
+    ],
+    "collocations": [
+      "have breakfast",
+      "have breakfast at home"
+    ],
+    "notes": "Dùng rất thường xuyên trong chủ đề thói quen hằng ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "make coffee",
+    "vi": "pha cà phê",
+    "phonetic": "/meɪk ˈkɔːfi/ (đọc lái: Mêik có-phi)",
+    "type": "verb phrase",
+    "exampleEn": "I make coffee every morning.",
+    "exampleVi": "Tôi pha cà phê mỗi sáng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "food"
+    ],
+    "collocations": [
+      "make coffee",
+      "make a cup of coffee"
+    ],
+    "notes": "Cụm quen thuộc trong sinh hoạt buổi sáng.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "leave home",
+    "vi": "rời nhà",
+    "phonetic": "/liːv həʊm/ (đọc lái: Li-v hôm)",
+    "type": "verb phrase",
+    "exampleEn": "I leave home at 7:30.",
+    "exampleVi": "Tôi rời nhà lúc 7 giờ 30.",
+    "tags": [
+      "daily life",
+      "routine",
+      "movement"
+    ],
+    "collocations": [
+      "leave home early",
+      "leave home for work"
+    ],
+    "notes": "Dùng để nói thời điểm ra khỏi nhà.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "go to work",
+    "vi": "đi làm",
+    "phonetic": "/ɡəʊ tu wɜːrk/ (đọc lái: Gâu tu uớc-k)",
+    "type": "verb phrase",
+    "exampleEn": "I go to work by motorbike.",
+    "exampleVi": "Tôi đi làm bằng xe máy.",
+    "tags": [
+      "daily life",
+      "routine",
+      "work"
+    ],
+    "collocations": [
+      "go to work",
+      "go to work by bus"
+    ],
+    "notes": "Cụm từ rất cơ bản để nói về công việc.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "start work",
+    "vi": "bắt đầu làm việc",
+    "phonetic": "/stɑːrt wɜːrk/ (đọc lái: Stạt uớc-k)",
+    "type": "verb phrase",
+    "exampleEn": "I start work at 8 AM.",
+    "exampleVi": "Tôi bắt đầu làm lúc 8h sáng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "work"
+    ],
+    "collocations": [
+      "start work at 8",
+      "start work early"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'work', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "check emails",
+    "vi": "kiểm tra email",
+    "phonetic": "/tʃek ˈiːmeɪlz/ (đọc lái: Chếch i-meo-z)",
+    "type": "verb phrase",
+    "exampleEn": "I check my emails at 8:15.",
+    "exampleVi": "Tôi check email lúc 8h15.",
+    "tags": [
+      "daily life",
+      "routine",
+      "work"
+    ],
+    "collocations": [
+      "check emails",
+      "check my email"
+    ],
+    "notes": "Cách tự nhiên hơn là 'check my email' hoặc 'check my emails'.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "have lunch",
+    "vi": "ăn trưa",
+    "phonetic": "/hæv lʌntʃ/ (đọc lái: Hav lăn-t-sh)",
+    "type": "verb phrase",
+    "exampleEn": "I have lunch at 12 PM.",
+    "exampleVi": "Tôi ăn trưa lúc 12 giờ trưa.",
+    "tags": [
+      "daily life",
+      "routine",
+      "food"
+    ],
+    "collocations": [
+      "have lunch",
+      "have lunch at noon"
+    ],
+    "notes": "Cụm rất phổ biến trong chủ đề sinh hoạt hằng ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "take a nap",
+    "vi": "ngủ trưa",
+    "phonetic": "/teɪk ə næp/ (đọc lái: Têik ờ nắp)",
+    "type": "verb phrase",
+    "exampleEn": "I take a nap for 30 minutes.",
+    "exampleVi": "Tôi ngủ trưa 30 phút.",
+    "tags": [
+      "daily life",
+      "routine",
+      "rest"
+    ],
+    "collocations": [
+      "take a nap",
+      "take a short nap"
+    ],
+    "notes": "Chỉ giấc ngủ ngắn giữa ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "finish work",
+    "vi": "xong việc / tan làm",
+    "phonetic": "/ˈfɪnɪʃ wɜːrk/ (đọc lái: Phí-nịt-sh uớc-k)",
+    "type": "verb phrase",
+    "exampleEn": "I finish work at 5:30 PM.",
+    "exampleVi": "Tôi xong việc lúc 5h30 chiều.",
+    "tags": [
+      "daily life",
+      "routine",
+      "work"
+    ],
+    "collocations": [
+      "finish work",
+      "finish work late"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'work', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "go home",
+    "vi": "đi về nhà",
+    "phonetic": "/ɡəʊ həʊm/ (đọc lái: Gâu hôm)",
+    "type": "verb phrase",
+    "exampleEn": "I go home after work.",
+    "exampleVi": "Tôi về nhà sau giờ làm.",
+    "tags": [
+      "daily life",
+      "routine",
+      "movement"
+    ],
+    "collocations": [
+      "go home",
+      "go home after work"
+    ],
+    "notes": "Cụm cơ bản dùng rất nhiều trong giao tiếp.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "cook dinner",
+    "vi": "nấu bữa tối",
+    "phonetic": "/kʊk ˈdɪnər/ (đọc lái: Cúc đi-nờ)",
+    "type": "verb phrase",
+    "exampleEn": "I cook dinner at 7 PM.",
+    "exampleVi": "Tôi nấu bữa tối lúc 7h tối.",
+    "tags": [
+      "daily life",
+      "routine",
+      "food"
+    ],
+    "collocations": [
+      "cook dinner",
+      "cook dinner at home"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'dinner', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "watch TV",
+    "vi": "xem tivi",
+    "phonetic": "/wɒtʃ ˌtiːˈviː/ (đọc lái: Uót-sh ti-vi)",
+    "type": "verb phrase",
+    "exampleEn": "I watch TV in the evening.",
+    "exampleVi": "Tôi xem tivi vào buổi tối.",
+    "tags": [
+      "daily life",
+      "routine",
+      "entertainment"
+    ],
+    "collocations": [
+      "watch TV",
+      "watch TV at night"
+    ],
+    "notes": "Một hoạt động giải trí rất thông dụng.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "read books",
+    "vi": "đọc sách",
+    "phonetic": "/riːd bʊks/ (đọc lái: Rít búc-s)",
+    "type": "verb phrase",
+    "exampleEn": "I read books before bed.",
+    "exampleVi": "Tôi đọc sách trước khi ngủ.",
+    "tags": [
+      "daily life",
+      "routine",
+      "study"
+    ],
+    "collocations": [
+      "read books",
+      "read before bed"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'books', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "go to bed",
+    "vi": "đi ngủ",
+    "phonetic": "/ɡəʊ tu bed/ (đọc lái: Gâu tu bét)",
+    "type": "verb phrase",
+    "exampleEn": "I go to bed at 11 PM.",
+    "exampleVi": "Tôi đi ngủ lúc 11 giờ đêm.",
+    "tags": [
+      "daily life",
+      "routine",
+      "night"
+    ],
+    "collocations": [
+      "go to bed early",
+      "go to bed late"
+    ],
+    "notes": "Cụm dùng để nói thời điểm đi ngủ.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "listen to music",
+    "vi": "nghe nhạc",
+    "phonetic": "/ˈlɪsn tə ˈmjuːzɪk/ (đọc lái: Lí-xừn tờ miu-zịch)",
+    "type": "verb phrase",
+    "exampleEn": "I listen to music to relax.",
+    "exampleVi": "Tôi nghe nhạc để thư giãn.",
+    "tags": [
+      "daily life",
+      "routine",
+      "entertainment"
+    ],
+    "collocations": [
+      "listen to music",
+      "listen to music at night"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'to music', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "exercise",
+    "vi": "tập thể dục",
+    "phonetic": "/ˈeksərsaɪz/ (đọc lái: Éc-xơ-sai-z)",
+    "type": "verb / noun",
+    "exampleEn": "I exercise every afternoon.",
+    "exampleVi": "Tôi tập thể dục mỗi chiều.",
+    "tags": [
+      "daily life",
+      "routine",
+      "health"
+    ],
+    "collocations": [
+      "do exercise",
+      "exercise every day"
+    ],
+    "notes": "Có thể là động từ hoặc danh từ.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "go to the gym",
+    "vi": "đi tập gym",
+    "phonetic": "/ɡəʊ tə ðə dʒɪm/ (đọc lái: Gâu tờ đờ dim)",
+    "type": "verb phrase",
+    "exampleEn": "I go to the gym on Tuesday.",
+    "exampleVi": "Tôi đi tập gym vào thứ Ba.",
+    "tags": [
+      "daily life",
+      "routine",
+      "health"
+    ],
+    "collocations": [
+      "go to the gym",
+      "go to the gym regularly"
+    ],
+    "notes": "Cụm quen thuộc khi nói về tập luyện.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "do housework",
+    "vi": "làm việc nhà",
+    "phonetic": "/ˈhaʊswɜːrk/ (đọc lái: Du hao-uớc-k)",
+    "type": "verb phrase",
+    "exampleEn": "I do housework at the weekend.",
+    "exampleVi": "Tôi làm việc nhà vào cuối tuần.",
+    "tags": [
+      "daily life",
+      "routine",
+      "home"
+    ],
+    "collocations": [
+      "do housework",
+      "do housework every weekend"
+    ],
+    "notes": "Thường dùng để nói việc dọn dẹp, lau chùi, nấu nướng.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "do laundry",
+    "vi": "giặt quần áo",
+    "phonetic": "/ˈlɔːndri/ (đọc lái: Lon-dri)",
+    "type": "verb phrase",
+    "exampleEn": "I do laundry on Sunday.",
+    "exampleVi": "Tôi giặt đồ vào Chủ Nhật.",
+    "tags": [
+      "daily life",
+      "routine",
+      "home"
+    ],
+    "collocations": [
+      "do laundry",
+      "do the laundry"
+    ],
+    "notes": "Cách tự nhiên hơn đầy đủ là 'do the laundry'.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "feed the pet",
+    "vi": "cho thú cưng ăn",
+    "phonetic": "/fiːd ðə pet/ (đọc lái: Phít đờ pet)",
+    "type": "verb phrase",
+    "exampleEn": "I feed my cat every morning.",
+    "exampleVi": "Tôi cho mèo ăn mỗi sáng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "pet"
+    ],
+    "collocations": [
+      "feed the pet",
+      "feed my cat"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'the pet', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "water plants",
+    "vi": "tưới cây",
+    "phonetic": "/ˈwɔːtər plænts/ (đọc lái: Uốt-tờ plen-ts)",
+    "type": "verb phrase",
+    "exampleEn": "I water the plants in the garden.",
+    "exampleVi": "Tôi tưới cây trong vườn.",
+    "tags": [
+      "daily life",
+      "routine",
+      "home"
+    ],
+    "collocations": [
+      "water plants",
+      "water the garden plants"
+    ],
+    "notes": "Trong bảng gốc thiếu phần phiên âm của 'plants', đã chuẩn hóa lại.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "surf the net",
+    "vi": "lướt mạng",
+    "phonetic": "/sɜːrf ðə net/ (đọc lái: Sơ-ph đờ nét)",
+    "type": "verb phrase",
+    "exampleEn": "I surf the net for 1 hour.",
+    "exampleVi": "Tôi lướt mạng trong 1 tiếng.",
+    "tags": [
+      "daily life",
+      "routine",
+      "internet"
+    ],
+    "collocations": [
+      "surf the net",
+      "surf the internet"
+    ],
+    "notes": "Cụm khá phổ biến, nhưng hiện nay 'browse the internet' cũng rất hay dùng.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "relax",
+    "vi": "thư giãn",
+    "phonetic": "/rɪˈlæks/ (đọc lái: Ri-lắc-ks)",
+    "type": "verb",
+    "exampleEn": "I relax on the sofa.",
+    "exampleVi": "Tôi thư giãn trên ghế sofa.",
+    "tags": [
+      "daily life",
+      "routine",
+      "rest"
+    ],
+    "collocations": [
+      "relax at home",
+      "relax on the sofa"
+    ],
+    "notes": "Một từ cơ bản và rất hay dùng.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "daily routine",
+    "vi": "thói quen hàng ngày",
+    "phonetic": "/ˈdeɪli ruːˈtiːn/ (đọc lái: Đêi-li ru-tin)",
+    "type": "noun phrase",
+    "exampleEn": "It is my daily routine.",
+    "exampleVi": "Đó là thói quen hàng ngày của tôi.",
+    "tags": [
+      "daily life",
+      "routine",
+      "topic"
+    ],
+    "collocations": [
+      "my daily routine",
+      "talk about daily routine"
+    ],
+    "notes": "Chủ đề rất phổ biến trong học tiếng Anh cơ bản.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "in the morning",
+    "vi": "vào buổi sáng",
+    "phonetic": "/ɪn ðə ˈmɔːrnɪŋ/ (đọc lái: In đờ mo-ning)",
+    "type": "time expression",
+    "exampleEn": "I am busy in the morning.",
+    "exampleVi": "Tôi bận vào buổi sáng.",
+    "tags": [
+      "daily life",
+      "time",
+      "routine"
+    ],
+    "collocations": [
+      "busy in the morning",
+      "study in the morning"
+    ],
+    "notes": "Cụm chỉ thời gian trong ngày.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "at noon",
+    "vi": "vào buổi trưa",
+    "phonetic": "/æt nuːn/ (đọc lái: At nun)",
+    "type": "time expression",
+    "exampleEn": "It is very hot at noon.",
+    "exampleVi": "Trời rất nóng vào buổi trưa.",
+    "tags": [
+      "daily life",
+      "time",
+      "routine"
+    ],
+    "collocations": [
+      "at noon",
+      "eat lunch at noon"
+    ],
+    "notes": "Noon = 12 giờ trưa.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "in the afternoon",
+    "vi": "vào buổi chiều",
+    "phonetic": "/ɪn ðə ˌæftərˈnuːn/ (đọc lái: In đờ áp-tơ-nun)",
+    "type": "time expression",
+    "exampleEn": "I exercise in the afternoon.",
+    "exampleVi": "Tôi tập thể dục vào buổi chiều.",
+    "tags": [
+      "daily life",
+      "time",
+      "routine"
+    ],
+    "collocations": [
+      "in the afternoon",
+      "study in the afternoon"
+    ],
+    "notes": "Cụm chỉ thời gian buổi chiều.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "in the evening",
+    "vi": "vào buổi tối",
+    "phonetic": "/ɪn ðə ˈiːvnɪŋ/ (đọc lái: In đờ i-v-ning)",
+    "type": "time expression",
+    "exampleEn": "I cook in the evening.",
+    "exampleVi": "Tôi nấu ăn vào buổi tối.",
+    "tags": [
+      "daily life",
+      "time",
+      "routine"
+    ],
+    "collocations": [
+      "in the evening",
+      "watch TV in the evening"
+    ],
+    "notes": "Evening là khoảng tối trước giờ đi ngủ.",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "at night",
+    "vi": "vào ban đêm",
+    "phonetic": "/æt naɪt/ (đọc lái: At nait)",
+    "type": "time expression",
+    "exampleEn": "I sleep well at night.",
+    "exampleVi": "Tôi ngủ ngon vào ban đêm.",
+    "tags": [
+      "daily life",
+      "time",
+      "routine"
+    ],
+    "collocations": [
+      "at night",
+      "study at night"
+    ],
+    "notes": "Night thường muộn hơn evening.",
+    "difficulty": 1
+  }
+]
