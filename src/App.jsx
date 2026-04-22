@@ -32,6 +32,7 @@ const defaultItem = {
   kind: "word", // word | sentence
   en: "",
   vi: "",
+  pronunciation: "",
   note: "",
   learning: defaultLearning(),
 };
@@ -110,6 +111,7 @@ function loadState() {
             id: item.id || `item_${Date.now()}_${index}`,
             kind: item.kind === "sentence" ? "sentence" : "word",
             day: Number(item.day || 1),
+            pronunciation: String(item.phonetic || item.pronunciation || "").trim(),
             learning: { ...defaultLearning(), ...(item.learning || {}) },
           }))
         : defaultState.items,
@@ -164,12 +166,14 @@ export default function App() {
     kind: "word",
     en: "",
     vi: "",
+    pronunciation: "",
     note: "",
   });
   const [sessionIndex, setSessionIndex] = useState(0);
   const [typed, setTyped] = useState("");
   const [answerState, setAnswerState] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [showPronunciation, setShowPronunciation] = useState(false);
   const [sessionFinished, setSessionFinished] = useState(false);
   const [completedIds, setCompletedIds] = useState([]);
   const [lastSessionConfig, setLastSessionConfig] = useState(null);
@@ -324,6 +328,7 @@ export default function App() {
 
   function submitAnswer() {
     if (!currentItem) return;
+
     const isCorrect = normalizeText(typed) === normalizeText(currentItem.en);
 
     updateItemLearning(currentItem.id, {
@@ -334,10 +339,7 @@ export default function App() {
     if (isCorrect) {
       setAnswerState({ ok: true, text: "Đúng rồi" });
       setTyped("");
-      setShowAnswer(false);
-      setTimeout(() => {
-        goNextCard(false);
-      }, 350);
+      focusInput();
     } else {
       setAnswerState({ ok: false, text: "Sai rồi, hãy xem đáp án và nhập lại." });
       focusInput();
@@ -356,6 +358,7 @@ export default function App() {
 
     setTyped("");
     setShowAnswer(false);
+    setShowPronunciation(false);
     setAnswerState({ ok: true, text: "Đã đánh dấu thuộc." });
 
     setTimeout(() => {
@@ -399,6 +402,7 @@ export default function App() {
       kind: form.kind,
       en: form.en.trim(),
       vi: form.vi.trim(),
+      pronunciation: form.pronunciation.trim(),
       note: form.note.trim(),
       learning: form.id
         ? items.find((item) => item.id === form.id)?.learning || defaultLearning()
@@ -418,6 +422,7 @@ export default function App() {
       kind: settings.studyKind,
       en: "",
       vi: "",
+      pronunciation: "",
       note: "",
     });
   }
@@ -429,6 +434,7 @@ export default function App() {
       kind: item.kind,
       en: item.en,
       vi: item.vi,
+      pronunciation: item.pronunciation || "",
       note: item.note || "",
     });
     setTab("library");
@@ -486,6 +492,7 @@ export default function App() {
           const baseId = word.id || `word_${Date.now()}_${index}`;
           const day = Number(word.day || 1);
           const note = word.note || word.notes || "";
+          const pronunciation = word.phonetic || word.pronunciation || "";
           const learning = toSafeLearning(word.learning);
 
           const result = [];
@@ -497,6 +504,7 @@ export default function App() {
               kind: "word",
               en: String(word.en || "").trim(),
               vi: String(word.vi || "").trim(),
+              pronunciation: String(pronunciation || "").trim(),
               note,
               learning,
             });
@@ -509,6 +517,7 @@ export default function App() {
               kind: "sentence",
               en: String(word.exampleEn || "").trim(),
               vi: String(word.exampleVi || word.vi || "").trim(),
+              pronunciation: "",
               note,
               learning,
             });
@@ -525,6 +534,7 @@ export default function App() {
           kind: item.kind === "sentence" ? "sentence" : "word",
           en: String(item.en || "").trim(),
           vi: String(item.vi || "").trim(),
+          pronunciation: String(item.pronunciation || item.phonetic || "").trim(),
           note: String(item.note || item.notes || "").trim(),
           learning: toSafeLearning(item.learning),
         });
@@ -818,6 +828,13 @@ export default function App() {
                         <div style={styles.helpText}>
                           Nhập đúng {settings.studyKind === "word" ? "từ tiếng Anh" : "câu tiếng Anh"}. Nếu quên, bấm hiện đáp án.
                         </div>
+                        {(currentItem.pronunciation || currentItem.phonetic) ? (
+                          <div style={styles.helpText}>
+                            Cách đọc: <strong>{currentItem.pronunciation || currentItem.phonetic}</strong>
+                          </div>
+                        ) : (
+                          <div style={styles.helpText}>Cách đọc: chưa có</div>
+                        )}
                       </div>
 
                       <div style={styles.stack}>
@@ -840,6 +857,12 @@ export default function App() {
                           </button>
                           <button style={styles.secondaryBtn} onClick={() => setShowAnswer((prev) => !prev)}>
                             {showAnswer ? "Ẩn đáp án" : "Hiện đáp án"}
+                          </button>
+                          <button
+                            style={styles.secondaryBtn}
+                            onClick={() => setShowPronunciation((prev) => !prev)}
+                          >
+                            {showPronunciation ? "Ẩn cách đọc" : "Hiện cách đọc"}
                           </button>
                           <button style={styles.secondaryBtn} onClick={() => speak(currentItem.en, settings.voiceLang)}>
                             <Volume2 size={16} /> Nghe
@@ -864,6 +887,15 @@ export default function App() {
                             <div style={styles.answerText}>{currentItem.en}</div>
                           </div>
                         )}
+
+                        {showPronunciation ? (
+                          <div style={styles.answerBox}>
+                            <div style={styles.answerLabel}>Cách đọc</div>
+                            <div style={styles.answerText}>
+                              {currentItem.pronunciation || currentItem.phonetic || "Chưa có cách đọc cho mục này"}
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
 
@@ -889,10 +921,23 @@ export default function App() {
                       <button
                         style={styles.secondaryBtn}
                         onClick={() => {
+                          const isCurrentAnswerCorrect =
+                            answerState?.ok === true;
+
+                          if (!isCurrentAnswerCorrect) {
+                            setAnswerState({
+                              ok: false,
+                              text: "Bạn chưa trả lời đúng. Hãy bấm Kiểm tra hoặc nhập lại cho đúng trước khi sang mục khác.",
+                            });
+                            focusInput();
+                            return;
+                          }
+
                           if (sessionIndex >= currentSessionItems.length - 1) {
                             setSessionFinished(true);
                             return;
                           }
+
                           setSessionIndex((prev) => prev + 1);
                           setTyped("");
                           setAnswerState(null);
@@ -946,6 +991,14 @@ export default function App() {
                   />
                 </Field>
 
+                <Field label="Cách đọc" dark={settings.dark}>
+                  <input
+                    value={form.pronunciation}
+                    onChange={(e) => setForm((prev) => ({ ...prev, pronunciation: e.target.value }))}
+                    style={styles.input}
+                  />
+                </Field>
+
                 <Field label="Ghi chú" dark={settings.dark}>
                   <textarea
                     value={form.note}
@@ -968,6 +1021,7 @@ export default function App() {
                       kind: settings.studyKind,
                       en: "",
                       vi: "",
+                      pronunciation: "",
                       note: "",
                     })
                   }
@@ -997,6 +1051,7 @@ export default function App() {
                         <div>
                           <div style={styles.itemTitle}>{item.en}</div>
                           <div style={styles.muted}>{item.vi}</div>
+                          {(item.pronunciation || item.phonetic) ? <div style={styles.helpText}>Cách đọc: {item.pronunciation || item.phonetic}</div> : null}
                         </div>
                         <div style={styles.buttonRow}>
                           <button style={styles.iconBtn} onClick={() => speak(item.en, settings.voiceLang)}>
@@ -1579,4 +1634,3 @@ function getStyles(dark) {
     },
   };
 }
- 
