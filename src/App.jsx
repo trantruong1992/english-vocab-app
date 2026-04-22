@@ -464,15 +464,12 @@ export default function App() {
     reader.onload = (e) => {
       try {
         let raw = String(e.target?.result || "");
-
-        // bỏ BOM nếu có
         raw = raw.replace(/^﻿/, "").trim();
 
         let parsed;
         try {
           parsed = JSON.parse(raw);
         } catch {
-          // thử sửa một số dấu quote “ ” ‘ ’ nếu file bị copy từ nguồn khác
           const normalizedRaw = raw
             .replace(/[“”]/g, '"')
             .replace(/[‘’]/g, "'");
@@ -492,7 +489,7 @@ export default function App() {
           const baseId = word.id || `word_${Date.now()}_${index}`;
           const day = Number(word.day || 1);
           const note = word.note || word.notes || "";
-          const pronunciation = word.phonetic || word.pronunciation || "";
+          const pronunciation = String(word.phonetic || word.pronunciation || "").trim();
           const learning = toSafeLearning(word.learning);
 
           const result = [];
@@ -504,7 +501,8 @@ export default function App() {
               kind: "word",
               en: String(word.en || "").trim(),
               vi: String(word.vi || "").trim(),
-              pronunciation: String(pronunciation || "").trim(),
+              phonetic: pronunciation,
+              pronunciation: pronunciation,
               note,
               learning,
             });
@@ -517,6 +515,7 @@ export default function App() {
               kind: "sentence",
               en: String(word.exampleEn || "").trim(),
               vi: String(word.exampleVi || word.vi || "").trim(),
+              phonetic: "",
               pronunciation: "",
               note,
               learning,
@@ -534,54 +533,55 @@ export default function App() {
           kind: item.kind === "sentence" ? "sentence" : "word",
           en: String(item.en || "").trim(),
           vi: String(item.vi || "").trim(),
-          pronunciation: String(item.pronunciation || item.phonetic || "").trim(),
+          phonetic: String(item.phonetic || item.pronunciation || "").trim(),
+          pronunciation: String(item.phonetic || item.pronunciation || "").trim(),
           note: String(item.note || item.notes || "").trim(),
           learning: toSafeLearning(item.learning),
         });
 
-        // 1) format mới đầy đủ của app
+        let importedItems = [];
+
         if (parsed && Array.isArray(parsed.items)) {
-          setState({
-            ...defaultState,
-            ...parsed,
-            items: parsed.items.map(normalizeImportedItem),
-            settings: { ...defaultState.settings, ...(parsed.settings || {}) },
-          });
-          return;
-        }
-
-        // 2) format cũ: { words: [...] }
-        if (parsed && Array.isArray(parsed.words)) {
-          const convertedItems = parsed.words.flatMap(mapWordRecordToItems);
-          setState((prev) => ({
-            ...prev,
-            items: convertedItems,
-          }));
-          return;
-        }
-
-        // 3) top-level array: có thể là items mới hoặc words cũ
-        if (Array.isArray(parsed)) {
+          importedItems = parsed.items.map(normalizeImportedItem);
+        } else if (parsed && Array.isArray(parsed.words)) {
+          importedItems = parsed.words.flatMap(mapWordRecordToItems);
+        } else if (Array.isArray(parsed)) {
           const looksLikeOldWords = parsed.some(
             (x) => x && (Object.prototype.hasOwnProperty.call(x, "exampleEn") || !Object.prototype.hasOwnProperty.call(x, "kind"))
           );
-
-          const convertedItems = looksLikeOldWords
+          importedItems = looksLikeOldWords
             ? parsed.flatMap(mapWordRecordToItems)
             : parsed.map(normalizeImportedItem);
-
-          setState((prev) => ({
-            ...prev,
-            items: convertedItems,
-          }));
-          return;
+        } else if (parsed && typeof parsed === "object" && parsed.en && parsed.vi) {
+          importedItems = mapWordRecordToItems(parsed, 0);
+        } else {
+          throw new Error("Unsupported JSON format");
         }
 
-        throw new Error("Unsupported JSON format");
+        if (!importedItems.length) {
+          throw new Error("No items imported");
+        }
+
+        const importedDays = [...new Set(importedItems.map((item) => String(item.day)))];
+
+        setState((prev) => {
+          const prevKeep = prev.items.filter(
+            (item) => !importedDays.includes(String(item.day))
+          );
+
+          return {
+            ...prev,
+            items: [...prevKeep, ...importedItems].sort((a, b) => {
+              if (Number(a.day) !== Number(b.day)) return Number(a.day) - Number(b.day);
+              if (a.kind !== b.kind) return a.kind === "word" ? -1 : 1;
+              return a.en.localeCompare(b.en);
+            }),
+          };
+        });
       } catch (err) {
         console.error("Import JSON error:", err);
         alert(
-          "Không đọc được file JSON. Hãy kiểm tra file có đúng JSON không. App hiện hỗ trợ 3 kiểu: { items: [...] }, { words: [...] }, hoặc mảng dữ liệu trực tiếp."
+          "Không đọc được file JSON. App hiện hỗ trợ 4 kiểu: { items: [...] }, { words: [...] }, mảng dữ liệu trực tiếp, hoặc 1 object từ vựng đơn. Import mới sẽ chỉ thay dữ liệu của ngày có trong file, không làm mất các ngày khác."
         );
       }
     };
@@ -611,6 +611,33 @@ export default function App() {
     } else {
       setSetting("source", "unmastered");
     }
+  }
+
+  function resetMasteredByDay() {
+    setState((prev) => ({
+      ...prev,
+      items: prev.items.map((item) => {
+        if (
+          String(item.day) === String(prev.settings.day) &&
+          item.kind === prev.settings.studyKind &&
+          item.learning?.mastered
+        ) {
+          return {
+            ...item,
+            learning: defaultLearning(),
+          };
+        }
+        return item;
+      }),
+    }));
+
+    setCompletedIds([]);
+    setSessionIndex(0);
+    setTyped("");
+    setAnswerState(null);
+    setShowAnswer(false);
+    setShowPronunciation(false);
+    setSessionFinished(false);
   }
 
   const nextDay = getNextDay(allDays, settings.day);
@@ -722,6 +749,9 @@ export default function App() {
                 </button>
                 <button style={styles.secondaryBtn} onClick={exportJson}>
                   <Download size={16} /> Export JSON
+                </button>
+                <button style={styles.secondaryBtn} onClick={resetMasteredByDay}>
+                  <RotateCcw size={16} /> Reset đã thuộc của ngày hiện tại
                 </button>
               </div>
             </Card>
