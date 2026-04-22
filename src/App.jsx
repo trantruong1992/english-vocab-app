@@ -14,9 +14,10 @@ import {
   BarChart3,
   Settings,
   Star,
+  Trash2,
 } from "lucide-react";
 
-const STORAGE_KEY = "english_vocab_day_study_v1";
+const STORAGE_KEY = "english_vocab_day_study_v2";
 const today = () => new Date().toISOString().slice(0, 10);
 
 const defaultLearning = () => ({
@@ -32,6 +33,7 @@ const defaultItem = {
   kind: "word", // word | sentence
   en: "",
   vi: "",
+  phonetic: "",
   pronunciation: "",
   note: "",
   learning: defaultLearning(),
@@ -45,15 +47,8 @@ const defaultState = {
       kind: "word",
       en: "issue",
       vi: "vấn đề",
-      note: "",
-      learning: defaultLearning(),
-    },
-    {
-      id: crypto.randomUUID(),
-      day: 1,
-      kind: "word",
-      en: "schedule",
-      vi: "lịch trình; lên lịch",
+      phonetic: "/ˈɪʃuː/",
+      pronunciation: "/ˈɪʃuː/",
       note: "",
       learning: defaultLearning(),
     },
@@ -63,31 +58,15 @@ const defaultState = {
       kind: "sentence",
       en: "There is an issue with the app.",
       vi: "Có một vấn đề với ứng dụng.",
-      note: "",
-      learning: defaultLearning(),
-    },
-    {
-      id: crypto.randomUUID(),
-      day: 2,
-      kind: "word",
-      en: "reliable",
-      vi: "đáng tin cậy",
-      note: "",
-      learning: defaultLearning(),
-    },
-    {
-      id: crypto.randomUUID(),
-      day: 2,
-      kind: "sentence",
-      en: "She is a reliable colleague.",
-      vi: "Cô ấy là một đồng nghiệp đáng tin cậy.",
+      phonetic: "",
+      pronunciation: "",
       note: "",
       learning: defaultLearning(),
     },
   ],
   settings: {
     dark: false,
-    studyKind: "word", // word | sentence
+    studyKind: "word",
     source: "unmastered", // all | unmastered
     day: "1",
     randomMode: false,
@@ -100,6 +79,7 @@ function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState;
+
     const parsed = JSON.parse(raw);
     return {
       ...defaultState,
@@ -111,8 +91,19 @@ function loadState() {
             id: item.id || `item_${Date.now()}_${index}`,
             kind: item.kind === "sentence" ? "sentence" : "word",
             day: Number(item.day || 1),
+            en: String(item.en || "").trim(),
+            vi: String(item.vi || "").trim(),
+            phonetic: String(item.phonetic || item.pronunciation || "").trim(),
             pronunciation: String(item.phonetic || item.pronunciation || "").trim(),
-            learning: { ...defaultLearning(), ...(item.learning || {}) },
+            note: String(item.note || item.notes || "").trim(),
+            learning: {
+              ...defaultLearning(),
+              ...(item.learning || {}),
+              mastered: !!item.learning?.mastered,
+              masteredAt: item.learning?.masteredAt || null,
+              reviewCount: Number(item.learning?.reviewCount || 0),
+              lastReviewedAt: item.learning?.lastReviewedAt || null,
+            },
           }))
         : defaultState.items,
       settings: {
@@ -166,6 +157,7 @@ export default function App() {
     kind: "word",
     en: "",
     vi: "",
+    phonetic: "",
     pronunciation: "",
     note: "",
   });
@@ -175,11 +167,10 @@ export default function App() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [showPronunciation, setShowPronunciation] = useState(false);
   const [sessionFinished, setSessionFinished] = useState(false);
-  const [completedIds, setCompletedIds] = useState([]);
-  const [lastSessionConfig, setLastSessionConfig] = useState(null);
 
   const inputRef = useRef(null);
   const fileRef = useRef(null);
+  const advanceTimerRef = useRef(null);
 
   const items = state.items;
   const settings = state.settings;
@@ -190,6 +181,14 @@ export default function App() {
     saveState(state);
     document.body.style.background = settings.dark ? "#0f172a" : "#f8fafc";
   }, [state, settings.dark]);
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimerRef.current) {
+        clearTimeout(advanceTimerRef.current);
+      }
+    };
+  }, []);
 
   function focusInput() {
     const run = () => {
@@ -211,15 +210,14 @@ export default function App() {
 
   const filteredLibrary = useMemo(() => {
     return items.filter((item) => {
-      const hay = `${item.en} ${item.vi} ${item.note}`.toLowerCase();
+      const hay = `${item.en} ${item.vi} ${item.note} ${item.phonetic || item.pronunciation || ""}`.toLowerCase();
       return !searchText || hay.includes(searchText.toLowerCase());
     });
   }, [items, searchText]);
 
   const currentSessionItems = useMemo(() => {
     let arr = items.filter(
-      (item) =>
-        item.kind === settings.studyKind && String(item.day) === String(settings.day)
+      (item) => item.kind === settings.studyKind && String(item.day) === String(settings.day)
     );
 
     if (settings.source === "unmastered") {
@@ -240,13 +238,6 @@ export default function App() {
 
   const currentItem = currentSessionItems[sessionIndex] || null;
 
-  const sessionStats = useMemo(() => {
-    const total = currentSessionItems.length;
-    const mastered = currentSessionItems.filter((item) => item.learning?.mastered).length;
-    const unmastered = total - mastered;
-    return { total, mastered, unmastered };
-  }, [currentSessionItems]);
-
   const currentDayStats = useMemo(() => {
     const dayItems = items.filter(
       (item) => item.kind === settings.studyKind && String(item.day) === String(settings.day)
@@ -262,8 +253,8 @@ export default function App() {
     setTyped("");
     setAnswerState(null);
     setShowAnswer(false);
+    setShowPronunciation(false);
     setSessionFinished(false);
-    setCompletedIds([]);
   }, [settings.studyKind, settings.day, settings.source, settings.randomMode]);
 
   useEffect(() => {
@@ -298,21 +289,16 @@ export default function App() {
   }
 
   function goNextCard(afterMarkMastered = false) {
-    const newCompleted = completedIds.includes(currentItem.id)
-      ? completedIds
-      : [...completedIds, currentItem.id];
-    setCompletedIds(newCompleted);
+    if (!currentItem) return;
+
+    if (advanceTimerRef.current) {
+      clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
 
     const nextIndex = sessionIndex + 1;
     if (nextIndex >= currentSessionItems.length) {
       setSessionFinished(true);
-      setLastSessionConfig({
-        studyKind: settings.studyKind,
-        day: settings.day,
-        source: settings.source,
-        randomMode: settings.randomMode,
-        endedAt: today(),
-      });
       return;
     }
 
@@ -320,8 +306,10 @@ export default function App() {
     setTyped("");
     setAnswerState(afterMarkMastered ? { ok: true, text: "Đã đánh dấu thuộc." } : null);
     setShowAnswer(false);
+    setShowPronunciation(false);
+
     setTimeout(() => {
-      setAnswerState(null);
+      if (afterMarkMastered) setAnswerState(null);
       focusInput();
     }, 150);
   }
@@ -339,7 +327,15 @@ export default function App() {
     if (isCorrect) {
       setAnswerState({ ok: true, text: "Đúng rồi" });
       setTyped("");
-      focusInput();
+      setShowAnswer(false);
+      setShowPronunciation(false);
+
+      if (advanceTimerRef.current) {
+        clearTimeout(advanceTimerRef.current);
+      }
+      advanceTimerRef.current = setTimeout(() => {
+        goNextCard(false);
+      }, 500);
     } else {
       setAnswerState({ ok: false, text: "Sai rồi, hãy xem đáp án và nhập lại." });
       focusInput();
@@ -372,29 +368,33 @@ export default function App() {
     setTyped("");
     setAnswerState(null);
     setShowAnswer(false);
+    setShowPronunciation(false);
     setSessionFinished(false);
-    setCompletedIds([]);
     setTab("study");
   }
 
   function studyNextDay() {
     const nextDay = getNextDay(allDays, settings.day);
     if (!nextDay) return;
+
     setState((prev) => ({
       ...prev,
       settings: { ...prev.settings, day: String(nextDay) },
     }));
+
     setSessionIndex(0);
     setTyped("");
     setAnswerState(null);
     setShowAnswer(false);
+    setShowPronunciation(false);
     setSessionFinished(false);
-    setCompletedIds([]);
     setTab("study");
   }
 
   function saveFormItem() {
     if (!form.en.trim() || !form.vi.trim()) return;
+
+    const pronunciationValue = form.phonetic.trim() || form.pronunciation.trim();
 
     const payload = {
       id: form.id || crypto.randomUUID(),
@@ -402,7 +402,8 @@ export default function App() {
       kind: form.kind,
       en: form.en.trim(),
       vi: form.vi.trim(),
-      pronunciation: form.pronunciation.trim(),
+      phonetic: pronunciationValue,
+      pronunciation: pronunciationValue,
       note: form.note.trim(),
       learning: form.id
         ? items.find((item) => item.id === form.id)?.learning || defaultLearning()
@@ -422,6 +423,7 @@ export default function App() {
       kind: settings.studyKind,
       en: "",
       vi: "",
+      phonetic: "",
       pronunciation: "",
       note: "",
     });
@@ -434,7 +436,8 @@ export default function App() {
       kind: item.kind,
       en: item.en,
       vi: item.vi,
-      pronunciation: item.pronunciation || "",
+      phonetic: item.phonetic || item.pronunciation || "",
+      pronunciation: item.phonetic || item.pronunciation || "",
       note: item.note || "",
     });
     setTab("library");
@@ -448,11 +451,13 @@ export default function App() {
   }
 
   function exportJson() {
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(state, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `vocab-day-study-${today()}.json`;
+    a.download = `vocab-all-days-${today()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -464,7 +469,7 @@ export default function App() {
     reader.onload = (e) => {
       try {
         let raw = String(e.target?.result || "");
-        raw = raw.replace(/^﻿/, "").trim();
+        raw = raw.replace(/^\uFEFF/, "").trim();
 
         let parsed;
         try {
@@ -491,7 +496,6 @@ export default function App() {
           const note = word.note || word.notes || "";
           const pronunciation = String(word.phonetic || word.pronunciation || "").trim();
           const learning = toSafeLearning(word.learning);
-
           const result = [];
 
           if ((word.en || "").trim() || (word.vi || "").trim()) {
@@ -569,48 +573,26 @@ export default function App() {
             (item) => !importedDays.includes(String(item.day))
           );
 
+          const merged = [...prevKeep, ...importedItems].sort((a, b) => {
+            if (Number(a.day) !== Number(b.day)) return Number(a.day) - Number(b.day);
+            if (a.kind !== b.kind) return a.kind === "word" ? -1 : 1;
+            return a.en.localeCompare(b.en);
+          });
+
           return {
             ...prev,
-            items: [...prevKeep, ...importedItems].sort((a, b) => {
-              if (Number(a.day) !== Number(b.day)) return Number(a.day) - Number(b.day);
-              if (a.kind !== b.kind) return a.kind === "word" ? -1 : 1;
-              return a.en.localeCompare(b.en);
-            }),
+            items: merged,
           };
         });
       } catch (err) {
         console.error("Import JSON error:", err);
         alert(
-          "Không đọc được file JSON. App hiện hỗ trợ 4 kiểu: { items: [...] }, { words: [...] }, mảng dữ liệu trực tiếp, hoặc 1 object từ vựng đơn. Import mới sẽ chỉ thay dữ liệu của ngày có trong file, không làm mất các ngày khác."
+          "Không đọc được file JSON. App hỗ trợ: { items: [...] }, { words: [...] }, mảng dữ liệu trực tiếp, hoặc 1 object từ vựng đơn. Import lại ngày nào thì app sẽ thay toàn bộ dữ liệu của đúng ngày đó, không ảnh hưởng các ngày khác."
         );
       }
     };
 
     reader.readAsText(file, "utf-8");
-  }
-
-  function resetAllMasteredOfCurrentFilter(toSource) {
-    const targetIds = items
-      .filter(
-        (item) =>
-          item.kind === settings.studyKind &&
-          String(item.day) === String(settings.day) &&
-          (toSource === "all" || !item.learning?.mastered)
-      )
-      .map((item) => item.id);
-
-    setCompletedIds([]);
-    setSessionIndex(0);
-    setTyped("");
-    setAnswerState(null);
-    setShowAnswer(false);
-    setSessionFinished(false);
-
-    if (toSource === "all") {
-      setSetting("source", "all");
-    } else {
-      setSetting("source", "unmastered");
-    }
   }
 
   function resetMasteredByDay() {
@@ -631,7 +613,22 @@ export default function App() {
       }),
     }));
 
-    setCompletedIds([]);
+    setSessionIndex(0);
+    setTyped("");
+    setAnswerState(null);
+    setShowAnswer(false);
+    setShowPronunciation(false);
+    setSessionFinished(false);
+  }
+
+  function deleteCurrentDayData() {
+    setState((prev) => ({
+      ...prev,
+      items: prev.items.filter(
+        (item) => !(String(item.day) === String(prev.settings.day) && item.kind === prev.settings.studyKind)
+      ),
+    }));
+
     setSessionIndex(0);
     setTyped("");
     setAnswerState(null);
@@ -648,11 +645,13 @@ export default function App() {
       <div style={styles.container}>
         <div style={styles.header}>
           <div style={styles.brandWrap}>
-            <div style={styles.brandIcon}><Brain size={20} /></div>
+            <div style={styles.brandIcon}>
+              <Brain size={20} />
+            </div>
             <div>
               <div style={styles.title}>Ứng dụng học từ vựng theo ngày</div>
               <div style={styles.subtitle}>
-                Giữ giao diện đẹp, giữ import/export, tập trung đúng các chức năng học từ và học câu theo ngày, chọn học tất cả hoặc chưa thuộc, đánh dấu đã thuộc, và học xong có thống kê để học tiếp hoặc học lại.
+                Học từ và học câu theo ngày. Số mục học mặc định luôn bằng toàn bộ số mục của ngày đang chọn. Import theo ngày, import lại ngày nào thì chỉ thay đúng ngày đó. Export luôn ra toàn bộ các ngày trong một file.
               </div>
             </div>
           </div>
@@ -660,7 +659,7 @@ export default function App() {
           <div style={styles.topStats}>
             <MiniStat label="Tổng mục" value={items.length} dark={settings.dark} />
             <MiniStat label="Ngày hiện tại" value={settings.day} dark={settings.dark} />
-            <MiniStat label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
+            <MiniStat label="Số mục ngày này" value={currentDayStats.total} dark={settings.dark} />
             <button style={styles.smallBtn} onClick={() => setSetting("dark", !settings.dark)}>
               <Settings size={16} /> {settings.dark ? "Light" : "Dark"}
             </button>
@@ -725,8 +724,8 @@ export default function App() {
                 <ActionCard
                   dark={settings.dark}
                   title="Học tất cả"
-                  value={`${items.length} mục`}
-                  desc="Ôn lại toàn bộ khi cần"
+                  value={`${currentDayStats.total} mục`}
+                  desc="Học đủ toàn bộ số mục của ngày đang chọn"
                   onClick={() => {
                     setSetting("source", "all");
                     setTab("study");
@@ -738,6 +737,7 @@ export default function App() {
             <Card title="Ngày đang chọn" dark={settings.dark}>
               <Metric label="Loại học" value={settings.studyKind === "word" ? "Từ" : "Câu"} dark={settings.dark} />
               <Metric label="Ngày" value={settings.day} dark={settings.dark} />
+              <Metric label="Số mục của ngày" value={currentDayStats.total} dark={settings.dark} />
               <Metric label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
               <Metric label="Chưa thuộc" value={currentDayStats.unmastered} dark={settings.dark} />
             </Card>
@@ -748,10 +748,13 @@ export default function App() {
                   <Upload size={16} /> Import JSON
                 </button>
                 <button style={styles.secondaryBtn} onClick={exportJson}>
-                  <Download size={16} /> Export JSON
+                  <Download size={16} /> Export toàn bộ ngày
                 </button>
                 <button style={styles.secondaryBtn} onClick={resetMasteredByDay}>
                   <RotateCcw size={16} /> Reset đã thuộc của ngày hiện tại
+                </button>
+                <button style={styles.secondaryBtn} onClick={deleteCurrentDayData}>
+                  <Trash2 size={16} /> Xóa dữ liệu của ngày hiện tại
                 </button>
               </div>
             </Card>
@@ -792,6 +795,9 @@ export default function App() {
                   <span>Học ngẫu nhiên</span>
                 </label>
               </div>
+              <div style={styles.helpBox}>
+                Phiên học mặc định luôn lấy đúng toàn bộ số mục của ngày đang chọn. Ví dụ ngày 1 có 34 mục thì phiên học ngày 1 sẽ là 34 mục.
+              </div>
             </Card>
 
             {currentSessionItems.length === 0 ? (
@@ -809,11 +815,7 @@ export default function App() {
                   </div>
 
                   <div style={styles.finishActions}>
-                    <button
-                      style={styles.primaryBtn}
-                      onClick={studyNextDay}
-                      disabled={!nextDay}
-                    >
+                    <button style={styles.primaryBtn} onClick={studyNextDay} disabled={!nextDay}>
                       Học ngày tiếp theo
                     </button>
                     <button style={styles.secondaryBtn} onClick={() => replayCurrentMode("all")}>
@@ -827,9 +829,7 @@ export default function App() {
                     </button>
                   </div>
 
-                  {!nextDay && (
-                    <div style={styles.helpText}>Hiện chưa có ngày tiếp theo trong dữ liệu.</div>
-                  )}
+                  {!nextDay && <div style={styles.helpText}>Hiện chưa có ngày tiếp theo trong dữ liệu.</div>}
                 </div>
               </Card>
             ) : (
@@ -856,11 +856,11 @@ export default function App() {
                         <div style={styles.promptText}>{currentItem.vi}</div>
                         {currentItem.note ? <div style={styles.helpText}>{currentItem.note}</div> : null}
                         <div style={styles.helpText}>
-                          Nhập đúng {settings.studyKind === "word" ? "từ tiếng Anh" : "câu tiếng Anh"}. Nếu quên, bấm hiện đáp án.
+                          Nhập đúng {settings.studyKind === "word" ? "từ tiếng Anh" : "câu tiếng Anh"}. Enter đúng sẽ tự chuyển sang mục tiếp theo.
                         </div>
-                        {(currentItem.pronunciation || currentItem.phonetic) ? (
+                        {(currentItem.phonetic || currentItem.pronunciation) ? (
                           <div style={styles.helpText}>
-                            Cách đọc: <strong>{currentItem.pronunciation || currentItem.phonetic}</strong>
+                            Cách đọc: <strong>{currentItem.phonetic || currentItem.pronunciation}</strong>
                           </div>
                         ) : (
                           <div style={styles.helpText}>Cách đọc: chưa có</div>
@@ -888,10 +888,7 @@ export default function App() {
                           <button style={styles.secondaryBtn} onClick={() => setShowAnswer((prev) => !prev)}>
                             {showAnswer ? "Ẩn đáp án" : "Hiện đáp án"}
                           </button>
-                          <button
-                            style={styles.secondaryBtn}
-                            onClick={() => setShowPronunciation((prev) => !prev)}
-                          >
+                          <button style={styles.secondaryBtn} onClick={() => setShowPronunciation((prev) => !prev)}>
                             {showPronunciation ? "Ẩn cách đọc" : "Hiện cách đọc"}
                           </button>
                           <button style={styles.secondaryBtn} onClick={() => speak(currentItem.en, settings.voiceLang)}>
@@ -922,7 +919,7 @@ export default function App() {
                           <div style={styles.answerBox}>
                             <div style={styles.answerLabel}>Cách đọc</div>
                             <div style={styles.answerText}>
-                              {currentItem.pronunciation || currentItem.phonetic || "Chưa có cách đọc cho mục này"}
+                              {currentItem.phonetic || currentItem.pronunciation || "Chưa có cách đọc cho mục này"}
                             </div>
                           </div>
                         ) : null}
@@ -934,16 +931,19 @@ export default function App() {
                         style={styles.secondaryBtn}
                         onClick={() => {
                           if (sessionIndex === 0) return;
+                          if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
                           setSessionIndex((prev) => prev - 1);
                           setTyped("");
                           setAnswerState(null);
                           setShowAnswer(false);
+                          setShowPronunciation(false);
                         }}
                       >
                         <ChevronLeft size={16} /> Trước
                       </button>
 
                       <div style={styles.footerStats}>
+                        <span>Tổng mục ngày này: {currentDayStats.total}</span>
                         <span>Đã thuộc: {currentDayStats.mastered}</span>
                         <span>Chưa thuộc: {currentDayStats.unmastered}</span>
                       </div>
@@ -951,27 +951,16 @@ export default function App() {
                       <button
                         style={styles.secondaryBtn}
                         onClick={() => {
-                          const isCurrentAnswerCorrect =
-                            answerState?.ok === true;
-
-                          if (!isCurrentAnswerCorrect) {
-                            setAnswerState({
-                              ok: false,
-                              text: "Bạn chưa trả lời đúng. Hãy bấm Kiểm tra hoặc nhập lại cho đúng trước khi sang mục khác.",
-                            });
-                            focusInput();
-                            return;
-                          }
-
                           if (sessionIndex >= currentSessionItems.length - 1) {
                             setSessionFinished(true);
                             return;
                           }
-
+                          if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
                           setSessionIndex((prev) => prev + 1);
                           setTyped("");
                           setAnswerState(null);
                           setShowAnswer(false);
+                          setShowPronunciation(false);
                         }}
                       >
                         Sau <ChevronRight size={16} />
@@ -1021,10 +1010,16 @@ export default function App() {
                   />
                 </Field>
 
-                <Field label="Cách đọc" dark={settings.dark}>
+                <Field label="Cách đọc (phonetic)" dark={settings.dark}>
                   <input
-                    value={form.pronunciation}
-                    onChange={(e) => setForm((prev) => ({ ...prev, pronunciation: e.target.value }))}
+                    value={form.phonetic}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        phonetic: e.target.value,
+                        pronunciation: e.target.value,
+                      }))
+                    }
                     style={styles.input}
                   />
                 </Field>
@@ -1051,6 +1046,7 @@ export default function App() {
                       kind: settings.studyKind,
                       en: "",
                       vi: "",
+                      phonetic: "",
                       pronunciation: "",
                       note: "",
                     })
@@ -1066,7 +1062,7 @@ export default function App() {
                 <input
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Tìm theo tiếng Anh, tiếng Việt, ghi chú..."
+                  placeholder="Tìm theo tiếng Anh, tiếng Việt, cách đọc, ghi chú..."
                   style={styles.input}
                 />
               </Field>
@@ -1081,14 +1077,20 @@ export default function App() {
                         <div>
                           <div style={styles.itemTitle}>{item.en}</div>
                           <div style={styles.muted}>{item.vi}</div>
-                          {(item.pronunciation || item.phonetic) ? <div style={styles.helpText}>Cách đọc: {item.pronunciation || item.phonetic}</div> : null}
+                          {(item.phonetic || item.pronunciation) ? (
+                            <div style={styles.helpText}>Cách đọc: {item.phonetic || item.pronunciation}</div>
+                          ) : null}
                         </div>
                         <div style={styles.buttonRow}>
                           <button style={styles.iconBtn} onClick={() => speak(item.en, settings.voiceLang)}>
                             <Volume2 size={16} />
                           </button>
-                          <button style={styles.secondaryBtn} onClick={() => editItem(item)}>Sửa</button>
-                          <button style={styles.secondaryBtn} onClick={() => deleteItem(item.id)}>Xóa</button>
+                          <button style={styles.secondaryBtn} onClick={() => editItem(item)}>
+                            Sửa
+                          </button>
+                          <button style={styles.secondaryBtn} onClick={() => deleteItem(item.id)}>
+                            Xóa
+                          </button>
                         </div>
                       </div>
 
@@ -1110,11 +1112,7 @@ export default function App() {
         {tab === "stats" && (
           <div style={styles.grid}>
             <Card title="Thống kê từ" dark={settings.dark}>
-              <Metric
-                label="Tổng từ"
-                value={items.filter((item) => item.kind === "word").length}
-                dark={settings.dark}
-              />
+              <Metric label="Tổng từ" value={items.filter((item) => item.kind === "word").length} dark={settings.dark} />
               <Metric
                 label="Từ đã thuộc"
                 value={items.filter((item) => item.kind === "word" && item.learning?.mastered).length}
@@ -1128,11 +1126,7 @@ export default function App() {
             </Card>
 
             <Card title="Thống kê câu" dark={settings.dark}>
-              <Metric
-                label="Tổng câu"
-                value={items.filter((item) => item.kind === "sentence").length}
-                dark={settings.dark}
-              />
+              <Metric label="Tổng câu" value={items.filter((item) => item.kind === "sentence").length} dark={settings.dark} />
               <Metric
                 label="Câu đã thuộc"
                 value={items.filter((item) => item.kind === "sentence" && item.learning?.mastered).length}
@@ -1147,9 +1141,9 @@ export default function App() {
 
             <Card title="Theo ngày hiện tại" dark={settings.dark}>
               <Metric label="Ngày" value={settings.day} dark={settings.dark} />
+              <Metric label="Tổng mục của ngày" value={currentDayStats.total} dark={settings.dark} />
               <Metric label="Đã thuộc" value={currentDayStats.mastered} dark={settings.dark} />
               <Metric label="Chưa thuộc" value={currentDayStats.unmastered} dark={settings.dark} />
-              <Metric label="Tổng" value={currentDayStats.total} dark={settings.dark} />
             </Card>
           </div>
         )}
@@ -1299,7 +1293,7 @@ function getStyles(dark) {
       marginTop: 6,
       color: muted,
       lineHeight: 1.5,
-      maxWidth: 820,
+      maxWidth: 880,
     },
     topStats: {
       display: "flex",
@@ -1553,6 +1547,14 @@ function getStyles(dark) {
       lineHeight: 1.3,
     },
     helpText: {
+      color: muted,
+      lineHeight: 1.5,
+    },
+    helpBox: {
+      marginTop: 12,
+      border: `1px dashed ${border}`,
+      borderRadius: 16,
+      padding: 14,
       color: muted,
       lineHeight: 1.5,
     },
