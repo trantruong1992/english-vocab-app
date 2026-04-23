@@ -1,0 +1,682 @@
+[
+  {
+    "day": 3,
+    "en": "tall",
+    "vi": "cao",
+    "phonetic": "/tɔːl/ (đọc lái: to:l)",
+    "type": "adjective",
+    "exampleEn": "He is tall.",
+    "exampleVi": "Anh ấy cao.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "very tall"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "short",
+    "vi": "thấp",
+    "phonetic": "/ʃɔːrt/ (đọc lái: sọt)",
+    "type": "adjective",
+    "exampleEn": "She is short.",
+    "exampleVi": "Cô ấy thấp.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "very short"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "slim",
+    "vi": "mảnh khảnh",
+    "phonetic": "/slɪm/ (đọc lái: xờ-lim)",
+    "type": "adjective",
+    "exampleEn": "She is slim.",
+    "exampleVi": "Cô ấy mảnh khảnh.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "slim body"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "fat",
+    "vi": "béo",
+    "phonetic": "/fæt/ (đọc lái: phát)",
+    "type": "adjective",
+    "exampleEn": "He is fat.",
+    "exampleVi": "Anh ấy béo.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "a bit fat"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "strong",
+    "vi": "khỏe",
+    "phonetic": "/strɒŋ/ (đọc lái: xờ-trong)",
+    "type": "adjective",
+    "exampleEn": "He is strong.",
+    "exampleVi": "Anh ấy khỏe.",
+    "tags": [
+      "body"
+    ],
+    "collocations": [
+      "very strong"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "weak",
+    "vi": "yếu",
+    "phonetic": "/wiːk/ (đọc lái: quík)",
+    "type": "adjective",
+    "exampleEn": "I feel weak.",
+    "exampleVi": "Tôi thấy yếu.",
+    "tags": [
+      "body"
+    ],
+    "collocations": [
+      "feel weak"
+    ],
+    "notes": "S + feel + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "young",
+    "vi": "trẻ",
+    "phonetic": "/jʌŋ/ (đọc lái: dâng)",
+    "type": "adjective",
+    "exampleEn": "She is young.",
+    "exampleVi": "Cô ấy trẻ.",
+    "tags": [
+      "age"
+    ],
+    "collocations": [
+      "very young"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "old",
+    "vi": "già",
+    "phonetic": "/əʊld/ (đọc lái: âu-lđ)",
+    "type": "adjective",
+    "exampleEn": "He is old.",
+    "exampleVi": "Ông ấy già.",
+    "tags": [
+      "age"
+    ],
+    "collocations": [
+      "very old"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "beautiful",
+    "vi": "đẹp (nữ)",
+    "phonetic": "/ˈbjuːtɪfl/ (đọc lái: biu-ti-phồ)",
+    "type": "adjective",
+    "exampleEn": "She is beautiful.",
+    "exampleVi": "Cô ấy đẹp.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "very beautiful"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "handsome",
+    "vi": "đẹp trai",
+    "phonetic": "/ˈhænsəm/ (đọc lái: hen-sờm)",
+    "type": "adjective",
+    "exampleEn": "He is handsome.",
+    "exampleVi": "Anh ấy đẹp trai.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "very handsome"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "cute",
+    "vi": "dễ thương",
+    "phonetic": "/kjuːt/ (đọc lái: kiu-t)",
+    "type": "adjective",
+    "exampleEn": "The baby is cute.",
+    "exampleVi": "Em bé dễ thương.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "very cute"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "ugly",
+    "vi": "xấu",
+    "phonetic": "/ˈʌɡli/ (đọc lái: ấc-li)",
+    "type": "adjective",
+    "exampleEn": "He feels ugly.",
+    "exampleVi": "Anh ấy thấy mình xấu.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "feel ugly"
+    ],
+    "notes": "S + feel + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "hair",
+    "vi": "tóc",
+    "phonetic": "/heər/ (đọc lái: he)",
+    "type": "noun",
+    "exampleEn": "He has black hair.",
+    "exampleVi": "Anh ấy có tóc đen.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "black hair"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "eyes",
+    "vi": "mắt",
+    "phonetic": "/aɪz/ (đọc lái: ai-z)",
+    "type": "noun",
+    "exampleEn": "She has big eyes.",
+    "exampleVi": "Cô ấy có mắt to.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "big eyes"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "face",
+    "vi": "khuôn mặt",
+    "phonetic": "/feɪs/ (đọc lái: phây-x)",
+    "type": "noun",
+    "exampleEn": "Her face is round.",
+    "exampleVi": "Mặt cô ấy tròn.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "round face"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "skin",
+    "vi": "da",
+    "phonetic": "/skɪn/ (đọc lái: xờ-kin)",
+    "type": "noun",
+    "exampleEn": "His skin is dark.",
+    "exampleVi": "Da anh ấy sẫm màu.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "dark skin"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "wear",
+    "vi": "mặc",
+    "phonetic": "/weər/ (đọc lái: we)",
+    "type": "verb",
+    "exampleEn": "She is wearing a dress.",
+    "exampleVi": "Cô ấy đang mặc váy.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "wear a dress"
+    ],
+    "notes": "S + am/is/are + V-ing",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "glasses",
+    "vi": "kính",
+    "phonetic": "/ˈɡlæsɪz/ (đọc lái: gờ-la-xịt)",
+    "type": "noun",
+    "exampleEn": "He has glasses.",
+    "exampleVi": "Anh ấy đeo kính.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "wear glasses"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "smile",
+    "vi": "nụ cười",
+    "phonetic": "/smaɪl/ (đọc lái: xờ-mai)",
+    "type": "noun",
+    "exampleEn": "She has a nice smile.",
+    "exampleVi": "Cô ấy có nụ cười đẹp.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "nice smile"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "look",
+    "vi": "trông",
+    "phonetic": "/lʊk/ (đọc lái: lúk)",
+    "type": "verb",
+    "exampleEn": "He looks tired.",
+    "exampleVi": "Anh ấy trông mệt.",
+    "tags": [
+      "appearance"
+    ],
+    "collocations": [
+      "look tired"
+    ],
+    "notes": "S + look + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "different",
+    "vi": "khác",
+    "phonetic": "/ˈdɪfrənt/ (đọc lái: đi-phờ-rần)",
+    "type": "adjective",
+    "exampleEn": "We are different.",
+    "exampleVi": "Chúng tôi khác nhau.",
+    "tags": [
+      "description"
+    ],
+    "collocations": [
+      "very different"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "same",
+    "vi": "giống",
+    "phonetic": "/seɪm/ (đọc lái: sây-m)",
+    "type": "adjective",
+    "exampleEn": "We are the same.",
+    "exampleVi": "Chúng tôi giống nhau.",
+    "tags": [
+      "description"
+    ],
+    "collocations": [
+      "the same"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "style",
+    "vi": "phong cách",
+    "phonetic": "/staɪl/ (đọc lái: xtai-l)",
+    "type": "noun",
+    "exampleEn": "His style is simple.",
+    "exampleVi": "Phong cách anh ấy đơn giản.",
+    "tags": [
+      "fashion"
+    ],
+    "collocations": [
+      "simple style"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "clothes",
+    "vi": "quần áo",
+    "phonetic": "/kləʊðz/ (đọc lái: cờ-lâu-dz)",
+    "type": "noun",
+    "exampleEn": "There are many clothes.",
+    "exampleVi": "Có nhiều quần áo.",
+    "tags": [
+      "fashion"
+    ],
+    "collocations": [
+      "new clothes"
+    ],
+    "notes": "There are",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "color",
+    "vi": "màu",
+    "phonetic": "/ˈkʌlər/ (đọc lái: cơ-lờ)",
+    "type": "noun",
+    "exampleEn": "There is a red shirt.",
+    "exampleVi": "Có áo màu đỏ.",
+    "tags": [
+      "fashion"
+    ],
+    "collocations": [
+      "red color"
+    ],
+    "notes": "There is",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "choose",
+    "vi": "chọn",
+    "phonetic": "/tʃuːz/ (đọc lái: chu-z)",
+    "type": "verb",
+    "exampleEn": "I want to choose clothes.",
+    "exampleVi": "Tôi muốn chọn đồ.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "choose clothes"
+    ],
+    "notes": "S + want to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "try",
+    "vi": "thử",
+    "phonetic": "/traɪ/ (đọc lái: ch-rai)",
+    "type": "verb",
+    "exampleEn": "I need to try it.",
+    "exampleVi": "Tôi cần thử nó.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "try it on"
+    ],
+    "notes": "S + need to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "match",
+    "vi": "hợp",
+    "phonetic": "/mætʃ/ (đọc lái: mét-ch)",
+    "type": "verb",
+    "exampleEn": "It can match well.",
+    "exampleVi": "Nó có thể hợp.",
+    "tags": [
+      "fashion"
+    ],
+    "collocations": [
+      "match well"
+    ],
+    "notes": "S + can + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "fix",
+    "vi": "sửa",
+    "phonetic": "/fɪks/ (đọc lái: phích-x)",
+    "type": "verb",
+    "exampleEn": "I can’t fix this.",
+    "exampleVi": "Tôi không sửa được cái này.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "fix this"
+    ],
+    "notes": "S + can’t + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "should",
+    "vi": "nên",
+    "phonetic": "/ʃʊd/ (đọc lái: sụt)",
+    "type": "modal verb",
+    "exampleEn": "You should change.",
+    "exampleVi": "Bạn nên thay đổi.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "should change"
+    ],
+    "notes": "S + should + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "must",
+    "vi": "phải",
+    "phonetic": "/mʌst/ (đọc lái: mớt)",
+    "type": "modal verb",
+    "exampleEn": "I have to change clothes.",
+    "exampleVi": "Tôi phải thay đồ.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "must do"
+    ],
+    "notes": "S + have to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "decide",
+    "vi": "quyết định",
+    "phonetic": "/dɪˈsaɪd/ (đọc lái: đi-xai)",
+    "type": "verb",
+    "exampleEn": "I decide to wear black.",
+    "exampleVi": "Tôi quyết mặc đồ đen.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "decide to"
+    ],
+    "notes": "S + decide to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "who",
+    "vi": "ai",
+    "phonetic": "/huː/ (đọc lái: hu)",
+    "type": "question word",
+    "exampleEn": "Who is he?",
+    "exampleVi": "Anh ấy là ai?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "who is"
+    ],
+    "notes": "Who + be ...?",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "are",
+    "vi": "là",
+    "phonetic": "/ɑːr/ (đọc lái: a)",
+    "type": "verb",
+    "exampleEn": "Are you tall?",
+    "exampleVi": "Bạn có cao không?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "are you"
+    ],
+    "notes": "Are you + adj?",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "can",
+    "vi": "có thể",
+    "phonetic": "/kæn/ (đọc lái: ken)",
+    "type": "modal verb",
+    "exampleEn": "Can you see him?",
+    "exampleVi": "Bạn có thấy anh ấy không?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "can you"
+    ],
+    "notes": "Can you + V?",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "how many",
+    "vi": "bao nhiêu",
+    "phonetic": "/haʊ ˈmeni/ (đọc lái: hao me-ni)",
+    "type": "question phrase",
+    "exampleEn": "How many people are there?",
+    "exampleVi": "Có bao nhiêu người?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "how many people"
+    ],
+    "notes": "How many",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "now",
+    "vi": "bây giờ",
+    "phonetic": "/naʊ/ (đọc lái: nao)",
+    "type": "adverb",
+    "exampleEn": "What are you wearing now?",
+    "exampleVi": "Bạn đang mặc gì bây giờ?",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "right now"
+    ],
+    "notes": "What are you doing?",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "when",
+    "vi": "khi",
+    "phonetic": "/wen/ (đọc lái: wen)",
+    "type": "conjunction",
+    "exampleEn": "When I meet him, I smile.",
+    "exampleVi": "Khi gặp anh ấy, tôi cười.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "when I"
+    ],
+    "notes": "When + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "because",
+    "vi": "bởi vì",
+    "phonetic": "/bɪˈkɒz/ (đọc lái: bi-coz)",
+    "type": "conjunction",
+    "exampleEn": "I like her because she is kind.",
+    "exampleVi": "Tôi thích cô ấy vì cô ấy tốt.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "because she is"
+    ],
+    "notes": "Because + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 3,
+    "en": "but",
+    "vi": "nhưng",
+    "phonetic": "/bʌt/ (đọc lái: băt)",
+    "type": "conjunction",
+    "exampleEn": "He is tall but shy.",
+    "exampleVi": "Anh ấy cao nhưng nhút nhát.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "but shy"
+    ],
+    "notes": "But + S + V",
+    "difficulty": 1
+  }
+]

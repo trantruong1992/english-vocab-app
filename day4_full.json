@@ -1,0 +1,682 @@
+[
+  {
+    "day": 4,
+    "en": "menu",
+    "vi": "thực đơn",
+    "phonetic": "/ˈmenjuː/ (đọc lái: men-niu)",
+    "type": "noun",
+    "exampleEn": "There is a menu here.",
+    "exampleVi": "Có thực đơn ở đây.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "menu here"
+    ],
+    "notes": "There is",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "order",
+    "vi": "gọi món",
+    "phonetic": "/ˈɔːrdər/ (đọc lái: o-đờ)",
+    "type": "verb",
+    "exampleEn": "I want to order food.",
+    "exampleVi": "Tôi muốn gọi món.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "order food"
+    ],
+    "notes": "S + want to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "waiter",
+    "vi": "phục vụ nam",
+    "phonetic": "/ˈweɪtər/ (đọc lái: quây-tờ)",
+    "type": "noun",
+    "exampleEn": "The waiter is busy.",
+    "exampleVi": "Nhân viên phục vụ đang bận.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "waiter is busy"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "waitress",
+    "vi": "phục vụ nữ",
+    "phonetic": "/ˈweɪtrəs/ (đọc lái: quây-trịt)",
+    "type": "noun",
+    "exampleEn": "She is a waitress.",
+    "exampleVi": "Cô ấy là phục vụ.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "a waitress"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "table",
+    "vi": "bàn",
+    "phonetic": "/ˈteɪbl/ (đọc lái: tây-bồ)",
+    "type": "noun",
+    "exampleEn": "There are two tables.",
+    "exampleVi": "Có hai cái bàn.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "two tables"
+    ],
+    "notes": "There are",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "seat",
+    "vi": "chỗ ngồi",
+    "phonetic": "/siːt/ (đọc lái: xịt)",
+    "type": "noun",
+    "exampleEn": "There is no seat.",
+    "exampleVi": "Không có chỗ ngồi.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "no seat"
+    ],
+    "notes": "There is no",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "hungry",
+    "vi": "đói",
+    "phonetic": "/ˈhʌŋɡri/ (đọc lái: hăng-gri)",
+    "type": "adjective",
+    "exampleEn": "I feel hungry.",
+    "exampleVi": "Tôi thấy đói.",
+    "tags": [
+      "feeling"
+    ],
+    "collocations": [
+      "feel hungry"
+    ],
+    "notes": "S + feel + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "full",
+    "vi": "no",
+    "phonetic": "/fʊl/ (đọc lái: phun)",
+    "type": "adjective",
+    "exampleEn": "I am full.",
+    "exampleVi": "Tôi no rồi.",
+    "tags": [
+      "feeling"
+    ],
+    "collocations": [
+      "feel full"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "delicious",
+    "vi": "ngon",
+    "phonetic": "/dɪˈlɪʃəs/ (đọc lái: đi-li-sợt)",
+    "type": "adjective",
+    "exampleEn": "It is delicious.",
+    "exampleVi": "Nó ngon.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "very delicious"
+    ],
+    "notes": "It is + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "bad",
+    "vi": "dở",
+    "phonetic": "/bæd/ (đọc lái: bét)",
+    "type": "adjective",
+    "exampleEn": "The food is bad.",
+    "exampleVi": "Đồ ăn dở.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "taste bad"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "spicy",
+    "vi": "cay",
+    "phonetic": "/ˈspaɪsi/ (đọc lái: xờ-pai-xi)",
+    "type": "adjective",
+    "exampleEn": "It is spicy.",
+    "exampleVi": "Nó cay.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "very spicy"
+    ],
+    "notes": "It is + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "sweet",
+    "vi": "ngọt",
+    "phonetic": "/swiːt/ (đọc lái: xờ-quýt)",
+    "type": "adjective",
+    "exampleEn": "The drink is sweet.",
+    "exampleVi": "Nước ngọt.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "very sweet"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "sour",
+    "vi": "chua",
+    "phonetic": "/saʊər/ (đọc lái: sao-ờ)",
+    "type": "adjective",
+    "exampleEn": "The soup is sour.",
+    "exampleVi": "Canh chua.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "very sour"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "water",
+    "vi": "nước",
+    "phonetic": "/ˈwɔːtər/ (đọc lái: wo-tờ)",
+    "type": "noun",
+    "exampleEn": "I have water.",
+    "exampleVi": "Tôi có nước.",
+    "tags": [
+      "drink"
+    ],
+    "collocations": [
+      "drink water"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "tea",
+    "vi": "trà",
+    "phonetic": "/tiː/ (đọc lái: ti)",
+    "type": "noun",
+    "exampleEn": "I drink tea.",
+    "exampleVi": "Tôi uống trà.",
+    "tags": [
+      "drink"
+    ],
+    "collocations": [
+      "drink tea"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "juice",
+    "vi": "nước ép",
+    "phonetic": "/dʒuːs/ (đọc lái: chu-x)",
+    "type": "noun",
+    "exampleEn": "I am drinking juice.",
+    "exampleVi": "Tôi đang uống nước ép.",
+    "tags": [
+      "drink"
+    ],
+    "collocations": [
+      "drink juice"
+    ],
+    "notes": "S + am/is/are + V-ing",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "rice",
+    "vi": "cơm",
+    "phonetic": "/raɪs/ (đọc lái: rai-x)",
+    "type": "noun",
+    "exampleEn": "I eat rice.",
+    "exampleVi": "Tôi ăn cơm.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "eat rice"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "noodle",
+    "vi": "mì/bún",
+    "phonetic": "/ˈnuːdl/ (đọc lái: nu-đồ)",
+    "type": "noun",
+    "exampleEn": "I like noodles.",
+    "exampleVi": "Tôi thích mì.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "eat noodles"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "meat",
+    "vi": "thịt",
+    "phonetic": "/miːt/ (đọc lái: mít)",
+    "type": "noun",
+    "exampleEn": "There is meat.",
+    "exampleVi": "Có thịt.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "eat meat"
+    ],
+    "notes": "There is",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "vegetable",
+    "vi": "rau",
+    "phonetic": "/ˈvedʒtəbl/ (đọc lái: ve-chờ-tồ)",
+    "type": "noun",
+    "exampleEn": "There are vegetables.",
+    "exampleVi": "Có rau.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "eat vegetables"
+    ],
+    "notes": "There are",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "pay",
+    "vi": "trả tiền",
+    "phonetic": "/peɪ/ (đọc lái: pây)",
+    "type": "verb",
+    "exampleEn": "I need to pay.",
+    "exampleVi": "Tôi cần trả tiền.",
+    "tags": [
+      "restaurant"
+    ],
+    "collocations": [
+      "pay bill"
+    ],
+    "notes": "S + need to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "bring",
+    "vi": "mang",
+    "phonetic": "/brɪŋ/ (đọc lái: bờ-ring)",
+    "type": "verb",
+    "exampleEn": "Can you bring water?",
+    "exampleVi": "Bạn mang nước được không?",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "bring water"
+    ],
+    "notes": "Can you + V?",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "take",
+    "vi": "lấy",
+    "phonetic": "/teɪk/ (đọc lái: tây-k)",
+    "type": "verb",
+    "exampleEn": "I take this dish.",
+    "exampleVi": "Tôi lấy món này.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "take dish"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "choose",
+    "vi": "chọn",
+    "phonetic": "/tʃuːz/ (đọc lái: chu-z)",
+    "type": "verb",
+    "exampleEn": "I plan to choose soup.",
+    "exampleVi": "Tôi định chọn súp.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "choose soup"
+    ],
+    "notes": "S + plan to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "share",
+    "vi": "chia sẻ",
+    "phonetic": "/ʃeər/ (đọc lái: xe)",
+    "type": "verb",
+    "exampleEn": "We can share food.",
+    "exampleVi": "Chúng ta có thể ăn chung.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "share food"
+    ],
+    "notes": "S + can + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "refuse",
+    "vi": "từ chối",
+    "phonetic": "/rɪˈfjuːz/ (đọc lái: ri-phiu)",
+    "type": "verb",
+    "exampleEn": "I can’t refuse this.",
+    "exampleVi": "Tôi không thể từ chối món này.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "refuse food"
+    ],
+    "notes": "S + can’t + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "try",
+    "vi": "thử",
+    "phonetic": "/traɪ/ (đọc lái: ch-rai)",
+    "type": "verb",
+    "exampleEn": "You should try this.",
+    "exampleVi": "Bạn nên thử món này.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "try food"
+    ],
+    "notes": "S + should + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "cook",
+    "vi": "nấu ăn",
+    "phonetic": "/kʊk/ (đọc lái: cúc)",
+    "type": "verb",
+    "exampleEn": "I have to cook today.",
+    "exampleVi": "Tôi phải nấu hôm nay.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "cook food"
+    ],
+    "notes": "S + have to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "pick",
+    "vi": "chọn",
+    "phonetic": "/pɪk/ (đọc lái: píc)",
+    "type": "verb",
+    "exampleEn": "I decide to pick fish.",
+    "exampleVi": "Tôi quyết chọn cá.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "pick fish"
+    ],
+    "notes": "S + decide to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "you",
+    "vi": "bạn",
+    "phonetic": "/juː/ (đọc lái: diu)",
+    "type": "pronoun",
+    "exampleEn": "Do you like this?",
+    "exampleVi": "Bạn thích cái này không?",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "you like"
+    ],
+    "notes": "Do you + V?",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "ready",
+    "vi": "sẵn sàng",
+    "phonetic": "/ˈredi/ (đọc lái: re-đi)",
+    "type": "adjective",
+    "exampleEn": "Are you ready?",
+    "exampleVi": "Bạn sẵn sàng chưa?",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "be ready"
+    ],
+    "notes": "Are you + adj?",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "help",
+    "vi": "giúp",
+    "phonetic": "/help/ (đọc lái: hen-p)",
+    "type": "verb",
+    "exampleEn": "Can you help me?",
+    "exampleVi": "Bạn giúp tôi được không?",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "help me"
+    ],
+    "notes": "Can you + V?",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "many",
+    "vi": "nhiều",
+    "phonetic": "/ˈmeni/ (đọc lái: me-ni)",
+    "type": "determiner",
+    "exampleEn": "How many dishes?",
+    "exampleVi": "Bao nhiêu món?",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "many dishes"
+    ],
+    "notes": "How many",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "doing",
+    "vi": "đang làm",
+    "phonetic": "/ˈduːɪŋ/ (đọc lái: đu-ing)",
+    "type": "verb",
+    "exampleEn": "What are you eating?",
+    "exampleVi": "Bạn đang ăn gì?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "doing now"
+    ],
+    "notes": "What are you doing?",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "when",
+    "vi": "khi nào",
+    "phonetic": "/wen/ (đọc lái: wen)",
+    "type": "question",
+    "exampleEn": "When do you eat?",
+    "exampleVi": "Bạn ăn khi nào?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "when do you"
+    ],
+    "notes": "When do you + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "why",
+    "vi": "tại sao",
+    "phonetic": "/waɪ/ (đọc lái: quai)",
+    "type": "question",
+    "exampleEn": "Why is it spicy?",
+    "exampleVi": "Sao nó cay?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "why is"
+    ],
+    "notes": "Why + is",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "ate",
+    "vi": "đã ăn",
+    "phonetic": "/eɪt/ (đọc lái: ây-t)",
+    "type": "verb",
+    "exampleEn": "I ate a lot.",
+    "exampleVi": "Tôi đã ăn nhiều.",
+    "tags": [
+      "past"
+    ],
+    "collocations": [
+      "ate a lot"
+    ],
+    "notes": "S + V-ed",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "after",
+    "vi": "sau đó",
+    "phonetic": "/ˈæftər/ (đọc lái: áp-tờ)",
+    "type": "adverb",
+    "exampleEn": "After that, I drink tea.",
+    "exampleVi": "Sau đó tôi uống trà.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "after that"
+    ],
+    "notes": "After that",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "so",
+    "vi": "nên",
+    "phonetic": "/səʊ/ (đọc lái: xâu)",
+    "type": "conjunction",
+    "exampleEn": "I am full, so I stop.",
+    "exampleVi": "Tôi no nên dừng.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "so that"
+    ],
+    "notes": "So + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 4,
+    "en": "let’s",
+    "vi": "hãy",
+    "phonetic": "/lets/ (đọc lái: let-s)",
+    "type": "expression",
+    "exampleEn": "Let’s eat.",
+    "exampleVi": "Cùng ăn nào.",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "let’s eat"
+    ],
+    "notes": "Let’s + V",
+    "difficulty": 1
+  }
+]

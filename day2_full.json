@@ -1,0 +1,682 @@
+[
+  {
+    "day": 2,
+    "en": "wake up",
+    "vi": "thức dậy",
+    "phonetic": "/weɪk ʌp/ (đọc lái: quây-k ắp)",
+    "type": "verb",
+    "exampleEn": "I wake up at 7.",
+    "exampleVi": "Tôi thức dậy lúc 7h.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "wake up early"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "get up",
+    "vi": "ra khỏi giường",
+    "phonetic": "/ɡet ʌp/ (đọc lái: get ắp)",
+    "type": "verb",
+    "exampleEn": "I get up quickly.",
+    "exampleVi": "Tôi ra khỏi giường nhanh.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "get up early"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "brush",
+    "vi": "đánh (răng)",
+    "phonetic": "/brʌʃ/ (đọc lái: bờ-rớt)",
+    "type": "verb",
+    "exampleEn": "I brush my teeth.",
+    "exampleVi": "Tôi đánh răng.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "brush teeth"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "wash",
+    "vi": "rửa",
+    "phonetic": "/wɒʃ/ (đọc lái: quót)",
+    "type": "verb",
+    "exampleEn": "I wash my face.",
+    "exampleVi": "Tôi rửa mặt.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "wash face"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "shower",
+    "vi": "tắm",
+    "phonetic": "/ˈʃaʊər/ (đọc lái: sao-ờ)",
+    "type": "verb",
+    "exampleEn": "I take a shower.",
+    "exampleVi": "Tôi tắm.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "take a shower"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "dress",
+    "vi": "mặc đồ",
+    "phonetic": "/dres/ (đọc lái: đrét)",
+    "type": "verb",
+    "exampleEn": "I get dressed.",
+    "exampleVi": "Tôi mặc quần áo.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "get dressed"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "breakfast",
+    "vi": "bữa sáng",
+    "phonetic": "/ˈbrekfəst/ (đọc lái: bờ-rét-phợt)",
+    "type": "noun",
+    "exampleEn": "There is breakfast on the table.",
+    "exampleVi": "Có bữa sáng trên bàn.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "have breakfast"
+    ],
+    "notes": "There is",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "coffee",
+    "vi": "cà phê",
+    "phonetic": "/ˈkɒfi/ (đọc lái: co-phi)",
+    "type": "noun",
+    "exampleEn": "I have coffee.",
+    "exampleVi": "Tôi uống cà phê.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "drink coffee"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "leave",
+    "vi": "rời đi",
+    "phonetic": "/liːv/ (đọc lái: líp)",
+    "type": "verb",
+    "exampleEn": "I leave home at 8.",
+    "exampleVi": "Tôi rời nhà lúc 8h.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "leave home"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "arrive",
+    "vi": "đến nơi",
+    "phonetic": "/əˈraɪv/ (đọc lái: ờ-rai-v)",
+    "type": "verb",
+    "exampleEn": "I arrive at work.",
+    "exampleVi": "Tôi đến chỗ làm.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "arrive at"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "work",
+    "vi": "làm việc",
+    "phonetic": "/wɜːrk/ (đọc lái: quớc)",
+    "type": "verb",
+    "exampleEn": "I am working now.",
+    "exampleVi": "Tôi đang làm việc.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "work now"
+    ],
+    "notes": "S + am/is/are + V-ing",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "start",
+    "vi": "bắt đầu",
+    "phonetic": "/stɑːrt/ (đọc lái: xờ-ta:t)",
+    "type": "verb",
+    "exampleEn": "I start at 9.",
+    "exampleVi": "Tôi bắt đầu lúc 9h.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "start work"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "finish",
+    "vi": "kết thúc",
+    "phonetic": "/ˈfɪnɪʃ/ (đọc lái: phi-nịt)",
+    "type": "verb",
+    "exampleEn": "I finish at 5.",
+    "exampleVi": "Tôi kết thúc lúc 5h.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "finish work"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "lunch",
+    "vi": "bữa trưa",
+    "phonetic": "/lʌntʃ/ (đọc lái: lăn-ch)",
+    "type": "noun",
+    "exampleEn": "There is no lunch today.",
+    "exampleVi": "Hôm nay không có bữa trưa.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "have lunch"
+    ],
+    "notes": "There is no",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "break",
+    "vi": "nghỉ",
+    "phonetic": "/breɪk/ (đọc lái: bờ-rây-k)",
+    "type": "noun",
+    "exampleEn": "I need a break.",
+    "exampleVi": "Tôi cần nghỉ.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "take a break"
+    ],
+    "notes": "S + need",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "return",
+    "vi": "trở về",
+    "phonetic": "/rɪˈtɜːrn/ (đọc lái: ri-tơn)",
+    "type": "verb",
+    "exampleEn": "I return home.",
+    "exampleVi": "Tôi về nhà.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "return home"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "dinner",
+    "vi": "bữa tối",
+    "phonetic": "/ˈdɪnər/ (đọc lái: đi-nờ)",
+    "type": "noun",
+    "exampleEn": "There are many dishes.",
+    "exampleVi": "Có nhiều món ăn.",
+    "tags": [
+      "food"
+    ],
+    "collocations": [
+      "have dinner"
+    ],
+    "notes": "There are",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "relax",
+    "vi": "thư giãn",
+    "phonetic": "/rɪˈlæks/ (đọc lái: ri-lác)",
+    "type": "verb",
+    "exampleEn": "I want to relax.",
+    "exampleVi": "Tôi muốn thư giãn.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "relax at home"
+    ],
+    "notes": "S + want to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "watch",
+    "vi": "xem",
+    "phonetic": "/wɒtʃ/ (đọc lái: quót-ch)",
+    "type": "verb",
+    "exampleEn": "I watch TV.",
+    "exampleVi": "Tôi xem TV.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "watch TV"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "sleep",
+    "vi": "ngủ",
+    "phonetic": "/sliːp/ (đọc lái: xờ-líp)",
+    "type": "verb",
+    "exampleEn": "I go to sleep at 11.",
+    "exampleVi": "Tôi ngủ lúc 11h.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "go to sleep"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "early",
+    "vi": "sớm",
+    "phonetic": "/ˈɜːrli/ (đọc lái: ơ-li)",
+    "type": "adjective",
+    "exampleEn": "I am early.",
+    "exampleVi": "Tôi đến sớm.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "come early"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "late",
+    "vi": "muộn",
+    "phonetic": "/leɪt/ (đọc lái: lây-t)",
+    "type": "adjective",
+    "exampleEn": "I was late yesterday.",
+    "exampleVi": "Hôm qua tôi đến muộn.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "be late"
+    ],
+    "notes": "S + was/were + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "quick",
+    "vi": "nhanh",
+    "phonetic": "/kwɪk/ (đọc lái: quít)",
+    "type": "adjective",
+    "exampleEn": "It is quick.",
+    "exampleVi": "Nó nhanh.",
+    "tags": [
+      "adj"
+    ],
+    "collocations": [
+      "very quick"
+    ],
+    "notes": "It is + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "slow",
+    "vi": "chậm",
+    "phonetic": "/sləʊ/ (đọc lái: xờ-lâu)",
+    "type": "adjective",
+    "exampleEn": "It is slow.",
+    "exampleVi": "Nó chậm.",
+    "tags": [
+      "adj"
+    ],
+    "collocations": [
+      "very slow"
+    ],
+    "notes": "It is + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "plan",
+    "vi": "kế hoạch",
+    "phonetic": "/plæn/ (đọc lái: pờ-len)",
+    "type": "verb",
+    "exampleEn": "I plan to exercise.",
+    "exampleVi": "Tôi định tập thể dục.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "plan to"
+    ],
+    "notes": "S + plan to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "exercise",
+    "vi": "tập thể dục",
+    "phonetic": "/ˈeksərsaɪz/ (đọc lái: éc-sờ-sai)",
+    "type": "verb",
+    "exampleEn": "I can exercise.",
+    "exampleVi": "Tôi có thể tập.",
+    "tags": [
+      "health"
+    ],
+    "collocations": [
+      "do exercise"
+    ],
+    "notes": "S + can + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "skip",
+    "vi": "bỏ qua",
+    "phonetic": "/skɪp/ (đọc lái: xờ-kíp)",
+    "type": "verb",
+    "exampleEn": "I can’t skip breakfast.",
+    "exampleVi": "Tôi không thể bỏ bữa sáng.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "skip breakfast"
+    ],
+    "notes": "S + can’t + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "prepare",
+    "vi": "chuẩn bị",
+    "phonetic": "/prɪˈpeər/ (đọc lái: pờ-ri-pe)",
+    "type": "verb",
+    "exampleEn": "I have to prepare food.",
+    "exampleVi": "Tôi phải chuẩn bị đồ ăn.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "prepare food"
+    ],
+    "notes": "S + have to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "choose",
+    "vi": "chọn",
+    "phonetic": "/tʃuːz/ (đọc lái: chu-z)",
+    "type": "verb",
+    "exampleEn": "I decide to choose tea.",
+    "exampleVi": "Tôi quyết định chọn trà.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "choose something"
+    ],
+    "notes": "S + decide to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "time",
+    "vi": "thời gian",
+    "phonetic": "/taɪm/ (đọc lái: tai-m)",
+    "type": "noun",
+    "exampleEn": "How many hours do you work?",
+    "exampleVi": "Bạn làm mấy tiếng?",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "free time"
+    ],
+    "notes": "How many",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "busy",
+    "vi": "bận",
+    "phonetic": "/ˈbɪzi/ (đọc lái: bi-di)",
+    "type": "adjective",
+    "exampleEn": "Are you busy?",
+    "exampleVi": "Bạn có bận không?",
+    "tags": [
+      "adj"
+    ],
+    "collocations": [
+      "very busy"
+    ],
+    "notes": "Are you + adj?",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "doing",
+    "vi": "đang làm",
+    "phonetic": "/ˈduːɪŋ/ (đọc lái: đu-ing)",
+    "type": "verb",
+    "exampleEn": "What are you doing?",
+    "exampleVi": "Bạn đang làm gì?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "doing now"
+    ],
+    "notes": "What are you doing?",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "when",
+    "vi": "khi nào",
+    "phonetic": "/wen/ (đọc lái: wen)",
+    "type": "question",
+    "exampleEn": "When do you wake up?",
+    "exampleVi": "Bạn thức dậy khi nào?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "when do you"
+    ],
+    "notes": "When do you + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "why",
+    "vi": "tại sao",
+    "phonetic": "/waɪ/ (đọc lái: quai)",
+    "type": "question",
+    "exampleEn": "Why are you tired?",
+    "exampleVi": "Tại sao bạn mệt?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "why are"
+    ],
+    "notes": "Why + are?",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "yesterday",
+    "vi": "hôm qua",
+    "phonetic": "/ˈjestərdeɪ/ (đọc lái: yes-tờ-đây)",
+    "type": "time",
+    "exampleEn": "I worked yesterday.",
+    "exampleVi": "Tôi đã làm việc hôm qua.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "yesterday morning"
+    ],
+    "notes": "S + V-ed",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "then",
+    "vi": "sau đó",
+    "phonetic": "/ðen/ (đọc lái: then)",
+    "type": "adverb",
+    "exampleEn": "Then I go home.",
+    "exampleVi": "Sau đó tôi về nhà.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "then"
+    ],
+    "notes": "Then",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "after",
+    "vi": "sau khi",
+    "phonetic": "/ˈæftər/ (đọc lái: áp-tờ)",
+    "type": "adverb",
+    "exampleEn": "After that, I relax.",
+    "exampleVi": "Sau đó tôi thư giãn.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "after that"
+    ],
+    "notes": "After that",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "because",
+    "vi": "bởi vì",
+    "phonetic": "/bɪˈkɒz/ (đọc lái: bi-coz)",
+    "type": "conjunction",
+    "exampleEn": "I sleep early because I am tired.",
+    "exampleVi": "Tôi ngủ sớm vì mệt.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "because of"
+    ],
+    "notes": "Because + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "so",
+    "vi": "nên",
+    "phonetic": "/səʊ/ (đọc lái: xâu)",
+    "type": "conjunction",
+    "exampleEn": "I am tired, so I sleep.",
+    "exampleVi": "Tôi mệt nên tôi ngủ.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "so that"
+    ],
+    "notes": "So + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 2,
+    "en": "let’s",
+    "vi": "hãy",
+    "phonetic": "/lets/ (đọc lái: let-s)",
+    "type": "expression",
+    "exampleEn": "Let’s rest.",
+    "exampleVi": "Hãy nghỉ ngơi.",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "let’s go"
+    ],
+    "notes": "Let’s + V",
+    "difficulty": 1
+  }
+]

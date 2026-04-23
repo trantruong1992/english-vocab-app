@@ -1,0 +1,682 @@
+[
+  {
+    "day": 1,
+    "en": "name",
+    "vi": "tên",
+    "phonetic": "/neɪm/ (đọc lái: nêm)",
+    "type": "noun",
+    "exampleEn": "My name is John.",
+    "exampleVi": "Tôi tên là John.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "my name"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "from",
+    "vi": "đến từ",
+    "phonetic": "/frʌm/ (đọc lái: phờ-răm)",
+    "type": "preposition",
+    "exampleEn": "I am from Vietnam.",
+    "exampleVi": "Tôi đến từ Việt Nam.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "come from"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "live",
+    "vi": "sống",
+    "phonetic": "/lɪv/ (đọc lái: líp)",
+    "type": "verb",
+    "exampleEn": "I live in Tokyo.",
+    "exampleVi": "Tôi sống ở Tokyo.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "live in"
+    ],
+    "notes": "S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "age",
+    "vi": "tuổi",
+    "phonetic": "/eɪdʒ/ (đọc lái: ây-ch)",
+    "type": "noun",
+    "exampleEn": "I am 25 years old.",
+    "exampleVi": "Tôi 25 tuổi.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "years old"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "job",
+    "vi": "công việc",
+    "phonetic": "/dʒɒb/ (đọc lái: chóp)",
+    "type": "noun",
+    "exampleEn": "I have a job.",
+    "exampleVi": "Tôi có một công việc.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "have a job"
+    ],
+    "notes": "S + have",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "student",
+    "vi": "học sinh",
+    "phonetic": "/ˈstjuːdənt/ (đọc lái: xờ-chu-đần)",
+    "type": "noun",
+    "exampleEn": "I am a student.",
+    "exampleVi": "Tôi là học sinh.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "a student"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "teacher",
+    "vi": "giáo viên",
+    "phonetic": "/ˈtiːtʃər/ (đọc lái: ti-chờ)",
+    "type": "noun",
+    "exampleEn": "She is a teacher.",
+    "exampleVi": "Cô ấy là giáo viên.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "a teacher"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "engineer",
+    "vi": "kỹ sư",
+    "phonetic": "/ˌendʒɪˈnɪr/ (đọc lái: en-gi-nia)",
+    "type": "noun",
+    "exampleEn": "He is an engineer.",
+    "exampleVi": "Anh ấy là kỹ sư.",
+    "tags": [
+      "basic"
+    ],
+    "collocations": [
+      "an engineer"
+    ],
+    "notes": "S + am/is/are",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "friendly",
+    "vi": "thân thiện",
+    "phonetic": "/ˈfrendli/ (đọc lái: phen-li)",
+    "type": "adjective",
+    "exampleEn": "I am friendly.",
+    "exampleVi": "Tôi thân thiện.",
+    "tags": [
+      "personality"
+    ],
+    "collocations": [
+      "friendly person"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "shy",
+    "vi": "nhút nhát",
+    "phonetic": "/ʃaɪ/ (đọc lái: sai)",
+    "type": "adjective",
+    "exampleEn": "I feel shy.",
+    "exampleVi": "Tôi cảm thấy ngại.",
+    "tags": [
+      "personality"
+    ],
+    "collocations": [
+      "feel shy"
+    ],
+    "notes": "S + feel + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "happy",
+    "vi": "vui vẻ",
+    "phonetic": "/ˈhæpi/ (đọc lái: he-pi)",
+    "type": "adjective",
+    "exampleEn": "I feel happy today.",
+    "exampleVi": "Tôi cảm thấy vui hôm nay.",
+    "tags": [
+      "feeling"
+    ],
+    "collocations": [
+      "feel happy"
+    ],
+    "notes": "S + feel + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "tired",
+    "vi": "mệt",
+    "phonetic": "/ˈtaɪərd/ (đọc lái: tai-ờd)",
+    "type": "adjective",
+    "exampleEn": "I am tired now.",
+    "exampleVi": "Tôi đang mệt.",
+    "tags": [
+      "feeling"
+    ],
+    "collocations": [
+      "feel tired"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "busy",
+    "vi": "bận",
+    "phonetic": "/ˈbɪzi/ (đọc lái: bi-di)",
+    "type": "adjective",
+    "exampleEn": "I am busy.",
+    "exampleVi": "Tôi bận.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "very busy"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "free",
+    "vi": "rảnh",
+    "phonetic": "/friː/ (đọc lái: phri)",
+    "type": "adjective",
+    "exampleEn": "I am free tonight.",
+    "exampleVi": "Tôi rảnh tối nay.",
+    "tags": [
+      "daily"
+    ],
+    "collocations": [
+      "free time"
+    ],
+    "notes": "S + am/is/are + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "learn",
+    "vi": "học",
+    "phonetic": "/lɜːrn/ (đọc lái: lơn)",
+    "type": "verb",
+    "exampleEn": "I want to learn English.",
+    "exampleVi": "Tôi muốn học tiếng Anh.",
+    "tags": [
+      "study"
+    ],
+    "collocations": [
+      "learn English"
+    ],
+    "notes": "S + want to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "speak",
+    "vi": "nói",
+    "phonetic": "/spiːk/ (đọc lái: xờ-pík)",
+    "type": "verb",
+    "exampleEn": "I can speak English.",
+    "exampleVi": "Tôi có thể nói tiếng Anh.",
+    "tags": [
+      "communication"
+    ],
+    "collocations": [
+      "speak English"
+    ],
+    "notes": "S + can + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "understand",
+    "vi": "hiểu",
+    "phonetic": "/ˌʌndərˈstænd/ (đọc lái: ăn-đờ-xten)",
+    "type": "verb",
+    "exampleEn": "I don’t understand.",
+    "exampleVi": "Tôi không hiểu.",
+    "tags": [
+      "communication"
+    ],
+    "collocations": [
+      "understand something"
+    ],
+    "notes": "I don’t understand",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "practice",
+    "vi": "luyện tập",
+    "phonetic": "/ˈpræktɪs/ (đọc lái: prác-tịt)",
+    "type": "verb",
+    "exampleEn": "I need to practice.",
+    "exampleVi": "Tôi cần luyện tập.",
+    "tags": [
+      "study"
+    ],
+    "collocations": [
+      "practice English"
+    ],
+    "notes": "S + need to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "introduce",
+    "vi": "giới thiệu",
+    "phonetic": "/ˌɪntrəˈdjuːs/ (đọc lái: in-trờ-điu)",
+    "type": "verb",
+    "exampleEn": "I want to introduce myself.",
+    "exampleVi": "Tôi muốn giới thiệu bản thân.",
+    "tags": [
+      "communication"
+    ],
+    "collocations": [
+      "introduce myself"
+    ],
+    "notes": "S + want to + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "meet",
+    "vi": "gặp",
+    "phonetic": "/miːt/ (đọc lái: mít)",
+    "type": "verb",
+    "exampleEn": "Nice to meet you.",
+    "exampleVi": "Rất vui được gặp bạn.",
+    "tags": [
+      "communication"
+    ],
+    "collocations": [
+      "meet someone"
+    ],
+    "notes": "It is + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "where",
+    "vi": "ở đâu",
+    "phonetic": "/weər/ (đọc lái: we)",
+    "type": "question",
+    "exampleEn": "Where are you from?",
+    "exampleVi": "Bạn đến từ đâu?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "where are you"
+    ],
+    "notes": "Where are you from?",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "what",
+    "vi": "cái gì",
+    "phonetic": "/wɒt/ (đọc lái: quát)",
+    "type": "question",
+    "exampleEn": "What is your name?",
+    "exampleVi": "Bạn tên gì?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "what is"
+    ],
+    "notes": "What are you doing?",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "how",
+    "vi": "như thế nào",
+    "phonetic": "/haʊ/ (đọc lái: hao)",
+    "type": "question",
+    "exampleEn": "How are you?",
+    "exampleVi": "Bạn khỏe không?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "how are you"
+    ],
+    "notes": "Are you + adj?",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "why",
+    "vi": "tại sao",
+    "phonetic": "/waɪ/ (đọc lái: quai)",
+    "type": "question",
+    "exampleEn": "Why are you here?",
+    "exampleVi": "Tại sao bạn ở đây?",
+    "tags": [
+      "question"
+    ],
+    "collocations": [
+      "why are"
+    ],
+    "notes": "Why + are?",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "talk",
+    "vi": "nói chuyện",
+    "phonetic": "/tɔːk/ (đọc lái: to:k)",
+    "type": "verb",
+    "exampleEn": "Let’s talk.",
+    "exampleVi": "Hãy nói chuyện đi.",
+    "tags": [
+      "communication"
+    ],
+    "collocations": [
+      "talk to"
+    ],
+    "notes": "Let’s + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "think",
+    "vi": "nghĩ",
+    "phonetic": "/θɪŋk/ (đọc lái: thinhk)",
+    "type": "verb",
+    "exampleEn": "I think it is easy.",
+    "exampleVi": "Tôi nghĩ nó dễ.",
+    "tags": [
+      "thinking"
+    ],
+    "collocations": [
+      "I think"
+    ],
+    "notes": "I think ...",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "opinion",
+    "vi": "ý kiến",
+    "phonetic": "/əˈpɪnjən/ (đọc lái: ơ-pi-nhần)",
+    "type": "noun",
+    "exampleEn": "In my opinion, it is good.",
+    "exampleVi": "Theo tôi, nó tốt.",
+    "tags": [
+      "thinking"
+    ],
+    "collocations": [
+      "my opinion"
+    ],
+    "notes": "In my opinion",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "real",
+    "vi": "thật",
+    "phonetic": "/ˈrɪəl/ (đọc lái: ri-ồ)",
+    "type": "adjective",
+    "exampleEn": "Really?",
+    "exampleVi": "Thật sao?",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "really?"
+    ],
+    "notes": "Really?",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "see",
+    "vi": "hiểu",
+    "phonetic": "/siː/ (đọc lái: xi)",
+    "type": "verb",
+    "exampleEn": "I see.",
+    "exampleVi": "Tôi hiểu rồi.",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "I see"
+    ],
+    "notes": "I see",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "sense",
+    "vi": "hợp lý",
+    "phonetic": "/sens/ (đọc lái: sen)",
+    "type": "noun",
+    "exampleEn": "That makes sense.",
+    "exampleVi": "Nghe hợp lý.",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "make sense"
+    ],
+    "notes": "That makes sense",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "depend",
+    "vi": "phụ thuộc",
+    "phonetic": "/dɪˈpend/ (đọc lái: đi-pen)",
+    "type": "verb",
+    "exampleEn": "It depends.",
+    "exampleVi": "Tùy.",
+    "tags": [
+      "expression"
+    ],
+    "collocations": [
+      "depend on"
+    ],
+    "notes": "It depends",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "start",
+    "vi": "bắt đầu",
+    "phonetic": "/stɑːrt/ (đọc lái: xờ-ta:t)",
+    "type": "verb",
+    "exampleEn": "Let’s start.",
+    "exampleVi": "Bắt đầu thôi.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "start now"
+    ],
+    "notes": "Let’s + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "now",
+    "vi": "bây giờ",
+    "phonetic": "/naʊ/ (đọc lái: nao)",
+    "type": "adverb",
+    "exampleEn": "I am speaking now.",
+    "exampleVi": "Tôi đang nói.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "right now"
+    ],
+    "notes": "S + am/is/are + V-ing",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "before",
+    "vi": "trước",
+    "phonetic": "/bɪˈfɔːr/ (đọc lái: bi-pho)",
+    "type": "adverb",
+    "exampleEn": "I was shy before.",
+    "exampleVi": "Trước tôi nhút nhát.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "before that"
+    ],
+    "notes": "S + was/were + adj",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "after",
+    "vi": "sau đó",
+    "phonetic": "/ˈæftər/ (đọc lái: áp-tờ)",
+    "type": "adverb",
+    "exampleEn": "After that, I feel better.",
+    "exampleVi": "Sau đó tôi thấy tốt hơn.",
+    "tags": [
+      "time"
+    ],
+    "collocations": [
+      "after that"
+    ],
+    "notes": "Then / After that",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "because",
+    "vi": "bởi vì",
+    "phonetic": "/bɪˈkɒz/ (đọc lái: bi-coz)",
+    "type": "conjunction",
+    "exampleEn": "I am happy because I learn.",
+    "exampleVi": "Tôi vui vì tôi học.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "because of"
+    ],
+    "notes": "Because + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "so",
+    "vi": "nên",
+    "phonetic": "/səʊ/ (đọc lái: xâu)",
+    "type": "conjunction",
+    "exampleEn": "I study, so I improve.",
+    "exampleVi": "Tôi học nên tôi tiến bộ.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "so that"
+    ],
+    "notes": "So + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "but",
+    "vi": "nhưng",
+    "phonetic": "/bʌt/ (đọc lái: băt)",
+    "type": "conjunction",
+    "exampleEn": "I am shy but I try.",
+    "exampleVi": "Tôi ngại nhưng tôi cố.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "but also"
+    ],
+    "notes": "But + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "when",
+    "vi": "khi",
+    "phonetic": "/wen/ (đọc lái: wen)",
+    "type": "conjunction",
+    "exampleEn": "When I speak, I feel nervous.",
+    "exampleVi": "Khi nói tôi thấy lo.",
+    "tags": [
+      "grammar"
+    ],
+    "collocations": [
+      "when I"
+    ],
+    "notes": "When + S + V",
+    "difficulty": 1
+  },
+  {
+    "day": 1,
+    "en": "decide",
+    "vi": "quyết định",
+    "phonetic": "/dɪˈsaɪd/ (đọc lái: đi-xai)",
+    "type": "verb",
+    "exampleEn": "I decide to learn English.",
+    "exampleVi": "Tôi quyết định học tiếng Anh.",
+    "tags": [
+      "action"
+    ],
+    "collocations": [
+      "decide to"
+    ],
+    "notes": "S + decide to + V",
+    "difficulty": 1
+  }
+]
